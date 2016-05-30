@@ -14,13 +14,23 @@ import com.firebase.client.ValueEventListener;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by refael yehuda on 5/29/2016.
  */
 public class ModelFirebase {
     public interface UserStatus{
+        /**
+         * return true if user is loggedIn and false otherwise
+         * @param status
+         */
         public void isLoggedIn(boolean status);
+
+        /**
+         * return true if user is created and false otherwise
+         * @param status
+         */
         public void isSignup (boolean status);
     }
     UserStatus userStatus;
@@ -37,50 +47,60 @@ public class ModelFirebase {
     }
 
     public void Login(String username , String password){
-        //flags to mark which action we doing now
-        boolean isLogin = true , isSignup = false;
-        myFirebaseRef.authWithPassword(username, password, new MyAuthResutHandler(isLogin,isSignup));
+        myFirebaseRef.authWithPassword(username, password, new Firebase.AuthResultHandler() {
+            boolean status = false;
+
+            @Override
+            public void onAuthenticated(AuthData authData) {
+                status = true;
+                userStatus.isLoggedIn(status);
+
+            }
+
+            @Override
+            public void onAuthenticationError(FirebaseError firebaseError) {
+                userStatus.isLoggedIn(status);
+
+            }
+        });
     }
     public void createUser(User user) {
-        //flags to mark which action we doing now
-        boolean isLogin = false , isSignup = true;
-
-        //FIXME need to check why wee got exception on this line
-        myFirebaseRef.createUser(user.getEmail(), user.getPassword(), (Firebase.ResultHandler) new MyAuthResutHandler(isLogin,isSignup));
+        //create a new user in firebase regitration
+        myFirebaseRef.createUser(user.getEmail(), user.getPassword(), new HandleUserCreatetion(user));
 
     }
-
-
-
-    class MyAuthResutHandler implements Firebase.AuthResultHandler{
-
-        boolean status = false;
-        boolean isLogin;
-        boolean isSignup;
-        public MyAuthResutHandler(boolean isLogin,boolean isSignup){
-            this.isLogin = isLogin;
-            this.isSignup =isSignup;
+    /**
+     * this class handle in the user creation response
+     */
+    class HandleUserCreatetion implements  Firebase.ValueResultHandler<Map<String, Object>>{
+        boolean status;
+        User user;
+        //get the user to create in the DB after the registration
+        public HandleUserCreatetion(User user){
+            this.user = user;
         }
-
         @Override
-        public void onAuthenticated(AuthData authData) {
+        public void onSuccess(Map<String, Object> stringObjectMap) {
             status = true;
-            if(isLogin){
-                userStatus.isLoggedIn(status);
-            }else{
-                userStatus.isSignup(status);
-            }
-
+            String userId = (String) stringObjectMap.get("uid");
+            user.setUserId(userId);
+            Firebase userRef = myFirebaseRef.child("Users").child(userId);
+            userRef.setValue(user);
+            userStatus.isSignup(status);
         }
+
         @Override
-        public void onAuthenticationError(FirebaseError firebaseError) {
-            if(isLogin){
-                userStatus.isLoggedIn(status);
-            }else{
-                userStatus.isSignup(status);
-            }
-
+        public void onError(FirebaseError firebaseError) {
+            userStatus.isSignup(status);
         }
+    }
+
+    public String getUserId(){
+        AuthData authData = myFirebaseRef.getAuth();
+        if (authData != null) {
+            return authData.getUid();
+        }
+        return null;
     }
 
 }

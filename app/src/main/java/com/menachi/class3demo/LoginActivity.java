@@ -37,15 +37,13 @@ public class LoginActivity extends Activity  implements ModelFirebase.UserStatus
                 username = (EditText) findViewById(R.id.user);
                 password = (EditText) findViewById(R.id.password);
                 progressBar.setVisibility(View.VISIBLE);
-                User user = new User("1234","rerere","rerere@gmail.com","yakir","twito","1212","123456",
-                        "145522","55254");
-                Model.instance().signup(user);
-                //Model.instance().loginUser(username.getText().toString(), password.getText().toString());
+//                User user = new User("1234","rerere","rerere@gmail.com","yakir","twito","1212","123456",
+//                        "145522","55254");
+//                Model.instance().signup(user);
+                Model.instance().loginUser(username.getText().toString(), password.getText().toString());
             }
         });
     }
-
-
     private boolean isExpired(AuthData authData){
         return (System.currentTimeMillis() / 1000) >= authData.getExpires();
     }

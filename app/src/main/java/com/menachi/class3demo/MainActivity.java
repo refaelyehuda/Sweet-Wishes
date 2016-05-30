@@ -24,6 +24,26 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Button login = (Button) findViewById(R.id.login);
+        Button signup = (Button) findViewById(R.id.signup);
+
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        signup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
 
         //get image into Bitmap
         //Bitmap image = BitmapFactory.decodeResource(getResources(),R.drawable.logo);
@@ -39,48 +59,48 @@ public class MainActivity extends Activity {
 
             }
         });*/
-        final ImageView imageView = (ImageView) findViewById(R.id.imageView);
-        final EditText imageName = (EditText) findViewById(R.id.main_name);
-        Button save = (Button) findViewById(R.id.main_save);
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
-                Bitmap bitmap = drawable.getBitmap();
-                Model.instance().saveImage(bitmap,imageName.getText().toString() + ".jpg", new Model.SaveImageListener() {
-                    @Override
-                    public void OnDone(Exception e) {
-                        if (e == null) {
-                            Log.d("TAG", "save image finished");
-                        } else {
-                            Log.d("TAG", "save image finished with error");
-                        }
-
-                    }
-                });
-
-            }
-        });
-
-        Button load = (Button) findViewById(R.id.main_get);
-        load.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Model.instance().getImage(imageName.getText().toString(), new Model.GetImageListener() {
-                    @Override
-                    public void OnDone(Bitmap image, String imageName) {
-                        if (image != null) {
-                            Log.d("TAG","SUCCESS GET IMAGE");
-                            imageView.setImageBitmap(image);
-
-
-                        }else{
-                            Log.d("TAG","ERROR");
-                        }
-                    }
-                });
-            }
-        });
+//        final ImageView imageView = (ImageView) findViewById(R.id.imageView);
+//        final EditText imageName = (EditText) findViewById(R.id.main_name);
+//        Button save = (Button) findViewById(R.id.main_save);
+//        save.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
+//                Bitmap bitmap = drawable.getBitmap();
+//                Model.instance().saveImage(bitmap,imageName.getText().toString() + ".jpg", new Model.SaveImageListener() {
+//                    @Override
+//                    public void OnDone(Exception e) {
+//                        if (e == null) {
+//                            Log.d("TAG", "save image finished");
+//                        } else {
+//                            Log.d("TAG", "save image finished with error");
+//                        }
+//
+//                    }
+//                });
+//
+//            }
+//        });
+//
+//        Button load = (Button) findViewById(R.id.main_get);
+//        load.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Model.instance().getImage(imageName.getText().toString(), new Model.GetImageListener() {
+//                    @Override
+//                    public void OnDone(Bitmap image, String imageName) {
+//                        if (image != null) {
+//                            Log.d("TAG","SUCCESS GET IMAGE");
+//                            imageView.setImageBitmap(image);
+//
+//
+//                        }else{
+//                            Log.d("TAG","ERROR");
+//                        }
+//                    }
+//                });
+//            }
+//        });
     }
 
     @Override
