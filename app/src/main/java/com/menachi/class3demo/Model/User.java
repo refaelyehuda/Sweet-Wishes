@@ -14,8 +14,12 @@ public class User {
     String birthDate;
     String password;
 
+    public User(){
 
-    public User(String userId, String userName, String email, String fName, String lName,String address,String password, String profPicture, String birthDate) {
+    }
+
+
+    public User(String userId,String userName, String email, String fName, String lName,String address,String password, String profPicture, String birthDate) {
         this.userId = userId;
         this.userName = userName;
         this.email = email;

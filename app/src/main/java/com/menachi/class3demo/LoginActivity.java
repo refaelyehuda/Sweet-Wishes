@@ -18,7 +18,7 @@ import com.menachi.class3demo.Model.User;
 
 import org.apache.http.auth.AUTH;
 
-public class LoginActivity extends Activity  implements ModelFirebase.UserStatus{
+public class LoginActivity extends Activity {
 
     EditText username;
     EditText password;
@@ -30,17 +30,24 @@ public class LoginActivity extends Activity  implements ModelFirebase.UserStatus
         progressBar = (ProgressBar) findViewById(R.id.progressBar2);
         progressBar.setVisibility(View.GONE);
         Button login = (Button) findViewById(R.id.loginBtn);
-        Model.instance().modelFirebaseSetDelegate(this);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 username = (EditText) findViewById(R.id.user);
                 password = (EditText) findViewById(R.id.password);
                 progressBar.setVisibility(View.VISIBLE);
-//                User user = new User("1234","rerere","rerere@gmail.com","yakir","twito","1212","123456",
-//                        "145522","55254");
-//                Model.instance().signup(user);
-                Model.instance().loginUser(username.getText().toString(), password.getText().toString());
+                Model.instance().loginUser(username.getText().toString(), password.getText().toString(), new Model.LoginStatus() {
+                    @Override
+                    public void isLoggedIn(boolean status, User user) {
+                        if(status){
+                            Log.d("Tag","The user is authenticated");
+                            progressBar.setVisibility(View.GONE);
+                        }else{
+                            Log.d("TAG","Error with auth");
+                            progressBar.setVisibility(View.GONE);
+                        }
+                    }
+                });
             }
         });
     }
@@ -48,26 +55,4 @@ public class LoginActivity extends Activity  implements ModelFirebase.UserStatus
         return (System.currentTimeMillis() / 1000) >= authData.getExpires();
     }
 
-
-    @Override
-    public void isLoggedIn(boolean status) {
-        if(status){
-            Log.d("Tag","The user is authenticated");
-            progressBar.setVisibility(View.GONE);
-        }else{
-            Log.d("TAG","Error with auth");
-            progressBar.setVisibility(View.GONE);
-        }
-    }
-
-    @Override
-    public void isSignup(boolean status) {
-        if(status){
-            Log.d("Tag","The user is signup successfully");
-            progressBar.setVisibility(View.GONE);
-        }else{
-            Log.d("TAG","Error with signup user");
-            progressBar.setVisibility(View.GONE);
-        }
-    }
 }

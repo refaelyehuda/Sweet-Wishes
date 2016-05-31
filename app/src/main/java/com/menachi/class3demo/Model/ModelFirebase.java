@@ -20,20 +20,6 @@ import java.util.Map;
  * Created by refael yehuda on 5/29/2016.
  */
 public class ModelFirebase {
-    public interface UserStatus{
-        /**
-         * return true if user is loggedIn and false otherwise
-         * @param status
-         */
-        public void isLoggedIn(boolean status);
-
-        /**
-         * return true if user is created and false otherwise
-         * @param status
-         */
-        public void isSignup (boolean status);
-    }
-    UserStatus userStatus;
     Firebase myFirebaseRef;
 
 
@@ -42,31 +28,67 @@ public class ModelFirebase {
         myFirebaseRef = new Firebase("https://dessers-project.firebaseio.com/");
     }
 
-    public void setUserStatus(UserStatus userStatus){
-        this.userStatus = userStatus;
-    }
-
-    public void Login(String username , String password){
+    public void Login(String username , String password, final Model.LoginStatus listener){
         myFirebaseRef.authWithPassword(username, password, new Firebase.AuthResultHandler() {
             boolean status = false;
 
             @Override
             public void onAuthenticated(AuthData authData) {
-                status = true;
-                userStatus.isLoggedIn(status);
+                String Uid = authData.getUid();
+                getUserById(Uid, new GetUserById() {
+                    @Override
+                    public void onResult(User user) {
+                        status = true;
+                        listener.isLoggedIn(status, user);
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        listener.isLoggedIn(status, null);
+                    }
+                });
+
 
             }
 
             @Override
             public void onAuthenticationError(FirebaseError firebaseError) {
-                userStatus.isLoggedIn(status);
+                listener.isLoggedIn(status, null);
 
             }
         });
     }
-    public void createUser(User user) {
+
+    /**
+     * listener for return user by id
+     */
+    public interface GetUserById{
+        public void onResult(User user);
+        public void onCancel();
+    }
+
+    public void getUserById(String id , final GetUserById getUserById) {
+        Firebase  stRef = myFirebaseRef.child("Users").child(id);
+        stRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                User user = snapshot.getValue(User.class);
+                Log.d("TAG", "sucess to create user");
+                getUserById.onResult(user);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                System.out.println("The read failed: " + firebaseError.getMessage());
+                getUserById.onCancel();
+            }
+        });
+    }
+
+
+    public void createUser(User user , Model.SignupStatus listener) {
         //create a new user in firebase regitration
-        myFirebaseRef.createUser(user.getEmail(), user.getPassword(), new HandleUserCreatetion(user));
+        myFirebaseRef.createUser(user.getEmail(), user.getPassword(), new HandleUserCreatetion(user, listener));
 
     }
     /**
@@ -74,10 +96,12 @@ public class ModelFirebase {
      */
     class HandleUserCreatetion implements  Firebase.ValueResultHandler<Map<String, Object>>{
         boolean status;
+        Model.SignupStatus listener;
         User user;
         //get the user to create in the DB after the registration
-        public HandleUserCreatetion(User user){
+        public HandleUserCreatetion(User user, Model.SignupStatus listener){
             this.user = user;
+            this.listener = listener;
         }
         @Override
         public void onSuccess(Map<String, Object> stringObjectMap) {
@@ -86,12 +110,12 @@ public class ModelFirebase {
             user.setUserId(userId);
             Firebase userRef = myFirebaseRef.child("Users").child(userId);
             userRef.setValue(user);
-            userStatus.isSignup(status);
+            listener.isSignup(status,user);
         }
 
         @Override
         public void onError(FirebaseError firebaseError) {
-            userStatus.isSignup(status);
+            listener.isSignup(status,user);
         }
     }
 

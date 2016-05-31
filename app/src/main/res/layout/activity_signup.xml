@@ -12,7 +12,7 @@
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/progressBar2"
+        android:id="@+id/signupProgressBar"
         android:layout_alignTop="@+id/newsFeedList"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="158dp" />
@@ -150,7 +150,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Signup"
-                android:id="@+id/loginBtn"
+                android:id="@+id/signupBth"
                 android:layout_centerInParent="true"
                 />
         </RelativeLayout>

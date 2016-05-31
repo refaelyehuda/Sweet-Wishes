@@ -17,17 +17,25 @@ public class Model {
     ModelFirebase modelFirebase;
     private static Model instance = new Model();
 
+    public interface LoginStatus{
+        /**
+         * return true if user is loggedIn and false otherwise
+         * @param status
+         */
+        public void isLoggedIn(boolean status,User user);
+    }
+
+    public interface SignupStatus{
+        /**
+         * return true if user is created and false otherwise
+         * @param status
+         */
+        public void isSignup (boolean status,User user);
+    }
+
     private Model(){
         modelCloudinary = new ModelCloudinary();
         modelFirebase = new ModelFirebase(MyApplication.getContext());
-    }
-
-    /**
-     * update context to the firebase interface
-     * @param userStatus
-     */
-    public void modelFirebaseSetDelegate(ModelFirebase.UserStatus userStatus){
-        modelFirebase.setUserStatus(userStatus);
     }
 
     /**
@@ -39,12 +47,12 @@ public class Model {
     }
 
 
-    public void loginUser(String username , String password){
-        modelFirebase.Login(username, password);
+    public void loginUser(String username , String password,LoginStatus listener){
+        modelFirebase.Login(username, password,listener);
     }
 
-    public void signup(User user){
-        modelFirebase.createUser(user);
+    public void signup(User user,SignupStatus listener){
+        modelFirebase.createUser(user,listener);
 
     }
 
