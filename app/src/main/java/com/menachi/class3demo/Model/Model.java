@@ -7,6 +7,8 @@ import android.view.View;
 import com.menachi.class3demo.MyApplication;
 
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Cloudinary example.
@@ -15,6 +17,7 @@ public class Model {
 
     ModelCloudinary modelCloudinary;
     ModelFirebase modelFirebase;
+    List<Product> data = new LinkedList<Product>();
     private static Model instance = new Model();
 
     public interface LoginStatus{
@@ -36,6 +39,20 @@ public class Model {
     private Model(){
         modelCloudinary = new ModelCloudinary();
         modelFirebase = new ModelFirebase(MyApplication.getContext());
+        init();
+    }
+
+    void init(){
+        for(int i=0;i<20;i++){
+            add(new Product("fname"+i,"12" + i,"lname"));
+        }
+    }
+
+    public List<Product> getProducts(){
+        return data;
+    }
+    public void add(Product product){
+        data.add(product);
     }
 
     /**

@@ -13,10 +13,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-
 import com.menachi.class3demo.Model.Model;
-
+import org.json.JSONException;
+import org.json.JSONObject;
 import java.net.URL;
+import java.util.Iterator;
 
 public class MainActivity extends Activity {
     EditText fname;
@@ -42,9 +43,6 @@ public class MainActivity extends Activity {
                 startActivity(intent);
             }
         });
-
-
-
         //get image into Bitmap
         //Bitmap image = BitmapFactory.decodeResource(getResources(),R.drawable.logo);
         //upload image to cloudinary
@@ -107,6 +105,8 @@ public class MainActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuItem item = menu.findItem(R.id.addProductBtn);
+        item.setTitle("");
         return true;
     }
 

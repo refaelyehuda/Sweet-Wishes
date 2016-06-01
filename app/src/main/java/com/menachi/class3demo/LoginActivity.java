@@ -1,5 +1,6 @@
 package com.menachi.class3demo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
@@ -40,8 +41,10 @@ public class LoginActivity extends Activity {
                     @Override
                     public void isLoggedIn(boolean status, User user) {
                         if(status){
-                            Log.d("Tag","The user is authenticated");
+                            Log.d("Tag", "The user is authenticated");
                             progressBar.setVisibility(View.GONE);
+                            Intent intent = new Intent(getApplicationContext(),ProductsActivity.class);
+                            startActivity(intent);
                         }else{
                             Log.d("TAG","Error with auth");
                             progressBar.setVisibility(View.GONE);
