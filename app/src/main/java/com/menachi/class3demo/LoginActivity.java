@@ -1,6 +1,7 @@
 package com.menachi.class3demo;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
@@ -8,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
@@ -31,26 +34,43 @@ public class LoginActivity extends Activity {
         progressBar = (ProgressBar) findViewById(R.id.progressBar2);
         progressBar.setVisibility(View.GONE);
         Button login = (Button) findViewById(R.id.loginBtn);
+
+        //TODO after all testing need to delete these lines
+        Intent intent = new Intent(getApplicationContext(),ProductsActivity.class);
+        startActivity(intent);
+        //end
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast toast;
+                TextView textView;
                 username = (EditText) findViewById(R.id.user);
                 password = (EditText) findViewById(R.id.password);
-                progressBar.setVisibility(View.VISIBLE);
-                Model.instance().loginUser(username.getText().toString(), password.getText().toString(), new Model.LoginStatus() {
-                    @Override
-                    public void isLoggedIn(boolean status, User user) {
-                        if(status){
-                            Log.d("Tag", "The user is authenticated");
-                            progressBar.setVisibility(View.GONE);
-                            Intent intent = new Intent(getApplicationContext(),ProductsActivity.class);
-                            startActivity(intent);
-                        }else{
-                            Log.d("TAG","Error with auth");
-                            progressBar.setVisibility(View.GONE);
+                // check if the user didn't fill username or password
+                if (username.getText().toString().equals("") || password.getText().toString().equals("")) {
+                    toast = Toast.makeText(getApplicationContext(), "Please fill all fields", Toast.LENGTH_LONG);
+                    textView = (TextView) toast.getView().findViewById(android.R.id.message);
+                    textView.setTextColor(Color.RED);
+                    toast.show();
+                }else{
+                    progressBar.setVisibility(View.VISIBLE);
+                    Model.instance().loginUser(username.getText().toString(), password.getText().toString(), new Model.LoginStatus() {
+                        @Override
+                        public void isLoggedIn(boolean status, User user) {
+                            if(status){
+                                Log.d("Tag", "The user is authenticated");
+                                progressBar.setVisibility(View.GONE);
+                                Toast.makeText(getApplicationContext(), "Login Successfully", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(getApplicationContext(),ProductsActivity.class);
+                                startActivity(intent);
+                            }else{
+                                Log.d("TAG","Error with auth");
+                                progressBar.setVisibility(View.GONE);
+                                Toast.makeText(getApplicationContext(), "Login Error", Toast.LENGTH_LONG).show();
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
         });
     }

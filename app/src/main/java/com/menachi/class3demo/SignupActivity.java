@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.menachi.class3demo.DateAndPickers.Date.DateEditText;
 import com.menachi.class3demo.Model.Model;
@@ -52,9 +53,11 @@ public class SignupActivity extends Activity {
                         if(status){
                             Log.d("Tag", "The user is created");
                             progressBar.setVisibility(View.GONE);
+                            Toast.makeText(getApplicationContext(), "Signup Successfully", Toast.LENGTH_LONG).show();
                         }else{
                             Log.d("TAG","Error with create user");
                             progressBar.setVisibility(View.GONE);
+                            Toast.makeText(getApplicationContext(), "Signup Error", Toast.LENGTH_LONG).show();
                         }
                     }
                 });

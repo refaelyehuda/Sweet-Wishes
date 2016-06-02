@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/wellcome"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
@@ -21,11 +22,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:src="@drawable/logo"
-            />
         <LinearLayout
             android:layout_marginTop="20dp"
             android:orientation="horizontal"
@@ -35,12 +31,15 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:text="Username:"
+                android:textStyle="bold"
                 android:textAlignment="textStart"
                 android:textSize="20dp"/>
             <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="textStart"
+                android:inputType="text"
+                android:singleLine="true"
                 android:id="@+id/user" />
         </LinearLayout>
         <LinearLayout
@@ -52,13 +51,16 @@
                 android:layout_height="wrap_content"
                 android:text="Password:"
                 android:textAlignment="textStart"
+                android:textStyle="bold"
                 android:textSize="20dp" />
 
             <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="textStart"
+                android:inputType="textPassword"
                 android:password="true"
+                android:singleLine="true"
                 android:id="@+id/password" />
         </LinearLayout>
         <RelativeLayout

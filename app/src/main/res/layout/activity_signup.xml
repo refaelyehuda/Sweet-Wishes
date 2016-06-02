@@ -7,6 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@drawable/wellcome"
     tools:context="com.menachi.class3demo.SignupActivity">
     <ProgressBar
         style="?android:attr/progressBarStyleLarge"
@@ -30,11 +31,15 @@
                 android:layout_height="wrap_content"
                 android:text="First Name:"
                 android:textAlignment="textStart"
+                android:inputType="text"
+                android:singleLine="true"
+                android:textStyle="bold"
                 android:textSize="20dp"/>
             <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="textStart"
+                android:singleLine="true"
                 android:id="@+id/fName" />
         </LinearLayout>
         <LinearLayout
@@ -47,11 +52,15 @@
                 android:layout_height="wrap_content"
                 android:text="Last Name:"
                 android:textAlignment="textStart"
+                android:inputType="text"
+                android:singleLine="true"
+                android:textStyle="bold"
                 android:textSize="20dp"/>
             <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="textStart"
+                android:singleLine="true"
                 android:id="@+id/lName" />
         </LinearLayout>
         <LinearLayout
@@ -64,11 +73,15 @@
                 android:layout_height="wrap_content"
                 android:text="Email:"
                 android:textAlignment="textStart"
+                android:singleLine="true"
+                android:textStyle="bold"
                 android:textSize="20dp"/>
             <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="textStart"
+                android:inputType="text"
+                android:singleLine="true"
                 android:id="@+id/email" />
         </LinearLayout>
         <LinearLayout
@@ -81,11 +94,16 @@
                 android:layout_height="wrap_content"
                 android:text="Address:"
                 android:textAlignment="textStart"
+                android:inputType="text"
+                android:singleLine="true"
+                android:textStyle="bold"
                 android:textSize="20dp"/>
             <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="textStart"
+                android:inputType="textEmailAddress"
+                android:singleLine="true"
                 android:id="@+id/address" />
         </LinearLayout>
         <LinearLayout
@@ -98,6 +116,9 @@
                 android:layout_height="wrap_content"
                 android:text="Birth Date:"
                 android:textAlignment="textStart"
+                android:inputType="text"
+                android:singleLine="true"
+                android:textStyle="bold"
                 android:textSize="20dp"/>
             <com.menachi.class3demo.DateAndPickers.Date.DateEditText
                 android:id="@+id/birthDate"
@@ -113,6 +134,9 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:text="User Name:"
+                android:inputType="text"
+                android:singleLine="true"
+                android:textStyle="bold"
                 android:textAlignment="textStart"
                 android:textSize="20dp" />
 
@@ -120,7 +144,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="textStart"
-                android:password="true"
+                android:inputType="text"
+                android:singleLine="true"
                 android:id="@+id/username" />
         </LinearLayout>
         <LinearLayout
@@ -132,12 +157,16 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:text="Password:"
+                android:singleLine="true"
+                android:textStyle="bold"
                 android:textAlignment="textStart"
                 android:textSize="20dp"/>
             <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="textStart"
+                android:inputType="textPassword"
+                android:singleLine="true"
                 android:id="@+id/password" />
         </LinearLayout>
 
@@ -151,6 +180,7 @@
                 android:layout_height="wrap_content"
                 android:text="Signup"
                 android:id="@+id/signupBth"
+                android:textStyle="bold"
                 android:layout_centerInParent="true"
                 />
         </RelativeLayout>

@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    >
+    android:background="@color/colorGray"
+    android:orientation="horizontal">
 
     <ImageView
         android:layout_width="50dp"
@@ -34,11 +34,15 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Product Name"
+                android:textColor="@color/colorWhite"
                 android:layout_marginRight="20dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:id="@+id/product_list_row_name" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorWhite"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Price"
                 android:id="@+id/product_list_row_price" />

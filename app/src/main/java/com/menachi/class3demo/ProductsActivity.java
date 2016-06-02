@@ -1,5 +1,6 @@
 package com.menachi.class3demo;
 
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,15 +12,17 @@ import android.widget.ListView;
 
 import com.menachi.class3demo.Fragments.ListProducts;
 import com.menachi.class3demo.Fragments.NewProduct;
+import com.menachi.class3demo.Fragments.ProductDetails;
 import com.menachi.class3demo.Model.Product;
 
 import java.util.List;
 
-public class ProductsActivity extends Activity implements ListProducts.Delegate,NewProduct.Delegate {
+public class ProductsActivity extends Activity implements ListProducts.Delegate,NewProduct.Delegate,ProductDetails.Delegate {
 
     String currentFragment = "listProducts";
     ListProducts listProductsFragment;
     NewProduct newProductFragment;
+    ProductDetails productDetailsFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,9 +74,25 @@ public class ProductsActivity extends Activity implements ListProducts.Delegate,
         }
     }
 
-    @Override
-    public void onProductSelected(Product st) {
 
+    @Override
+    public void onProductSelected(Product product) {
+        if (currentFragment.equals("listProducts")){
+            setTitle("Product Details");
+            Log.d("TAG", "Student selected " + product.getProductId());
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            productDetailsFragment = new ProductDetails();
+            productDetailsFragment.setProduct(product);
+            productDetailsFragment.setDelegate(this);
+            ft.add(R.id.main_frag_container, productDetailsFragment);
+            ft.hide(listProductsFragment);
+            ft.addToBackStack("listProducts");
+            ft.show(productDetailsFragment);
+            ft.commit();
+            currentFragment = "details";
+            invalidateOptionsMenu();
+        }
     }
 
     @Override
@@ -111,5 +130,24 @@ public class ProductsActivity extends Activity implements ListProducts.Delegate,
         startActivity(back);
         this.finish();
 
+    }
+
+    @Override
+    public void onProductEdit(Product product) {
+        if (currentFragment.equals("details")) {
+            Log.d("TAG", "Editing Details of Student: " + product.getProductId());
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            productDetailsFragment = new ProductDetails();
+            productDetailsFragment.setProduct(product);
+            productDetailsFragment.setDelegate(this);
+            ft.add(R.id.main_frag_container, productDetailsFragment);
+            ft.hide(productDetailsFragment);
+            ft.addToBackStack("details");
+            //ft.show(editStudentFragment);
+            ft.commit();
+            currentFragment = "edit";
+            //invalidateOptionsMenu();
+        }
     }
 }
