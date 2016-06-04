@@ -22,6 +22,8 @@ import com.menachi.class3demo.Model.User;
 
 import org.apache.http.auth.AUTH;
 
+import java.io.Serializable;
+
 public class LoginActivity extends Activity {
 
     EditText username;
@@ -36,8 +38,8 @@ public class LoginActivity extends Activity {
         Button login = (Button) findViewById(R.id.loginBtn);
 
         //TODO after all testing need to delete these lines
-        Intent intent = new Intent(getApplicationContext(),ProductsActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(getApplicationContext(),ProductsActivity.class);
+//        startActivity(intent);
         //end
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,8 +62,10 @@ public class LoginActivity extends Activity {
                             if(status){
                                 Log.d("Tag", "The user is authenticated");
                                 progressBar.setVisibility(View.GONE);
+                                Model.instance().setUser(user);
                                 Toast.makeText(getApplicationContext(), "Login Successfully", Toast.LENGTH_LONG).show();
                                 Intent intent = new Intent(getApplicationContext(),ProductsActivity.class);
+//                                intent.putExtra("User", (Serializable) user);
                                 startActivity(intent);
                             }else{
                                 Log.d("TAG","Error with auth");

@@ -7,8 +7,24 @@
         android:title="@string/add_new_product"
         android:showAsAction="ifRoom"
         android:visible="true"/>
-    <item android:id="@+id/action_settings"
-        android:title="@string/action_settings"
+    <item
+        android:id="@+id/action_settings"
+        android:title="@string/Personal_Info"
+        android:orderInCategory="100"
+        android:showAsAction="never" />
+    <item
+        android:id="@+id/reset_password"
+        android:title="@string/billing_info"
+        android:orderInCategory="100"
+        android:showAsAction="never" />
+    <item
+        android:id="@+id/last_purchase"
+        android:title="@string/last_purchase"
+        android:orderInCategory="100"
+        android:showAsAction="never" />
+    <item
+        android:id="@+id/sssss"
+        android:title="@string/reset_password"
         android:orderInCategory="100"
         android:showAsAction="never" />
 </menu>

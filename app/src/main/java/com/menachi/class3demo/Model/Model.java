@@ -17,6 +17,7 @@ public class Model {
 
     ModelCloudinary modelCloudinary;
     ModelFirebase modelFirebase;
+    User user;
     List<Product> data = new LinkedList<Product>();
     private static Model instance = new Model();
 
@@ -44,7 +45,7 @@ public class Model {
 
     void init(){
         for(int i=0;i<20;i++){
-            add(new Product("fname"+i,"12" + i,"lname"));
+            add(new Product("fname"+i,"12" + i,"type","lname"));
         }
     }
 
@@ -65,12 +66,20 @@ public class Model {
 
 
     public void loginUser(String username , String password,LoginStatus listener){
-        modelFirebase.Login(username, password,listener);
+        modelFirebase.Login(username, password, listener);
     }
 
     public void signup(User user,SignupStatus listener){
-        modelFirebase.createUser(user,listener);
+        modelFirebase.createUser(user, listener);
 
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     /**

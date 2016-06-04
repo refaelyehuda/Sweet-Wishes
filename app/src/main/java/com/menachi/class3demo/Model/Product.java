@@ -17,6 +17,7 @@ public class Product {
     String productId;
     String name;
     String price;
+    String type;
     String imageName;
     String createDate;
     String lastUpdate;
@@ -39,13 +40,13 @@ public class Product {
 
     }
 
-    public Product(String name, String price, String imageName){
+    public Product(String name, String price,String type, String imageName){
         //this is a static variable that grow in each call to the constructor
         Ids++;
         this.name = name;
         this.price = price;
+        this.type = type;
         this.imageName = imageName;
-        this.productId = productId;
         // Create an instance of SimpleDateFormat used for formatting
         // the string representation of date (month/day/year)
         DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");

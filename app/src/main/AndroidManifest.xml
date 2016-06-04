@@ -31,7 +31,10 @@
             android:label="@string/title_activity_signup" />
         <activity
             android:name=".ProductsActivity"
-            android:label="@string/title_activity_products"></activity>
+            android:label="@string/title_activity_products" />
+        <activity
+            android:name=".UserProfileActivity"
+            android:label="@string/title_activity_user_profile"></activity>
     </application>
 
 </manifest>

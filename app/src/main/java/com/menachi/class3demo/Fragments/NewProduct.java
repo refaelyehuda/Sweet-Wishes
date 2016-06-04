@@ -27,6 +27,7 @@ public class NewProduct extends Fragment {
     Delegate delegate;
     EditText productName;
     EditText productPrice;
+    EditText productType;
     EditText imageName;
 
 
@@ -52,6 +53,7 @@ public class NewProduct extends Fragment {
         View view = inflater.inflate(R.layout.fragment_new_product, container, false);
         productName = (EditText) view.findViewById(R.id.addNewProductName);
         productPrice = (EditText) view.findViewById(R.id.addNewProductPrice);
+        productType = (EditText) view.findViewById(R.id.addNewProductTypeName);
         imageName = (EditText) view.findViewById(R.id.addNewProductImageName);
         Button saveBtn = (Button) view.findViewById(R.id.saveNewProductBtn);
         Button cancelBtn = (Button) view.findViewById(R.id.cancelNewProductBtn);
@@ -59,7 +61,8 @@ public class NewProduct extends Fragment {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Product pr = new Product(productName.getText().toString(),productPrice.getText().toString(),imageName.getText().toString());
+                Product pr = new Product(productName.getText().toString(),productPrice.getText().toString(),imageName.getText().toString(),
+                        productType.getText().toString());
 
                 Model.instance().add(pr);
                 BasicAlertDialog addStudentAlert = new BasicAlertDialog("OK", "" + productName.getText().toString() + " Was Added Successfully For transfer type OK",delegate);

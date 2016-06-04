@@ -13,7 +13,9 @@ import android.widget.ListView;
 import com.menachi.class3demo.Fragments.ListProducts;
 import com.menachi.class3demo.Fragments.NewProduct;
 import com.menachi.class3demo.Fragments.ProductDetails;
+import com.menachi.class3demo.Model.Model;
 import com.menachi.class3demo.Model.Product;
+import com.menachi.class3demo.Model.User;
 
 import java.util.List;
 
@@ -30,6 +32,9 @@ public class ProductsActivity extends Activity implements ListProducts.Delegate,
         //The first fragment that need to be displayed is listStudentFragment
         listProductsFragment = new ListProducts();
         listProductsFragment.setDelegate(this);
+        //get the current userID
+        User currentUser = Model.instance().getUser();
+        //User currentUser = (User) getIntent().getSerializableExtra("User");
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.add(R.id.main_frag_container, listProductsFragment, "y");
         transaction.addToBackStack("listProducts");

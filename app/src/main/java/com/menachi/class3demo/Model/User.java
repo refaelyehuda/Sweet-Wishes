@@ -1,15 +1,21 @@
 package com.menachi.class3demo.Model;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * Created by refael yehuda on 5/18/2016.
  */
 public class User {
     String userId;
-    String userName;
     String email;
     String fName;
     String lName;
+    Boolean isAdmin;
     String profPicture;
+    String lastUpdate;
     String address;
     String birthDate;
     String password;
@@ -19,21 +25,29 @@ public class User {
     }
 
 
-    public User(String userId,String userName, String email, String fName, String lName,String address,String password, String profPicture, String birthDate) {
+    public User(String userId, String email, String fName, String lName,String address,String password, String profPicture, String birthDate) {
         this.userId = userId;
-        this.userName = userName;
         this.email = email;
         this.fName = fName;
         this.lName = lName;
+        this.isAdmin = false;
         this.address = address;
         this.password = password;
         this.profPicture = profPicture;
         this.birthDate = birthDate;
+        // Create an instance of SimpleDateFormat used for formatting
+        // the string representation of date (month/day/year)
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+        // Get the date today using Calendar object.
+        Date today = Calendar.getInstance().getTime();
+        // Using DateFormat format method we can create a string
+        // representation of a date with the defined format.
+        String currenDate = df.format(today);
+        this.lastUpdate = currenDate;
     }
 
     public User(String userId) {
         this.userId = userId;
-        this.userName = "";
         this.email = "";
         this.fName = "";
         this.lName = "";
@@ -63,14 +77,6 @@ public class User {
 
     public void setUserId(String userId) {
         this.userId = userId;
-    }
-
-    public String getUsername() {
-        return userName;
-    }
-
-    public void setUsername(String username) {
-        this.userName = username;
     }
 
     public String getEmail() {

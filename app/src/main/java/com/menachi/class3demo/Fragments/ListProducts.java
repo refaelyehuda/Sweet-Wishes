@@ -61,6 +61,12 @@ public class ListProducts extends Fragment {
                     delegate.onNewProduct();
                 return true;
             }
+            case R.id.action_settings : {
+                Log.d("TAG","moving to new student fragment");
+                if (this.delegate != null)
+                    delegate.onNewProduct();
+                return true;
+            }
         }
         return super.onOptionsItemSelected(item);
     }
