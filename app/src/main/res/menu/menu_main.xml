@@ -19,7 +19,7 @@
         android:showAsAction="never" />
     <item
         android:id="@+id/last_purchase"
-        android:title="@string/last_purchase"
+        android:title="@string/last_purchases"
         android:orderInCategory="100"
         android:showAsAction="never" />
     <item
