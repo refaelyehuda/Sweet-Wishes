@@ -83,6 +83,26 @@
                     android:textAlignment="textEnd"/>
             </LinearLayout>
             <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Type : "
+                        android:textStyle="bold"
+                        android:textColor="@color/colorWhite"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textAlignment="textStart"/>
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/ProducrTypeDetails"
+                        android:textColor="@color/colorWhite"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textAlignment="textEnd"/>
+            </LinearLayout>
+            <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content">

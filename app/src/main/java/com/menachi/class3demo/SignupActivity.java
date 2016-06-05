@@ -54,10 +54,10 @@ public class SignupActivity extends Activity {
                     public void isSignup(boolean status, User user) {
                         if(status){
                             Log.d("Tag", "The user is created");
+                            Model.instance().setUser(user);
                             progressBar.setVisibility(View.GONE);
                             Toast.makeText(getApplicationContext(), "Signup Successfully", Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(getApplicationContext(),ProductsActivity.class);
-//                            intent.putExtra("User", (Parcelable) user);
                             startActivity(intent);
                         }else{
                             Log.d("TAG","Error with create user");

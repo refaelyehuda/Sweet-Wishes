@@ -80,6 +80,7 @@ public class ProductsActivity extends Activity implements ListProducts.Delegate,
     }
 
 
+
     @Override
     public void onProductSelected(Product product) {
         if (currentFragment.equals("listProducts")){

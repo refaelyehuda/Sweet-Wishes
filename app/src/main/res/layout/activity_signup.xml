@@ -31,7 +31,6 @@
                 android:layout_height="wrap_content"
                 android:text="First Name:"
                 android:textAlignment="textStart"
-                android:inputType="text"
                 android:singleLine="true"
                 android:textStyle="bold"
                 android:textSize="20dp"/>
@@ -39,6 +38,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="textStart"
+                android:inputType="text"
                 android:singleLine="true"
                 android:id="@+id/fName" />
         </LinearLayout>
@@ -52,7 +52,6 @@
                 android:layout_height="wrap_content"
                 android:text="Last Name:"
                 android:textAlignment="textStart"
-                android:inputType="text"
                 android:singleLine="true"
                 android:textStyle="bold"
                 android:textSize="20dp"/>
@@ -60,8 +59,49 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="textStart"
+                android:inputType="text"
                 android:singleLine="true"
                 android:id="@+id/lName" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:text="Address:"
+                android:textAlignment="textStart"
+                android:singleLine="true"
+                android:textStyle="bold"
+                android:textSize="20dp"/>
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="textStart"
+                android:inputType="text"
+                android:singleLine="true"
+                android:id="@+id/address" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:text="Birth Date:"
+                android:textAlignment="textStart"
+                android:singleLine="true"
+                android:textStyle="bold"
+                android:textSize="20dp"/>
+            <com.menachi.class3demo.DateAndPickers.Date.DateEditText
+                android:id="@+id/birthDate"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="textEnd"/>
         </LinearLayout>
         <LinearLayout
             android:layout_marginTop="20dp"
@@ -80,73 +120,9 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="textStart"
-                android:inputType="text"
-                android:singleLine="true"
-                android:id="@+id/email" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:text="Address:"
-                android:textAlignment="textStart"
-                android:inputType="text"
-                android:singleLine="true"
-                android:textStyle="bold"
-                android:textSize="20dp"/>
-            <EditText
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="textStart"
                 android:inputType="textEmailAddress"
                 android:singleLine="true"
-                android:id="@+id/address" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:text="Birth Date:"
-                android:textAlignment="textStart"
-                android:inputType="text"
-                android:singleLine="true"
-                android:textStyle="bold"
-                android:textSize="20dp"/>
-            <com.menachi.class3demo.DateAndPickers.Date.DateEditText
-                android:id="@+id/birthDate"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="textEnd"/>
-        </LinearLayout>
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:text="User Name:"
-                android:inputType="text"
-                android:singleLine="true"
-                android:textStyle="bold"
-                android:textAlignment="textStart"
-                android:textSize="20dp" />
-
-            <EditText
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="textStart"
-                android:inputType="text"
-                android:singleLine="true"
-                android:id="@+id/username" />
+                android:id="@+id/email" />
         </LinearLayout>
         <LinearLayout
             android:layout_marginTop="20dp"

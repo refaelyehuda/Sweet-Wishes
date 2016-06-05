@@ -5,7 +5,7 @@
     <string name="Personal_Info">Personal Info</string>
     <string name="reset_password">Reset Password</string>
     <string name="last_purchases">Last Purchases</string>
-    <string name="billing_info">billing</string>
+    <string name="billing_info">Billing</string>
     <string name="add_new_product">Add</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_signup">SignupActivity</string>

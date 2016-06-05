@@ -65,7 +65,6 @@ public class LoginActivity extends Activity {
                                 Model.instance().setUser(user);
                                 Toast.makeText(getApplicationContext(), "Login Successfully", Toast.LENGTH_LONG).show();
                                 Intent intent = new Intent(getApplicationContext(),ProductsActivity.class);
-//                                intent.putExtra("User", (Serializable) user);
                                 startActivity(intent);
                             }else{
                                 Log.d("TAG","Error with auth");
