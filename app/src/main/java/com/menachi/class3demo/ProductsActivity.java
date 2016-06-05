@@ -48,7 +48,6 @@ public class ProductsActivity extends Activity implements ListProducts.Delegate,
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         MenuItem item = menu.findItem(R.id.addProductBtn);
-//        MenuItem item1 = menu.
         //check which object need to display in menu
         if (currentFragment.equals("details")) {
             item.setTitle("Edit");
@@ -88,6 +87,10 @@ public class ProductsActivity extends Activity implements ListProducts.Delegate,
         switch (item.getItemId()) {
             case R.id.personal_info : {
                 Log.d("TAG","personal_info selected");
+                Intent intent = new Intent(getApplicationContext(),UserProfileActivity.class);
+                //send to  UserProfileActivity the fragment to load
+                intent.putExtra("fragment","personal_info");
+                startActivity(intent);
                 break;
             }
             case R.id.last_purchase : {

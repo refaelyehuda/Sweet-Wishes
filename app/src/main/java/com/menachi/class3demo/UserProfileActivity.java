@@ -1,5 +1,6 @@
 package com.menachi.class3demo;
 
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
@@ -12,11 +13,24 @@ import com.menachi.class3demo.Model.User;
 
 public class UserProfileActivity extends Activity implements PersonalInfo.Delegate {
     String currentFragment;
+    PersonalInfo personalInfoFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
         User currentUser = Model.instance().getUser();
+        String fragmentToLoad = getIntent().getStringExtra("fragment");
+        if(fragmentToLoad.equals("personal_info")){
+            currentFragment = "personal_info";
+            personalInfoFragment = new PersonalInfo();
+            personalInfoFragment.setDelegate(this);
+            personalInfoFragment.setCurrentUser(currentUser);
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            transaction.add(R.id.user_profile_main_frag,personalInfoFragment, "y");
+            transaction.addToBackStack("personal_info");
+            transaction.show(personalInfoFragment);
+            transaction.commit();
+        }
 
     }
 
