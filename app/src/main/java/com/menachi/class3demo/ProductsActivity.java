@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
 
@@ -79,7 +80,31 @@ public class ProductsActivity extends Activity implements ListProducts.Delegate,
         }
     }
 
-
+    /**
+     * this function defined to listen to user profile
+     * @param item
+     */
+    public void onUserDetails(MenuItem item){
+        switch (item.getItemId()) {
+            case R.id.personal_info : {
+                Log.d("TAG","personal_info selected");
+                break;
+            }
+            case R.id.last_purchase : {
+                Log.d("TAG","last_purchase selected");
+                break;
+            }
+            case R.id.reset_password : {
+                Log.d("TAG","reset_password selected");
+                break;
+            }
+            case R.id.billing_info : {
+                Log.d("TAG","billing_info selected");
+                break;
+            }
+        }
+        Log.d("TAG", "onUserDetails");
+    }
 
     @Override
     public void onProductSelected(Product product) {

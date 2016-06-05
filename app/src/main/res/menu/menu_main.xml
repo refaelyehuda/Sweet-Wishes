@@ -8,23 +8,27 @@
         android:showAsAction="ifRoom"
         android:visible="true"/>
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/personal_info"
         android:title="@string/Personal_Info"
+        android:onClick="onUserDetails"
         android:orderInCategory="100"
         android:showAsAction="never" />
     <item
-        android:id="@+id/reset_password"
+        android:id="@+id/billing_info"
         android:title="@string/billing_info"
+        android:onClick="onUserDetails"
         android:orderInCategory="100"
         android:showAsAction="never" />
     <item
         android:id="@+id/last_purchase"
         android:title="@string/last_purchases"
+        android:onClick="onUserDetails"
         android:orderInCategory="100"
         android:showAsAction="never" />
     <item
-        android:id="@+id/sssss"
+        android:id="@+id/reset_password"
         android:title="@string/reset_password"
+        android:onClick="onUserDetails"
         android:orderInCategory="100"
         android:showAsAction="never" />
 </menu>

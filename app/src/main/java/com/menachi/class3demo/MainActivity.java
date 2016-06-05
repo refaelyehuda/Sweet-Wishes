@@ -101,12 +101,29 @@ public class MainActivity extends Activity {
 //        });
     }
 
+    public void onUserDetails(MenuItem item){
+        switch (item.getItemId()) {
+            case R.id.personal_info : {
+                Log.d("TAG","personal_info selected");
+            }
+            case R.id.last_purchase : {
+                Log.d("TAG","last_purchase selected");
+            }
+            case R.id.reset_password : {
+                Log.d("TAG","reset_password selected");
+            }
+            case R.id.billing_info : {
+                Log.d("TAG","billing_info selected");
+            }
+        }
+        Log.d("TAG", "onUserDetails");
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        MenuItem item = menu.findItem(R.id.addProductBtn);
-        item.setTitle("");
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
+//        MenuItem item = menu.findItem(R.id.addProductBtn);
+//        item.setTitle("");
         return true;
     }
 
@@ -118,7 +135,7 @@ public class MainActivity extends Activity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.personal_info) {
             return true;
         }
 
