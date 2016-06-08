@@ -70,6 +70,7 @@ public class ProductDetails extends Fragment {
             TextView name = (TextView) view.findViewById(R.id.ProductNameDetails);
             TextView price = (TextView) view.findViewById(R.id.ProducrPriceDetails);
             TextView imageName = (TextView) view.findViewById(R.id.ProductImageNameDetails);
+            TextView type = (TextView) view.findViewById(R.id.ProducrTypeDetails);
             TextView createdDate = (TextView) view.findViewById(R.id.ProductCDateDetails);
             TextView lastUpdate = (TextView) view.findViewById(R.id.LastUpdateDateDetails);
 
@@ -77,6 +78,7 @@ public class ProductDetails extends Fragment {
             name.setText(this.product.getName());
             price.setText(this.product.getPrice());
             imageName.setText(this.product.getImageName());
+            type.setText(this.product.getType());
             createdDate.setText(this.product.getCreateDate());
             lastUpdate.setText(this.product.getLastUpdate());
         }

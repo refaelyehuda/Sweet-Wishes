@@ -15,6 +15,7 @@ import com.menachi.class3demo.Fragments.ListProducts;
 import com.menachi.class3demo.Fragments.NewProduct;
 import com.menachi.class3demo.Fragments.ProductDetails;
 import com.menachi.class3demo.Model.Model;
+import com.menachi.class3demo.Model.ModelFirebase;
 import com.menachi.class3demo.Model.Product;
 import com.menachi.class3demo.Model.User;
 
@@ -35,12 +36,19 @@ public class ProductsActivity extends Activity implements ListProducts.Delegate,
         listProductsFragment.setDelegate(this);
         //get the current userID
         User currentUser = Model.instance().getUser();
-        //User currentUser = (User) getIntent().getSerializableExtra("User");
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.add(R.id.main_frag_container, listProductsFragment, "y");
-        transaction.addToBackStack("listProducts");
-        transaction.show(listProductsFragment);
-        transaction.commit();
+        //
+        Model.instance().initiateProducts(new ModelFirebase.ProductsDelegate() {
+            @Override
+            public void onProductList(List<Product> productsList) {
+                Log.e("TAG", "data arrive from firebase");
+                //User currentUser = (User) getIntent().getSerializableExtra("User");
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.add(R.id.main_frag_container, listProductsFragment, "y");
+                transaction.addToBackStack("listProducts");
+                transaction.show(listProductsFragment);
+                transaction.commit();
+            }
+        });
     }
 
     @Override
@@ -95,14 +103,26 @@ public class ProductsActivity extends Activity implements ListProducts.Delegate,
             }
             case R.id.last_purchase : {
                 Log.d("TAG","last_purchase selected");
+                Intent intent = new Intent(getApplicationContext(),UserProfileActivity.class);
+                //send to  UserProfileActivity the fragment to load
+                intent.putExtra("fragment","last_purchase");
+                startActivity(intent);
                 break;
             }
             case R.id.reset_password : {
                 Log.d("TAG","reset_password selected");
+                Intent intent = new Intent(getApplicationContext(),UserProfileActivity.class);
+                //send to  UserProfileActivity the fragment to load
+                intent.putExtra("fragment","reset_password");
+                startActivity(intent);
                 break;
             }
             case R.id.billing_info : {
                 Log.d("TAG","billing_info selected");
+                Intent intent = new Intent(getApplicationContext(),UserProfileActivity.class);
+                //send to  UserProfileActivity the fragment to load
+                intent.putExtra("fragment","billing_info");
+                startActivity(intent);
                 break;
             }
         }

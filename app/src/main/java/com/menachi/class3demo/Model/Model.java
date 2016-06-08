@@ -18,7 +18,7 @@ public class Model {
     ModelCloudinary modelCloudinary;
     ModelFirebase modelFirebase;
     User user;
-    List<Product> data = new LinkedList<Product>();
+    List<Product> productData = new LinkedList<Product>();
     private static Model instance = new Model();
 
     public interface LoginStatus{
@@ -37,23 +37,32 @@ public class Model {
         public void isSignup (boolean status,User user);
     }
 
+
     private Model(){
         modelCloudinary = new ModelCloudinary();
         modelFirebase = new ModelFirebase(MyApplication.getContext());
-        init();
     }
 
-    void init(){
-        for(int i=0;i<20;i++){
-            add(new Product("fname"+i,"12" + i,"type","lname"));
-        }
+    public void initiateProducts(final ModelFirebase.ProductsDelegate listener){
+        modelFirebase.getProducts(new ModelFirebase.ProductsDelegate() {
+            @Override
+            public void onProductList(List<Product> productsList) {
+                productData = productsList;
+                listener.onProductList(productsList);
+            }
+        });
     }
 
-    public List<Product> getProducts(){
-        return data;
+    public List<Product> getProductData() {
+        return productData;
     }
-    public void add(Product product){
-        data.add(product);
+
+    public void setProductData(List<Product> productData) {
+        this.productData = productData;
+    }
+    public void addProduct(Product product){
+        productData.add(product);
+        modelFirebase.addProduct(product);
     }
 
     /**
@@ -80,6 +89,11 @@ public class Model {
 
     public void setUser(User user) {
         this.user = user;
+        updateUser(user);
+    }
+
+    private void updateUser(User user){
+        modelFirebase.updateUser(user.getUserId(),user);
     }
 
     /**

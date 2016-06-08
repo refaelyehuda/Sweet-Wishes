@@ -21,20 +21,7 @@ public class Product {
     String imageName;
     String createDate;
     String lastUpdate;
-    //key = userId , value = {comment,grade}
-    JSONObject comments;
     static Integer Ids = 0;
-    //iterate over JSONObject
-//    Iterator<?> keys = jObject.keys();
-//
-//    while( keys.hasNext() ) {
-//        String key = (String)keys.next();
-//        Log.d("Tag", key + " : " + jObject.get(key));
-//    }
-//    String key = (String)keys.next();
-//    if ( jObject.get(key) instanceof JSONObject ) {
-//
-//    }
 
     Product(){
 
@@ -108,12 +95,11 @@ public class Product {
         this.imageName = imageName;
     }
 
-    public JSONObject getComments() {
-        return comments;
+    public String getType() {
+        return type;
     }
 
-    public void setComments(JSONObject comments) {
-        this.comments = comments;
+    public void setType(String type) {
+        this.type = type;
     }
-
 }

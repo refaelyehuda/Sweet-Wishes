@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.menachi.class3demo.Model.Model;
+import com.menachi.class3demo.Model.ModelFirebase;
 import com.menachi.class3demo.Model.Product;
 import com.menachi.class3demo.R;
 
@@ -80,7 +81,7 @@ public class ListProducts extends Fragment {
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.fragment_list_products, container, false);
         list = (ListView) view.findViewById(R.id.products_list);
-        data = Model.instance().getProducts();
+        data =   Model.instance().getProductData();
         myAddapter adapter = new myAddapter();
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -95,6 +96,8 @@ public class ListProducts extends Fragment {
         });
         return view;
     }
+
+
 
     public void setDelegate(Delegate delegate){
         this.delegate = delegate;

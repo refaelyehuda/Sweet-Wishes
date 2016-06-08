@@ -22,6 +22,9 @@ import java.util.Map;
 public class ModelFirebase {
     Firebase myFirebaseRef;
 
+    public interface ProductsDelegate{
+        void onProductList(List<Product> productsList);
+    }
 
     ModelFirebase(Context context){
         Firebase.setAndroidContext(context);
@@ -125,6 +128,41 @@ public class ModelFirebase {
             return authData.getUid();
         }
         return null;
+    }
+
+
+    public void updateUser(String userId,User user){
+        Firebase userRef = myFirebaseRef.child("Users").child(userId);
+        userRef.setValue(user);
+    }
+
+    public void addProduct(Product product){
+        Firebase productsRef = myFirebaseRef.child("Products").child(product.getProductId());
+        productsRef.setValue(product);
+    }
+
+    public void getProducts(final ProductsDelegate listener){
+        Firebase productsRef = myFirebaseRef.child("Products");
+        final List<Product> data = new LinkedList<Product>();
+
+
+        productsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                Log.e("Count of products " ,""+snapshot.getChildrenCount());
+                for (DataSnapshot productSnapshot: snapshot.getChildren()) {
+                    Product product = productSnapshot.getValue(Product.class);
+                    data.add(product);
+                    Log.e("Get Data", product.getName());
+                }
+                 listener.onProductList(data);
+            }
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                Log.e("The read failed: " ,firebaseError.getMessage());
+            }
+        });
+
     }
 
 }

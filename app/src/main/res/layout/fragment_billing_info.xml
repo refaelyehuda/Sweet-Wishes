@@ -1,0 +1,105 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorGray"
+    tools:context="com.menachi.class3demo.Fragments.BillingInfo">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Name : "
+                        android:textColor="@color/colorWhite"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textAlignment="textStart"/>
+                    <EditText
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/billingName"
+                        android:inputType="text"
+                        android:textColor="@color/colorWhite"
+                        android:singleLine="true"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textAlignment="textEnd"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Credit Card : "
+                        android:textColor="@color/colorWhite"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textAlignment="textStart"/>
+                    <EditText
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:singleLine="true"
+                        android:textColor="@color/colorWhite"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:id="@+id/userCreditCard"
+                        android:textAlignment="textEnd"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Expiry Date: "
+                        android:textColor="@color/colorWhite"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textAlignment="textStart"/>
+                    <com.menachi.class3demo.DateAndPickers.Date.DateEditText
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorWhite"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:id="@+id/userCardExpiryDate"
+                        android:textAlignment="textEnd"/>
+                </LinearLayout>
+            </LinearLayout>
+            <RelativeLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorWhite"
+                    android:id="@+id/cancelUserBillingInfo"
+                    android:textAlignment="center"
+                    android:layout_alignParentLeft="true"
+                    android:text="Cancel" />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/saveUserBillingInfo"
+                    android:textColor="@color/colorWhite"
+                    android:textAlignment="center"
+                    android:layout_alignParentRight="true"
+                    android:text="Save" />
+            </RelativeLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

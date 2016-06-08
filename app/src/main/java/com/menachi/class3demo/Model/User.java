@@ -4,6 +4,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by refael yehuda on 5/18/2016.
@@ -19,7 +21,7 @@ public class User {
     String address;
     String birthDate;
     String password;
-
+    Map<String, String> billingInfo;
     public User(){
 
     }
@@ -44,6 +46,7 @@ public class User {
         // representation of a date with the defined format.
         String currenDate = df.format(today);
         this.lastUpdate = currenDate;
+        this.billingInfo = new HashMap<String, String>();
     }
 
     public User(String userId) {
@@ -117,5 +120,29 @@ public class User {
 
     public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
+    }
+
+    public Map<String, String> getBillingInfo() {
+        return billingInfo;
+    }
+
+    public void setBillingInfo(Map<String, String> billingInfo) {
+        this.billingInfo = billingInfo;
+    }
+
+    public String getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(String lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
+    public Boolean getIsAdmin() {
+        return isAdmin;
+    }
+
+    public void setIsAdmin(Boolean isAdmin) {
+        this.isAdmin = isAdmin;
     }
 }

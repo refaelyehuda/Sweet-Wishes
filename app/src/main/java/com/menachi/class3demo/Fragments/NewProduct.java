@@ -61,10 +61,9 @@ public class NewProduct extends Fragment {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Product pr = new Product(productName.getText().toString(),productPrice.getText().toString(),imageName.getText().toString(),
-                        productType.getText().toString());
-
-                Model.instance().add(pr);
+                Product pr = new Product(productName.getText().toString(),productPrice.getText().toString(), productType.getText().toString()
+                        ,imageName.getText().toString());
+                Model.instance().addProduct(pr);
                 BasicAlertDialog addStudentAlert = new BasicAlertDialog("OK", "" + productName.getText().toString() + " Was Added Successfully For transfer type OK",delegate);
                 addStudentAlert.show(getFragmentManager(), "Tag");
 
