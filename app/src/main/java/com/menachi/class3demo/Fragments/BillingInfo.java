@@ -66,6 +66,12 @@ public class BillingInfo extends Fragment {
             billingName = (EditText) view.findViewById(R.id.billingName);
             userCreditCard = (EditText) view.findViewById(R.id.userCreditCard);
             userCardExpiryDate = (DateEditText) view.findViewById(R.id.userCardExpiryDate);
+
+            Map<String, String> billingInfo = user.getBillingInfo();
+            billingName.setText(billingInfo.get("billingName"));
+            userCreditCard.setText(billingInfo.get("userCreditCard"));
+            userCardExpiryDate.setText(billingInfo.get("userCardExpiryDate"));
+
             Button saveBtn = (Button) view.findViewById(R.id.saveUserBillingInfo);
             Button cancelBtn = (Button) view.findViewById(R.id.cancelUserBillingInfo);
 
@@ -82,7 +88,7 @@ public class BillingInfo extends Fragment {
             saveBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Map<String, String> billingInfo = new HashMap<String, String>();;
+                    Map<String, String> billingInfo = new HashMap<String, String>();
                     billingInfo.put("billingName", billingName.getText().toString());
                     billingInfo.put("userCreditCard",userCreditCard.getText().toString());
                     billingInfo.put("userCardExpiryDate", userCardExpiryDate.getText().toString());

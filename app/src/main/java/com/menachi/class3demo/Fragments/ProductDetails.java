@@ -1,5 +1,7 @@
 package com.menachi.class3demo.Fragments;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,8 +28,9 @@ import java.text.SimpleDateFormat;
  * Use the {@link ProductDetails#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ProductDetails extends Fragment {
+public class ProductDetails extends Fragment implements ProductComments.Delegate{
     private OnFragmentInteractionListener mListener;
+    ProductComments productCommentsFragment;
 
     public interface Delegate{
         void onProductEdit(Product st);
@@ -81,11 +84,23 @@ public class ProductDetails extends Fragment {
             type.setText(this.product.getType());
             createdDate.setText(this.product.getCreateDate());
             lastUpdate.setText(this.product.getLastUpdate());
+
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            productCommentsFragment = new ProductComments();
+            productCommentsFragment.setProduct(product);
+            productCommentsFragment.setDelegate(this);
+            ft.add(R.id.comments_frag_container, productCommentsFragment);
+            ft.show(productCommentsFragment);
+            ft.commit();
         }
         return view;
     }
 
+    @Override
+    public void onNewComment() {
 
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

@@ -149,20 +149,25 @@ public class ModelFirebase {
         productsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                Log.e("Count of products " ,""+snapshot.getChildrenCount());
-                for (DataSnapshot productSnapshot: snapshot.getChildren()) {
+                Log.e("Count of products ", "" + snapshot.getChildrenCount());
+                for (DataSnapshot productSnapshot : snapshot.getChildren()) {
                     Product product = productSnapshot.getValue(Product.class);
                     data.add(product);
                     Log.e("Get Data", product.getName());
                 }
-                 listener.onProductList(data);
+                listener.onProductList(data);
             }
+
             @Override
             public void onCancelled(FirebaseError firebaseError) {
-                Log.e("The read failed: " ,firebaseError.getMessage());
+                Log.e("The read failed: ", firebaseError.getMessage());
             }
         });
 
+    }
+
+    public AuthData getAuthData(){
+        return myFirebaseRef.getAuth();
     }
 
 }

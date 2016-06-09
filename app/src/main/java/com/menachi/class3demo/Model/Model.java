@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.view.View;
 
+import com.firebase.client.AuthData;
 import com.menachi.class3demo.MyApplication;
 
 import java.io.IOException;
@@ -19,6 +20,7 @@ public class Model {
     ModelFirebase modelFirebase;
     User user;
     List<Product> productData = new LinkedList<Product>();
+    List<Comment> commentData = new LinkedList<Comment>();
     private static Model instance = new Model();
 
     public interface LoginStatus{
@@ -43,6 +45,11 @@ public class Model {
         modelFirebase = new ModelFirebase(MyApplication.getContext());
     }
 
+    public void initComments(){
+        for (int i = 0 ;i<20;i++){
+            commentData.add(new Comment("21","ed1b4cc0-bc43-4cf9-9d97-d9f9dabfda1f","refael" + i,user.getProfPicture(),"test",1));
+        }
+    }
     public void initiateProducts(final ModelFirebase.ProductsDelegate listener){
         modelFirebase.getProducts(new ModelFirebase.ProductsDelegate() {
             @Override
@@ -55,6 +62,16 @@ public class Model {
 
     public List<Product> getProductData() {
         return productData;
+    }
+
+    public List<Comment> getCommentsByProductId(String productId){
+        List<Comment>commentList = new LinkedList<Comment>();
+        for (Comment comment : commentData) {
+           if(comment.getProductId().equals(productId) ){
+               commentList.add(comment);
+           }
+        }
+        return commentList;
     }
 
     public void setProductData(List<Product> productData) {
@@ -83,6 +100,10 @@ public class Model {
 
     }
 
+    public AuthData getFirebaseAuth(){
+        return modelFirebase.getAuthData();
+    }
+
     public User getUser() {
         return user;
     }
@@ -93,7 +114,7 @@ public class Model {
     }
 
     private void updateUser(User user){
-        modelFirebase.updateUser(user.getUserId(),user);
+        modelFirebase.updateUser(user.getUserId(), user);
     }
 
     /**
@@ -102,6 +123,13 @@ public class Model {
     public interface SaveImageListener{
         public void OnDone(Exception e);
     }
+
+    /**
+     * load image to cloudinary
+     * @param image
+     * @param imageName
+     * @param listener
+     */
     public void saveImage(final Bitmap image , final String imageName, final SaveImageListener listener){
         //open new thread for upload image to cloudinary
         AsyncTask<String,String,IOException> task = new AsyncTask<String, String, IOException>() {

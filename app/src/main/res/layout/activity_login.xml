@@ -38,7 +38,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="textStart"
-                android:inputType="text"
+                android:inputType="textEmailAddress"
                 android:singleLine="true"
                 android:id="@+id/user" />
         </LinearLayout>

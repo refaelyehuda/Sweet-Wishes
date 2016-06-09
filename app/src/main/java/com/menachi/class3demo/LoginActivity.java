@@ -37,10 +37,10 @@ public class LoginActivity extends Activity {
         progressBar.setVisibility(View.GONE);
         Button login = (Button) findViewById(R.id.loginBtn);
 
-        //TODO after all testing need to delete these lines
-//        Intent intent = new Intent(getApplicationContext(),ProductsActivity.class);
-//        startActivity(intent);
-        //end
+//        if(!isExpired(Model.instance().getFirebaseAuth())){
+//
+//        }
+
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,6 +77,8 @@ public class LoginActivity extends Activity {
             }
         });
     }
+
+    //TODO need to imlement extra feature session timout
     private boolean isExpired(AuthData authData){
         return (System.currentTimeMillis() / 1000) >= authData.getExpires();
     }

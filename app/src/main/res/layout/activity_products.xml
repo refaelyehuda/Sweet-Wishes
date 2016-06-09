@@ -11,9 +11,17 @@
     android:background="@color/colorGray"
     tools:context="com.menachi.class3demo.ProductsActivity">
 
+    <ProgressBar
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar_products_list"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="158dp" />
+
     <FrameLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/main_frag_container">
     </FrameLayout>
 

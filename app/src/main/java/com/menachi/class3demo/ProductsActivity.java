@@ -9,10 +9,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.menachi.class3demo.Fragments.ListProducts;
 import com.menachi.class3demo.Fragments.NewProduct;
+import com.menachi.class3demo.Fragments.ProductComments;
 import com.menachi.class3demo.Fragments.ProductDetails;
 import com.menachi.class3demo.Model.Model;
 import com.menachi.class3demo.Model.ModelFirebase;
@@ -21,16 +24,19 @@ import com.menachi.class3demo.Model.User;
 
 import java.util.List;
 
-public class ProductsActivity extends Activity implements ListProducts.Delegate,NewProduct.Delegate,ProductDetails.Delegate {
+public class ProductsActivity extends Activity implements ListProducts.Delegate,NewProduct.Delegate,ProductDetails.Delegate,ProductComments.Delegate {
 
     String currentFragment = "listProducts";
     ListProducts listProductsFragment;
     NewProduct newProductFragment;
     ProductDetails productDetailsFragment;
+    ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_products);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar_products_list);
+        Model.instance().initComments();
         //The first fragment that need to be displayed is listStudentFragment
         listProductsFragment = new ListProducts();
         listProductsFragment.setDelegate(this);
@@ -41,6 +47,7 @@ public class ProductsActivity extends Activity implements ListProducts.Delegate,
             @Override
             public void onProductList(List<Product> productsList) {
                 Log.e("TAG", "data arrive from firebase");
+                progressBar.setVisibility(View.GONE);
                 //User currentUser = (User) getIntent().getSerializableExtra("User");
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 transaction.add(R.id.main_frag_container, listProductsFragment, "y");
@@ -80,7 +87,6 @@ public class ProductsActivity extends Activity implements ListProducts.Delegate,
                 currentFragment = "listProducts";
             }
             invalidateOptionsMenu();
-            //this.getFragmentManager().popBackStack();
         }
         else{
             finish();
@@ -203,5 +209,10 @@ public class ProductsActivity extends Activity implements ListProducts.Delegate,
             currentFragment = "edit";
             //invalidateOptionsMenu();
         }
+    }
+
+    @Override
+    public void onNewComment() {
+
     }
 }

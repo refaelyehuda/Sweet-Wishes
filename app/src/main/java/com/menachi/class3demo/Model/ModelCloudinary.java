@@ -51,4 +51,8 @@ public class ModelCloudinary {
             return  null;
         }
     }
+
+    public void deleteImage(){
+
+    }
 }

@@ -1,0 +1,55 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorGray"
+    android:orientation="horizontal">
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rowImageFrame">
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/comment_list_row_image"
+            android:src="@drawable/image"/>
+
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/commentProgressBar"
+            android:visibility="gone"/>
+    </FrameLayout>
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="User Name"
+        android:textColor="@color/colorWhite"
+        android:id="@+id/user_list_row_name"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/rowImageFrame"
+        android:layout_toEndOf="@+id/rowImageFrame"
+        android:layout_margin="10px"/>
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/colorWhite"
+        android:text="\t\n Text"
+        android:id="@+id/comment_list_row_text"
+        android:layout_below="@+id/nameTextView"
+        android:layout_toRightOf="@+id/rowImageFrame"
+        android:layout_toEndOf="@+id/rowImageFrame"
+        android:layout_margin="10px" />
+
+
+</RelativeLayout>
