@@ -138,23 +138,31 @@ public class PersonalInfo extends Fragment {
                     user.setlName(lName.getText().toString());
                     user.setAddress(address.getText().toString());
                     user.setBirthDate(birthDate.getText().toString());
-                    user.setProfPicture(imageName);
-                    Model.instance().saveImage(thumbnail, imageName, new Model.SaveImageListener() {
-                        @Override
-                        public void OnDone(Exception e) {
-                            if (e == null) {
-                                Log.d("TAG", "save image finished");
-                                BasicAlertDialog alert;
-                                Model.instance().setUser(user);
-                                alert = new BasicAlertDialog("OK", " The user updated successfully", delegate);
-                                alert.show(getFragmentManager(), "TAG");
-                                Log.d("TAG", "user created");
-                            } else {
-                                Log.d("TAG", "save image finished with error");
-                            }
+                    if(imageName != null){
+                        user.setProfPicture(imageName);
+                        Model.instance().saveImage(thumbnail, imageName, new Model.SaveImageListener() {
+                            @Override
+                            public void OnDone(Exception e) {
+                                if (e == null) {
+                                    Log.d("TAG", "save image finished");
+                                    BasicAlertDialog alert;
+                                    Model.instance().setUser(user);
+                                    alert = new BasicAlertDialog("OK", " The user updated successfully", delegate);
+                                    alert.show(getFragmentManager(), "TAG");
+                                    Log.d("TAG", "user created");
+                                } else {
+                                    Log.d("TAG", "save image finished with error");
+                                }
 
-                        }
-                    });
+                            }
+                        });
+                    }else{
+                        BasicAlertDialog alert;
+                        Model.instance().setUser(user);
+                        alert = new BasicAlertDialog("OK", " The user updated successfully", delegate);
+                        alert.show(getFragmentManager(), "TAG");
+                        Log.d("TAG", "user saved without image change");
+                    }
                 }
             });
         }
