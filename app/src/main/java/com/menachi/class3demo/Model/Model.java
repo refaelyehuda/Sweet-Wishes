@@ -43,12 +43,7 @@ public class Model {
     private Model(){
         modelCloudinary = new ModelCloudinary();
         modelFirebase = new ModelFirebase(MyApplication.getContext());
-    }
-
-    public void initComments(){
-        for (int i = 0 ;i<20;i++){
-            commentData.add(new Comment("21","ed1b4cc0-bc43-4cf9-9d97-d9f9dabfda1f","refael" + i,user.getProfPicture(),"test",1));
-        }
+        initiateComments();
     }
     public void initiateProducts(final ModelFirebase.ProductsDelegate listener){
         modelFirebase.getProducts(new ModelFirebase.ProductsDelegate() {
@@ -64,6 +59,17 @@ public class Model {
         return productData;
     }
 
+
+    public void initiateComments(){
+        modelFirebase.getComments(new ModelFirebase.CommentDelegate() {
+            @Override
+            public void onCommentList(List<Comment> commentsList) {
+                commentData = commentsList;
+            }
+        });
+
+    }
+
     public List<Comment> getCommentsByProductId(String productId){
         List<Comment>commentList = new LinkedList<Comment>();
         for (Comment comment : commentData) {
@@ -74,12 +80,19 @@ public class Model {
         return commentList;
     }
 
+
+
     public void setProductData(List<Product> productData) {
         this.productData = productData;
     }
     public void addProduct(Product product){
         productData.add(product);
         modelFirebase.addProduct(product);
+    }
+
+    public void addComment(Comment comment){
+        modelFirebase.addComment(comment);
+        commentData.add(comment);
     }
 
     /**

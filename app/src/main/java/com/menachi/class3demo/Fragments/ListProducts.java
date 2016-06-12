@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -57,7 +58,7 @@ public class ListProducts extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.addProductBtn : {
-                Log.d("TAG","moving to new student fragment");
+                Log.d("TAG","moving to new product fragment");
                 if (this.delegate != null)
                     delegate.onNewProduct();
                 return true;
@@ -155,14 +156,14 @@ public class ListProducts extends Fragment {
                 LayoutInflater inflater = getActivity().getLayoutInflater();
                 convertView = inflater.inflate(R.layout.product_list_row, null);
                 Log.d("TAG", "create view:" + position);
-                CheckBox checkBox1 = (CheckBox) convertView.findViewById(R.id.product_list_row_checkbox);
-                checkBox1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Product pr = (Product) v.getTag();
-//                        pr.setChecked(!pr.isChecked());
-                    }
-                });
+//                CheckBox checkBox1 = (CheckBox) convertView.findViewById(R.id.product_list_row_checkbox);
+//                checkBox1.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        Product pr = (Product) v.getTag();
+////                        pr.setChecked(!pr.isChecked());
+//                    }
+//                });
 
             }else{
                 Log.d("TAG", "use convert view:" + position);
@@ -171,15 +172,16 @@ public class ListProducts extends Fragment {
             TextView productName = (TextView) convertView.findViewById(R.id.product_list_row_name);
             TextView productPrice = (TextView) convertView.findViewById(R.id.product_list_row_price);
             ImageView image = (ImageView) convertView.findViewById(R.id.product_list_row_image);
-            CheckBox checkBox = (CheckBox) convertView.findViewById(R.id.product_list_row_checkbox);
+//            CheckBox checkBox = (CheckBox) convertView.findViewById(R.id.product_list_row_checkbox);
             Product pr = data.get(position);
             //checkBox.setTag(new Integer(position));
-            checkBox.setTag(pr);
+//            checkBox.setTag(pr);
             productName.setText(pr.getName());
-            productPrice.setText(pr.getPrice());
+            productPrice.setText(pr.getPrice() + "$");
             return convertView;
         }
     }
+
 
 
 }

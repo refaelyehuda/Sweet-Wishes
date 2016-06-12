@@ -28,12 +28,12 @@ import java.text.SimpleDateFormat;
  * Use the {@link ProductDetails#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ProductDetails extends Fragment implements ProductComments.Delegate{
+public class ProductDetails extends Fragment{
     private OnFragmentInteractionListener mListener;
     ProductComments productCommentsFragment;
 
     public interface Delegate{
-        void onProductEdit(Product st);
+        void onNewComment(Product product);
     }
     Delegate delegate;
     Product product;
@@ -67,29 +67,24 @@ public class ProductDetails extends Fragment implements ProductComments.Delegate
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_product_details, container, false);
-
+        setHasOptionsMenu(true);
         if(product!=null){
             TextView id = (TextView) view.findViewById(R.id.ProductIDDetails);
             TextView name = (TextView) view.findViewById(R.id.ProductNameDetails);
             TextView price = (TextView) view.findViewById(R.id.ProducrPriceDetails);
             TextView imageName = (TextView) view.findViewById(R.id.ProductImageNameDetails);
             TextView type = (TextView) view.findViewById(R.id.ProducrTypeDetails);
-            TextView createdDate = (TextView) view.findViewById(R.id.ProductCDateDetails);
-            TextView lastUpdate = (TextView) view.findViewById(R.id.LastUpdateDateDetails);
 
             id.setText(this.product.getProductId());
             name.setText(this.product.getName());
             price.setText(this.product.getPrice());
             imageName.setText(this.product.getImageName());
             type.setText(this.product.getType());
-            createdDate.setText(this.product.getCreateDate());
-            lastUpdate.setText(this.product.getLastUpdate());
 
             FragmentManager fm = getFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
             productCommentsFragment = new ProductComments();
             productCommentsFragment.setProduct(product);
-            productCommentsFragment.setDelegate(this);
             ft.add(R.id.comments_frag_container, productCommentsFragment);
             ft.show(productCommentsFragment);
             ft.commit();
@@ -98,16 +93,13 @@ public class ProductDetails extends Fragment implements ProductComments.Delegate
     }
 
     @Override
-    public void onNewComment() {
-
-    }
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.addProductBtn : {
-                Log.i("TAG", "Editing Product: " + product.getProductId());
-                if (this.delegate != null)
-                    delegate.onProductEdit(product);
+                Log.d("TAG", "Add comment to : " + product.getProductId());
+                if (this.delegate != null){
+                 delegate.onNewComment(product);
+                }
                 return true;
             }
         }

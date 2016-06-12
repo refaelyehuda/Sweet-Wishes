@@ -1,5 +1,6 @@
 package com.menachi.class3demo.Fragments;
 
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 
 import com.menachi.class3demo.Model.Comment;
 import com.menachi.class3demo.Model.Model;
+import com.menachi.class3demo.Model.ModelFirebase;
 import com.menachi.class3demo.Model.Product;
 import com.menachi.class3demo.R;
 
@@ -26,22 +28,9 @@ import java.util.List;
 
 public class ProductComments extends Fragment {
 
-    public interface Delegate{
-        void onNewComment();
-    }
-
-    Delegate delegate;
     ListView list;
     List<Comment> data;
     Product product;
-
-    public Delegate getDelegate() {
-        return delegate;
-    }
-
-    public void setDelegate(Delegate delegate) {
-        this.delegate = delegate;
-    }
 
 
     public Product getProduct() {

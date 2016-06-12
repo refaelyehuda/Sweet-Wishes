@@ -26,6 +26,9 @@ public class ModelFirebase {
         void onProductList(List<Product> productsList);
     }
 
+    public interface CommentDelegate{
+        void onCommentList(List<Comment> commentsList);
+    }
     ModelFirebase(Context context){
         Firebase.setAndroidContext(context);
         myFirebaseRef = new Firebase("https://dessers-project.firebaseio.com/");
@@ -166,6 +169,33 @@ public class ModelFirebase {
 
     }
 
+    public void addComment(Comment comment){
+        Firebase commentsRef = myFirebaseRef.child("Comments").child(comment.getCommentId());
+        commentsRef.setValue(comment);
+    }
+
+    public void getComments(final CommentDelegate listener){
+        Firebase commentsRef = myFirebaseRef.child("Comments");
+        final List<Comment> data = new LinkedList<Comment>();
+        commentsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                Log.e("Count of products ", "" + snapshot.getChildrenCount());
+                for (DataSnapshot commentSnapshot : snapshot.getChildren()) {
+                    Comment comment = commentSnapshot.getValue(Comment.class);
+                    data.add(comment);
+                    Log.e("Get Data", comment.getName());
+                }
+                listener.onCommentList(data);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                Log.d("TAG", "The read of comments  failed: ");
+            }
+        });
+
+    }
     public AuthData getAuthData(){
         return myFirebaseRef.getAuth();
     }

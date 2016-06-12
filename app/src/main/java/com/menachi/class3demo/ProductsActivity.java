@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.menachi.class3demo.Fragments.ListProducts;
+import com.menachi.class3demo.Fragments.NewComment;
 import com.menachi.class3demo.Fragments.NewProduct;
 import com.menachi.class3demo.Fragments.ProductComments;
 import com.menachi.class3demo.Fragments.ProductDetails;
@@ -24,19 +25,19 @@ import com.menachi.class3demo.Model.User;
 
 import java.util.List;
 
-public class ProductsActivity extends Activity implements ListProducts.Delegate,NewProduct.Delegate,ProductDetails.Delegate,ProductComments.Delegate {
+public class ProductsActivity extends Activity implements ListProducts.Delegate,NewProduct.Delegate,ProductDetails.Delegate,NewComment.Delegate {
 
     String currentFragment = "listProducts";
     ListProducts listProductsFragment;
     NewProduct newProductFragment;
     ProductDetails productDetailsFragment;
+    NewComment newCommentFragment;
     ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_products);
         progressBar = (ProgressBar) findViewById(R.id.progressBar_products_list);
-        Model.instance().initComments();
         //The first fragment that need to be displayed is listStudentFragment
         listProductsFragment = new ListProducts();
         listProductsFragment.setDelegate(this);
@@ -65,7 +66,7 @@ public class ProductsActivity extends Activity implements ListProducts.Delegate,
         MenuItem item = menu.findItem(R.id.addProductBtn);
         //check which object need to display in menu
         if (currentFragment.equals("details")) {
-            item.setTitle("Edit");
+            item.setTitle("Add Comment");
         }else if(currentFragment.equals("listProducts")){
             setTitle("Products");
             item.setIcon(android.R.drawable.ic_input_add);
@@ -83,7 +84,10 @@ public class ProductsActivity extends Activity implements ListProducts.Delegate,
             String name = getFragmentManager().getBackStackEntryAt(count - 1).getName();
             if (name.equals("details")) {
                 currentFragment = "details";
-            } else {
+            }else if(name.equals("New Comment")){
+                currentFragment = "New Comment";
+            }
+            else {
                 currentFragment = "listProducts";
             }
             invalidateOptionsMenu();
@@ -164,7 +168,7 @@ public class ProductsActivity extends Activity implements ListProducts.Delegate,
             newProductFragment.setDelegate(this);
             ft.add(R.id.main_frag_container, newProductFragment);
             ft.hide(listProductsFragment);
-            ft.addToBackStack("list");
+            ft.addToBackStack("listProducts");
             ft.show(newProductFragment);
             ft.commit();
             currentFragment = "add";
@@ -193,26 +197,40 @@ public class ProductsActivity extends Activity implements ListProducts.Delegate,
     }
 
     @Override
-    public void onProductEdit(Product product) {
+    public void onNewComment(Product product) {
         if (currentFragment.equals("details")) {
-            Log.d("TAG", "Editing Details of Student: " + product.getProductId());
+            Log.d("TAG", "Add a new comment to : " + product.getProductId());
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            newCommentFragment = new NewComment();
+            newCommentFragment.setProduct(product);
+            newCommentFragment.setDelegate(this);
+            ft.add(R.id.main_frag_container, newCommentFragment);
+            ft.hide(productDetailsFragment);
+            ft.addToBackStack("details");
+            ft.show(newCommentFragment);
+            ft.commit();
+            currentFragment = "New Comment";
+            invalidateOptionsMenu();
+        }
+    }
+
+    @Override
+    public void onReturnToDetails(Product product) {
+        if (currentFragment.equals("New Comment")) {
+            Log.d("TAG", "Returning to product details");
             FragmentManager fm = getFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
             productDetailsFragment = new ProductDetails();
             productDetailsFragment.setProduct(product);
             productDetailsFragment.setDelegate(this);
             ft.add(R.id.main_frag_container, productDetailsFragment);
-            ft.hide(productDetailsFragment);
-            ft.addToBackStack("details");
-            //ft.show(editStudentFragment);
+            ft.hide(newCommentFragment);
+            ft.addToBackStack("New Comment");
+            ft.show(productDetailsFragment);
             ft.commit();
-            currentFragment = "edit";
-            //invalidateOptionsMenu();
+            currentFragment = "details";
+            invalidateOptionsMenu();
         }
-    }
-
-    @Override
-    public void onNewComment() {
-
     }
 }
