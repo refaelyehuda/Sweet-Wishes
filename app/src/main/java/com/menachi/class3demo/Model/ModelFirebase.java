@@ -139,9 +139,13 @@ public class ModelFirebase {
         userRef.setValue(user);
     }
 
-    public void addProduct(Product product){
-        Firebase productsRef = myFirebaseRef.child("Products").child(product.getProductId());
-        productsRef.setValue(product);
+    public Product addProduct(Product product){
+        Firebase productsRef = myFirebaseRef.child("Products");
+        Firebase newProductRef = productsRef.push();
+        newProductRef.setValue(product);
+        String productID = newProductRef.getKey();
+        product.setProductId(productID);
+        return product;
     }
 
     public void getProducts(final ProductsDelegate listener){
@@ -169,9 +173,13 @@ public class ModelFirebase {
 
     }
 
-    public void addComment(Comment comment){
-        Firebase commentsRef = myFirebaseRef.child("Comments").child(comment.getCommentId());
-        commentsRef.setValue(comment);
+    public Comment addComment(Comment comment){
+        Firebase commentsRef = myFirebaseRef.child("Comments");
+        Firebase newCommentsRef = commentsRef.push();
+        newCommentsRef.setValue(comment);
+        String commentID = newCommentsRef.getKey();
+        comment.setCommentId(commentID);
+        return comment;
     }
 
     public void getComments(final CommentDelegate listener){

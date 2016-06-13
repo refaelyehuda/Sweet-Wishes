@@ -1,13 +1,20 @@
 package com.menachi.class3demo.Model;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.view.View;
 
 import com.firebase.client.AuthData;
 import com.menachi.class3demo.MyApplication;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -20,7 +27,6 @@ public class Model {
     ModelFirebase modelFirebase;
     User user;
     List<Product> productData = new LinkedList<Product>();
-    List<Comment> commentData = new LinkedList<Comment>();
     private static Model instance = new Model();
 
     public interface LoginStatus{
@@ -43,7 +49,6 @@ public class Model {
     private Model(){
         modelCloudinary = new ModelCloudinary();
         modelFirebase = new ModelFirebase(MyApplication.getContext());
-        initiateComments();
     }
     public void initiateProducts(final ModelFirebase.ProductsDelegate listener){
         modelFirebase.getProducts(new ModelFirebase.ProductsDelegate() {
@@ -60,24 +65,20 @@ public class Model {
     }
 
 
-    public void initiateComments(){
+    public void getCommentsByProductId(final String productId,final ModelFirebase.CommentDelegate listener){
         modelFirebase.getComments(new ModelFirebase.CommentDelegate() {
             @Override
             public void onCommentList(List<Comment> commentsList) {
-                commentData = commentsList;
+                List<Comment> commentData  = new LinkedList<Comment>();
+                for (Comment comment : commentsList) {
+                    if(comment.getProductId().equals(productId) ){
+                        commentData.add(comment);
+                    }
+                }
+                listener.onCommentList(commentData);
             }
         });
 
-    }
-
-    public List<Comment> getCommentsByProductId(String productId){
-        List<Comment>commentList = new LinkedList<Comment>();
-        for (Comment comment : commentData) {
-           if(comment.getProductId().equals(productId) ){
-               commentList.add(comment);
-           }
-        }
-        return commentList;
     }
 
 
@@ -86,13 +87,12 @@ public class Model {
         this.productData = productData;
     }
     public void addProduct(Product product){
-        productData.add(product);
-        modelFirebase.addProduct(product);
+        Product updateProduct =  modelFirebase.addProduct(product);
+        productData.add(updateProduct);
     }
 
     public void addComment(Comment comment){
-        modelFirebase.addComment(comment);
-        commentData.add(comment);
+        Comment updateComment = modelFirebase.addComment(comment);
     }
 
     /**
@@ -149,6 +149,7 @@ public class Model {
             @Override
             protected IOException doInBackground(String... params) {
                 try {
+                    String imapgPath = saveImageToFile(image, imageName);
                     modelCloudinary.saveImage(image ,imageName,listener);
                     return null;
                 } catch (IOException e) {
@@ -177,7 +178,12 @@ public class Model {
         AsyncTask<String,String,Bitmap> task = new AsyncTask<String, String, Bitmap>() {
             @Override
             protected Bitmap doInBackground(String... params) {
-                Bitmap image =  modelCloudinary.getImage(imageName);
+                Bitmap image = loadImageFromFile(imageName);              //first try to find the image on the device
+                if (image == null) {                                      //if image not found - try downloading it from parse
+                    image =  modelCloudinary.getImage(imageName);
+                    if (image != null)
+                        saveImageToFile(image, imageName);    //save the image locally for next time
+                }
                 return image;
             }
 
@@ -189,5 +195,36 @@ public class Model {
         };
         task.execute();
 
+    }
+
+    private String saveImageToFile(Bitmap imageBitmap, String imageFileName) {
+        File fos = null;
+        OutputStream out = null;
+        File dir = null;
+        try {
+            dir = MyApplication.getContext().getExternalFilesDir(null);
+            fos = new File(dir, imageFileName);
+            out = new FileOutputStream(fos);
+            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            out.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return fos.getAbsolutePath();
+    }
+
+    private Bitmap loadImageFromFile(String fileName) {
+        String str = null;
+        Bitmap bitmap = null;
+        try {
+            File dir = MyApplication.getContext().getExternalFilesDir(null);
+            InputStream inputStream = new FileInputStream(new File(dir, fileName));
+            bitmap = BitmapFactory.decodeStream(inputStream);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return bitmap;
     }
 }

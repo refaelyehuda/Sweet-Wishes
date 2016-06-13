@@ -76,9 +76,14 @@ public class ProductComments extends Fragment {
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.fragment_product_comments, container, false);
         list = (ListView) view.findViewById(R.id.comments_list);
-        data =   Model.instance().getCommentsByProductId(product.getProductId());
-        commentAddapter  adapter = new commentAddapter();
-        list.setAdapter(adapter);
+        Model.instance().getCommentsByProductId(product.getProductId(), new ModelFirebase.CommentDelegate() {
+            @Override
+            public void onCommentList(List<Comment> commentsList) {
+                data =commentsList;
+                commentAddapter  adapter = new commentAddapter();
+                list.setAdapter(adapter);
+            }
+        });
         return view;
     }
 
@@ -144,6 +149,7 @@ public class ProductComments extends Fragment {
                     }
                 }
             });
+            notifyDataSetChanged();
             return convertView;
         }
     }

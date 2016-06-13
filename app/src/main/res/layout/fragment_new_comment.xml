@@ -36,6 +36,8 @@
                 <EditText
                     android:id="@+id/comment_grade"
                     android:layout_width="fill_parent"
+                    android:singleLine="true"
+                    android:inputType="number"
                     android:layout_height="wrap_content"
                     android:textAlignment="textEnd"/>
             </LinearLayout>
@@ -52,6 +54,7 @@
                 <EditText
                     android:id="@+id/comment_text"
                     android:layout_width="fill_parent"
+                    android:singleLine="true"
                     android:layout_height="wrap_content"
                     android:textAlignment="textEnd"/>
             </LinearLayout>

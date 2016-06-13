@@ -77,7 +77,7 @@ public class NewComment extends Fragment {
                 String userImageName = Model.instance().getUser().getProfPicture();
                 comment = new Comment(product.getProductId(),userID,name,userImageName,commentText.getText().toString(),commentGrade.getText().toString());
                 Model.instance().addComment(comment);
-                Log.d("TAG","Comment was added successfully");
+                Log.d("TAG", "Comment was added successfully");
                 delegate.onReturnToDetails(product);
 
             }

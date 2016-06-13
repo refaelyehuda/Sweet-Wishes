@@ -18,6 +18,7 @@ import com.menachi.class3demo.Fragments.NewComment;
 import com.menachi.class3demo.Fragments.NewProduct;
 import com.menachi.class3demo.Fragments.ProductComments;
 import com.menachi.class3demo.Fragments.ProductDetails;
+import com.menachi.class3demo.Model.Comment;
 import com.menachi.class3demo.Model.Model;
 import com.menachi.class3demo.Model.ModelFirebase;
 import com.menachi.class3demo.Model.Product;
@@ -141,21 +142,26 @@ public class ProductsActivity extends Activity implements ListProducts.Delegate,
 
     @Override
     public void onProductSelected(Product product) {
-        if (currentFragment.equals("listProducts")){
+        if (currentFragment.equals("listProducts")) {
             setTitle("Product Details");
             Log.d("TAG", "Student selected " + product.getProductId());
-            FragmentManager fm = getFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
             productDetailsFragment = new ProductDetails();
             productDetailsFragment.setProduct(product);
             productDetailsFragment.setDelegate(this);
-            ft.add(R.id.main_frag_container, productDetailsFragment);
-            ft.hide(listProductsFragment);
-            ft.addToBackStack("listProducts");
-            ft.show(productDetailsFragment);
-            ft.commit();
             currentFragment = "details";
-            invalidateOptionsMenu();
+            Model.instance().getCommentsByProductId(product.getProductId(), new ModelFirebase.CommentDelegate() {
+                @Override
+                public void onCommentList(List<Comment> commentsList) {
+                    FragmentManager fm = getFragmentManager();
+                    FragmentTransaction ft = fm.beginTransaction();
+                    ft.replace(R.id.main_frag_container, productDetailsFragment);
+                    ft.addToBackStack("listProducts");
+                    ft.show(productDetailsFragment);
+                    ft.commit();
+
+                    invalidateOptionsMenu();
+                }
+            });
         }
     }
 
@@ -205,8 +211,7 @@ public class ProductsActivity extends Activity implements ListProducts.Delegate,
             newCommentFragment = new NewComment();
             newCommentFragment.setProduct(product);
             newCommentFragment.setDelegate(this);
-            ft.add(R.id.main_frag_container, newCommentFragment);
-            ft.hide(productDetailsFragment);
+            ft.replace(R.id.main_frag_container, newCommentFragment);
             ft.addToBackStack("details");
             ft.show(newCommentFragment);
             ft.commit();
@@ -217,20 +222,28 @@ public class ProductsActivity extends Activity implements ListProducts.Delegate,
 
     @Override
     public void onReturnToDetails(Product product) {
+        invalidateOptionsMenu();
+        getFragmentManager().popBackStack();
         if (currentFragment.equals("New Comment")) {
             Log.d("TAG", "Returning to product details");
-            FragmentManager fm = getFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
             productDetailsFragment = new ProductDetails();
             productDetailsFragment.setProduct(product);
             productDetailsFragment.setDelegate(this);
-            ft.add(R.id.main_frag_container, productDetailsFragment);
-            ft.hide(newCommentFragment);
-            ft.addToBackStack("New Comment");
-            ft.show(productDetailsFragment);
-            ft.commit();
-            currentFragment = "details";
-            invalidateOptionsMenu();
-        }
+        Model.instance().getCommentsByProductId(product.getProductId(),new ModelFirebase.CommentDelegate() {
+            @Override
+            public void onCommentList(List<Comment> commentsList) {
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+//                getFragmentManager().popBackStack();
+                ft.addToBackStack("New Comment");
+                ft.replace(R.id.main_frag_container, productDetailsFragment);
+                ft.show(productDetailsFragment);
+                ft.commit();
+                currentFragment = "details";
+                invalidateOptionsMenu();
+            }
+        });
+    }
+
     }
 }
