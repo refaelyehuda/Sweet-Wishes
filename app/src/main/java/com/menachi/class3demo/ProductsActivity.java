@@ -7,16 +7,13 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.menachi.class3demo.Fragments.ListProducts;
 import com.menachi.class3demo.Fragments.NewComment;
 import com.menachi.class3demo.Fragments.NewProduct;
-import com.menachi.class3demo.Fragments.ProductComments;
 import com.menachi.class3demo.Fragments.ProductDetails;
 import com.menachi.class3demo.Model.Comment;
 import com.menachi.class3demo.Model.Model;

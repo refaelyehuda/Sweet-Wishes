@@ -156,15 +156,6 @@ public class ListProducts extends Fragment {
                 LayoutInflater inflater = getActivity().getLayoutInflater();
                 convertView = inflater.inflate(R.layout.product_list_row, null);
                 Log.d("TAG", "create view:" + position);
-//                CheckBox checkBox1 = (CheckBox) convertView.findViewById(R.id.product_list_row_checkbox);
-//                checkBox1.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        Product pr = (Product) v.getTag();
-////                        pr.setChecked(!pr.isChecked());
-//                    }
-//                });
-
             }else{
                 Log.d("TAG", "use convert view:" + position);
             }
@@ -172,12 +163,12 @@ public class ListProducts extends Fragment {
             TextView productName = (TextView) convertView.findViewById(R.id.product_list_row_name);
             TextView productPrice = (TextView) convertView.findViewById(R.id.product_list_row_price);
             ImageView image = (ImageView) convertView.findViewById(R.id.product_list_row_image);
-//            CheckBox checkBox = (CheckBox) convertView.findViewById(R.id.product_list_row_checkbox);
             Product pr = data.get(position);
             //checkBox.setTag(new Integer(position));
 //            checkBox.setTag(pr);
             productName.setText(pr.getName());
             productPrice.setText(pr.getPrice() + "$");
+
             return convertView;
         }
     }

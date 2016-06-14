@@ -3,6 +3,7 @@ package com.menachi.class3demo.Fragments;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -11,14 +12,22 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.menachi.class3demo.Model.Comment;
+import com.menachi.class3demo.Model.Model;
+import com.menachi.class3demo.Model.ModelFirebase;
 import com.menachi.class3demo.Model.Product;
 import com.menachi.class3demo.R;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,13 +39,14 @@ import java.text.SimpleDateFormat;
  */
 public class ProductDetails extends Fragment{
     private OnFragmentInteractionListener mListener;
-    ProductComments productCommentsFragment;
 
     public interface Delegate{
         void onNewComment(Product product);
     }
     Delegate delegate;
     Product product;
+    ListView list;
+    List<Comment> comments;
 
     public void setDelegate(Delegate delegate){
         this.delegate = delegate;
@@ -81,13 +91,15 @@ public class ProductDetails extends Fragment{
             imageName.setText(this.product.getImageName());
             type.setText(this.product.getType());
 
-            FragmentManager fm = getFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
-            productCommentsFragment = new ProductComments();
-            productCommentsFragment.setProduct(product);
-            ft.add(R.id.comments_frag_container, productCommentsFragment);
-            ft.show(productCommentsFragment);
-            ft.commit();
+            list = (ListView) view.findViewById(R.id.comments_list);
+            Model.instance().getCommentsByProductId(product.getProductId(), new ModelFirebase.CommentDelegate() {
+                @Override
+                public void onCommentList(List<Comment> commentsList) {
+                    comments = commentsList;
+                    commentAddapter adapter = new commentAddapter();
+                    list.setAdapter(adapter);
+                }
+            });
         }
         return view;
     }
@@ -117,6 +129,65 @@ public class ProductDetails extends Fragment{
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    class commentAddapter extends BaseAdapter {
+
+        @Override
+        public int getCount() {
+            return comments.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return comments.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            if(convertView == null){
+                LayoutInflater inflater = getActivity().getLayoutInflater();
+                convertView = inflater.inflate(R.layout.comment_list_row, null);
+                Log.d("TAG", "create view:" + position);
+
+            }else{
+                Log.d("TAG", "use convert view:" + position);
+            }
+
+            final TextView UserName = (TextView) convertView.findViewById(R.id.user_list_row_name);
+            TextView commentText = (TextView) convertView.findViewById(R.id.comment_list_row_text);
+            final ImageView commentImage = (ImageView) convertView.findViewById(R.id.comment_list_row_image);
+            final ProgressBar commentProgressBar = (ProgressBar) convertView.findViewById(R.id.commentProgressBar);
+            //save the current position to check when the image is download if the current row is show in the screen
+            UserName.setTag(new Integer(position));
+            Comment comment = comments.get(position);
+            UserName.setText(comment.getName());
+            commentText.setText("\n\n " + comment.getText());
+            commentProgressBar.setVisibility(View.VISIBLE);
+            Model.instance().getImage(comment.getImageName(), new Model.GetImageListener() {
+                @Override
+                public void OnDone(Bitmap image, String imageName) {
+                    if (image != null) {
+                        Log.d("TAG", "SUCCESS GET COMMENT IMAGE");
+                        //check when the image is download if the current row is show in the screen
+                        if (image != null && ((Integer)UserName.getTag() == position)) {
+                            commentImage.setImageBitmap(image);
+                            commentProgressBar.setVisibility(View.GONE);
+                        }
+                    }else{
+                        commentProgressBar.setVisibility(View.GONE);
+                        Log.d("TAG","ERROR GET COMMENT IMAGE");
+                    }
+                }
+            });
+            notifyDataSetChanged();
+            return convertView;
+        }
     }
 
     /**
