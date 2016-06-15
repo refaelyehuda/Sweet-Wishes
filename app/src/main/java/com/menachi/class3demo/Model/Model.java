@@ -178,11 +178,14 @@ public class Model {
         AsyncTask<String,String,Bitmap> task = new AsyncTask<String, String, Bitmap>() {
             @Override
             protected Bitmap doInBackground(String... params) {
-                Bitmap image = loadImageFromFile(imageName);              //first try to find the image on the device
-                if (image == null) {                                      //if image not found - try downloading it from parse
+                //first try to find the image on the device
+                Bitmap image = loadImageFromFile(imageName);
+                //if image not found - try downloading it from parse
+                if (image == null) {
                     image =  modelCloudinary.getImage(imageName);
                     if (image != null)
-                        saveImageToFile(image, imageName);    //save the image locally for next time
+                        //save the image locally for next time
+                        saveImageToFile(image, imageName);
                 }
                 return image;
             }

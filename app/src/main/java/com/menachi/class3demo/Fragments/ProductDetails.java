@@ -27,6 +27,7 @@ import com.menachi.class3demo.R;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -46,7 +47,7 @@ public class ProductDetails extends Fragment{
     Delegate delegate;
     Product product;
     ListView list;
-    List<Comment> comments;
+    List<Comment> comments = new LinkedList<Comment>();
 
     public void setDelegate(Delegate delegate){
         this.delegate = delegate;
@@ -185,7 +186,6 @@ public class ProductDetails extends Fragment{
                     }
                 }
             });
-            notifyDataSetChanged();
             return convertView;
         }
     }

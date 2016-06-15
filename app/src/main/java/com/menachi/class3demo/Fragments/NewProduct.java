@@ -2,6 +2,7 @@ package com.menachi.class3demo.Fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -49,6 +50,7 @@ public class NewProduct extends Fragment {
     String imageName;
     ImageView productImage;
     ProgressBar productProgressBar;
+    ProgressBar mainProgressBar;
     Bitmap thumbnail;
 
 
@@ -77,6 +79,7 @@ public class NewProduct extends Fragment {
         productType = (EditText) view.findViewById(R.id.addNewProductTypeName);
         productImage = (ImageView) view.findViewById(R.id.productImage);
         productProgressBar = (ProgressBar) view.findViewById(R.id.productImageProgressBar);
+        mainProgressBar = (ProgressBar) view.findViewById(R.id.newProductProgressBar);
         Button saveBtn = (Button) view.findViewById(R.id.saveNewProductBtn);
         Button cancelBtn = (Button) view.findViewById(R.id.cancelNewProductBtn);
         Button productImagePicbtn = (Button) view.findViewById(R.id.productImagePicbtn);
@@ -84,23 +87,27 @@ public class NewProduct extends Fragment {
         productImagePicbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                productProgressBar.setVisibility(View.VISIBLE);
                 selectImage();
+                productProgressBar.setVisibility(View.GONE);
             }
         });
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Product pr = new Product(productName.getText().toString(),productPrice.getText().toString(), productType.getText().toString()
-                        ,imageName);
+                mainProgressBar.setVisibility(View.VISIBLE);
+                final Product pr = new Product(productName.getText().toString(),productPrice.getText().toString(), productType.getText().toString(),imageName);
                 if(imageName != null){
                     Model.instance().saveImage(thumbnail, imageName, new Model.SaveImageListener() {
                         @Override
                         public void OnDone(Exception e) {
                             if (e == null) {
                                 Model.instance().addProduct(pr);
-                                BasicAlertDialog addStudentAlert = new BasicAlertDialog("OK", "" + productName.getText().toString() + " Was Added Successfully For transfer type OK",delegate);
-                                addStudentAlert.show(getFragmentManager(), "Tag");
+                                mainProgressBar.setVisibility(View.GONE);
+                                //FIXME need to check why we go exception on this line
+                                BasicAlertDialog addProductAlert = new BasicAlertDialog("OK", "" + productName.getText().toString() + " Was Added Successfully For transfer type OK",delegate);
+                                addProductAlert.show(getFragmentManager(), "Tag");
                             } else {
                                 Log.d("TAG", "save image finished with error");
                             }

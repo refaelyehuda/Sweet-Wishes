@@ -146,19 +146,12 @@ public class ProductsActivity extends Activity implements ListProducts.Delegate,
             productDetailsFragment.setProduct(product);
             productDetailsFragment.setDelegate(this);
             currentFragment = "details";
-            Model.instance().getCommentsByProductId(product.getProductId(), new ModelFirebase.CommentDelegate() {
-                @Override
-                public void onCommentList(List<Comment> commentsList) {
-                    FragmentManager fm = getFragmentManager();
-                    FragmentTransaction ft = fm.beginTransaction();
-                    ft.replace(R.id.main_frag_container, productDetailsFragment);
-                    ft.addToBackStack("listProducts");
-                    ft.show(productDetailsFragment);
-                    ft.commit();
-
-                    invalidateOptionsMenu();
-                }
-            });
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.replace(R.id.main_frag_container, productDetailsFragment);
+            ft.addToBackStack("listProducts");
+            ft.show(productDetailsFragment);
+            ft.commit();
         }
     }
 

@@ -7,7 +7,7 @@
     tools:context="com.menachi.class3demo.Fragments.NewProduct">
 
     <ProgressBar
-        android:id="@+id/newProgressBar"
+        android:id="@+id/newProductProgressBar"
         style="@android:style/Widget.Holo.ProgressBar.Horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -63,6 +63,7 @@
                 <EditText
                     android:id="@+id/addNewProductName"
                     android:layout_width="fill_parent"
+                    android:singleLine="true"
                     android:layout_height="wrap_content"
                     android:textAlignment="textEnd"/>
             </LinearLayout>
@@ -80,6 +81,7 @@
                     android:id="@+id/addNewProductPrice"
                     android:layout_width="fill_parent"
                     android:inputType="numberDecimal"
+                    android:singleLine="true"
                     android:layout_height="wrap_content"
                     android:textAlignment="textEnd"/>
             </LinearLayout>
@@ -97,6 +99,7 @@
                     android:id="@+id/addNewProductTypeName"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:singleLine="true"
                     android:textAlignment="textEnd"/>
             </LinearLayout>
         </LinearLayout>
