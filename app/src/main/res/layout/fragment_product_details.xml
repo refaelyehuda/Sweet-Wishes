@@ -7,6 +7,14 @@
     android:background="@color/colorGray"
     tools:context="com.menachi.class3demo.Fragments.ProductDetails">
 
+    <ProgressBar
+        android:id="@+id/product_details_progressBar"
+        style="@android:style/Widget.Holo.ProgressBar.Horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:visibility="gone" />
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"

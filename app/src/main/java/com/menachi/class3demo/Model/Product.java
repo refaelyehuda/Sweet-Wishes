@@ -34,16 +34,8 @@ public class Product {
         this.price = price;
         this.type = type;
         this.imageName = imageName;
-        // Create an instance of SimpleDateFormat used for formatting
-        // the string representation of date (month/day/year)
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-        // Get the date today using Calendar object.
-        Date today = Calendar.getInstance().getTime();
-        // Using DateFormat format method we can create a string
-        // representation of a date with the defined format.
-        String currenDate = df.format(today);
-        this.createDate = currenDate;
-        this.lastUpdate = currenDate;
+        this.createDate = Model.Tools.getCurrentDate();
+        this.lastUpdate = Model.Tools.getCurrentDate();;
         this.productId = Ids.toString();
     }
 

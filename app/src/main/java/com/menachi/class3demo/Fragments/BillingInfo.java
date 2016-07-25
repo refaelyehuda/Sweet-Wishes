@@ -68,9 +68,11 @@ public class BillingInfo extends Fragment {
             userCardExpiryDate = (DateEditText) view.findViewById(R.id.userCardExpiryDate);
 
             Map<String, String> billingInfo = user.getBillingInfo();
-            billingName.setText(billingInfo.get("billingName"));
-            userCreditCard.setText(billingInfo.get("userCreditCard"));
-            userCardExpiryDate.setText(billingInfo.get("userCardExpiryDate"));
+            if(billingInfo != null){
+                billingName.setText(billingInfo.get("billingName"));
+                userCreditCard.setText(billingInfo.get("userCreditCard"));
+                userCardExpiryDate.setText(billingInfo.get("userCardExpiryDate"));
+            }
 
             Button saveBtn = (Button) view.findViewById(R.id.saveUserBillingInfo);
             Button cancelBtn = (Button) view.findViewById(R.id.cancelUserBillingInfo);
@@ -93,10 +95,10 @@ public class BillingInfo extends Fragment {
                     billingInfo.put("userCreditCard",userCreditCard.getText().toString());
                     billingInfo.put("userCardExpiryDate", userCardExpiryDate.getText().toString());
                     user.setBillingInfo(billingInfo);
-                    Model.instance().setUser(user);
+                    Model.instance().setCurrentUser(user);
+                    Model.instance().updateUser(user);
                     Log.d("TAG", "student created");
                     BasicAlertDialog alert;
-                    Model.instance().setUser(user);
                     alert = new BasicAlertDialog("OK"," The user update with billing info  successfully", delegate);
                     alert.show(getFragmentManager(), "TAG");
                 }

@@ -3,9 +3,11 @@ package com.menachi.class3demo.Model;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.View;
 
 import com.firebase.client.AuthData;
+import com.menachi.class3demo.Model.SQL.ModelSQL;
 import com.menachi.class3demo.MyApplication;
 
 import java.io.File;
@@ -15,6 +17,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,8 +31,10 @@ public class Model {
 
     ModelCloudinary modelCloudinary;
     ModelFirebase modelFirebase;
+    ModelSQL modelSql;
     User user;
     List<Product> productData = new LinkedList<Product>();
+    List<LastPurchases> lastPurchasesList;
     private static Model instance = new Model();
 
     public interface LoginStatus{
@@ -49,6 +57,7 @@ public class Model {
     private Model(){
         modelCloudinary = new ModelCloudinary();
         modelFirebase = new ModelFirebase(MyApplication.getContext());
+        modelSql = new ModelSQL();
     }
     public void initiateProducts(final ModelFirebase.ProductsDelegate listener){
         modelFirebase.getProducts(new ModelFirebase.ProductsDelegate() {
@@ -56,6 +65,22 @@ public class Model {
             public void onProductList(List<Product> productsList) {
                 productData = productsList;
                 listener.onProductList(productsList);
+            }
+        });
+    }
+
+    public void initiatelastPurchasesList(String userID,ModelFirebase.LastPurchasesEvents lastPurchasesEvents){
+        modelFirebase.getLastPurchases(user.getUserId(), new ModelFirebase.LastPurchasesEvents() {
+            @Override
+            public void onResult(List<LastPurchases> lastPurchases) {
+                lastPurchasesList = lastPurchases;
+                Log.d("TAG", "The last purchases was get successfully");
+            }
+
+            @Override
+            public void onCancel(String error) {
+                Log.d("TAG", "error with get  last purchases");
+                Log.d("TAG", error);
             }
         });
     }
@@ -93,6 +118,8 @@ public class Model {
 
     public void addComment(Comment comment){
         Comment updateComment = modelFirebase.addComment(comment);
+        modelFirebase.setLastUpdateDate(FirebaseTabels.lastUpdateTable,Tools.getCurrentDate());
+
     }
 
     /**
@@ -110,6 +137,7 @@ public class Model {
 
     public void signup(User user,SignupStatus listener){
         modelFirebase.createUser(user, listener);
+        modelSql.addUser(user);
 
     }
 
@@ -121,13 +149,14 @@ public class Model {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setCurrentUser(User user) {
         this.user = user;
-        updateUser(user);
     }
 
-    private void updateUser(User user){
+    public void updateUser(User user){
         modelFirebase.updateUser(user.getUserId(), user);
+        modelFirebase.setLastUpdateDate(FirebaseTabels.UsersTable, user.getLastUpdate());
+        modelSql.updateUserByID(user);
     }
 
     /**
@@ -229,5 +258,61 @@ public class Model {
             e.printStackTrace();
         }
         return bitmap;
+    }
+
+
+    /**
+     * return all product the purchases by the user
+      * @return
+     */
+
+    public List<Product> getLastPurchasesProductsList() {
+        List<Product> products = new LinkedList<Product>();
+        for (LastPurchases lastPurchase:lastPurchasesList) {
+            products.add(lastPurchase.getProduct());
+        }
+        return products;
+    }
+
+
+    public void setLastPurchasesList(List<LastPurchases> lastPurchasesList) {
+        this.lastPurchasesList = lastPurchasesList;
+    }
+
+    public void addPurchaseToUser(LastPurchases lastPurchases){
+        lastPurchasesList.add(lastPurchases);
+        modelFirebase.addLastPurchases(lastPurchases);
+        modelFirebase.setLastUpdateDate(FirebaseTabels.lastUpdateTable,Tools.getCurrentDate());
+    }
+
+
+    public static class FirebaseTabels{
+        public static final String ProductTable = "Products";
+        public static final String CommentsTable = "Comments";
+        public static final String UsersTable = "Users";
+        public static final String lastUpdateTable = "lastUpdates";
+        public static final String LastPurchasesTable = "LastPurchases";
+    }
+    public static class Tools{
+        // Create an instance of SimpleDateFormat used for formatting
+        // the string representation of date (month/day/year)
+        private static final DateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
+        public static String getCurrentDate() {
+            // Get the date today using Calendar object.
+            Date today = Calendar.getInstance().getTime();
+            // Using DateFormat format method we can create a string
+            // representation of a date with the defined format.
+            return df.format(today);
+        }
+
+        public static boolean dateIsBigger(String date1, String date2){
+            if(date1==null&&date2==null) return true;
+            if(date1==null ) return false;
+            if(date2==null) return true;
+            long firstDate = new Long(date1);
+            Log.d("TAG", "after: " + firstDate);
+            long lastDate = new Long(date2);
+            return (firstDate>lastDate);
+        }
     }
 }

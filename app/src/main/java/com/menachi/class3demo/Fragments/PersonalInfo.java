@@ -146,7 +146,8 @@ public class PersonalInfo extends Fragment {
                                 if (e == null) {
                                     Log.d("TAG", "save image finished");
                                     BasicAlertDialog alert;
-                                    Model.instance().setUser(user);
+                                    Model.instance().setCurrentUser(user);
+                                    Model.instance().updateUser(user);
                                     alert = new BasicAlertDialog("OK", " The user updated successfully", delegate);
                                     alert.show(getFragmentManager(), "TAG");
                                     Log.d("TAG", "user created");
@@ -158,7 +159,7 @@ public class PersonalInfo extends Fragment {
                         });
                     }else{
                         BasicAlertDialog alert;
-                        Model.instance().setUser(user);
+                        Model.instance().setCurrentUser(user);
                         alert = new BasicAlertDialog("OK", " The user updated successfully", delegate);
                         alert.show(getFragmentManager(), "TAG");
                         Log.d("TAG", "user saved without image change");

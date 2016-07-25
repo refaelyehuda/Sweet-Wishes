@@ -13,13 +13,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.menachi.class3demo.Alerts.BasicAlertDialog;
 import com.menachi.class3demo.Model.Comment;
+import com.menachi.class3demo.Model.LastPurchases;
 import com.menachi.class3demo.Model.Model;
 import com.menachi.class3demo.Model.ModelFirebase;
 import com.menachi.class3demo.Model.Product;
@@ -44,6 +47,8 @@ public class ProductDetails extends Fragment{
     public interface Delegate{
         void onNewComment(Product product);
     }
+    public interface BuyProductDelegate extends NewProduct.Delegate{};
+    BuyProductDelegate buyProductDelegate;
     Delegate delegate;
     Product product;
     ListView list;
@@ -85,6 +90,21 @@ public class ProductDetails extends Fragment{
             TextView price = (TextView) view.findViewById(R.id.ProducrPriceDetails);
             TextView imageName = (TextView) view.findViewById(R.id.ProductImageNameDetails);
             TextView type = (TextView) view.findViewById(R.id.ProducrTypeDetails);
+            Button buyProduct = (Button) view.findViewById(R.id.userBuyProductBth);
+            final ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.product_details_progressBar);
+
+            buyProduct.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    progressBar.setVisibility(View.VISIBLE);
+                    LastPurchases lastPurchases = new LastPurchases(Model.instance().getUser().getUserId(),product);
+                    Model.instance().addPurchaseToUser(lastPurchases);
+                    progressBar.setVisibility(View.GONE);
+                    BasicAlertDialog addProductAlert = new BasicAlertDialog("OK", "" + product.getName().toString() + " Was Added Successfully For transfer type OK",buyProductDelegate);
+                    addProductAlert.show(getFragmentManager(), "Tag");
+
+                }
+            });
 
             id.setText(this.product.getProductId());
             name.setText(this.product.getName());

@@ -62,7 +62,7 @@ public class LoginActivity extends Activity {
                             if(status){
                                 Log.d("Tag", "The user is authenticated");
                                 progressBar.setVisibility(View.GONE);
-                                Model.instance().setUser(user);
+                                Model.instance().setCurrentUser(user);
                                 Toast.makeText(getApplicationContext(), "Login Successfully", Toast.LENGTH_LONG).show();
                                 Intent intent = new Intent(getApplicationContext(),ProductsActivity.class);
                                 startActivity(intent);

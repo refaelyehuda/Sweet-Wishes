@@ -10,8 +10,12 @@ import android.view.MenuItem;
 
 import com.menachi.class3demo.Fragments.BillingInfo;
 import com.menachi.class3demo.Fragments.PersonalInfo;
+import com.menachi.class3demo.Model.LastPurchases;
 import com.menachi.class3demo.Model.Model;
+import com.menachi.class3demo.Model.ModelFirebase;
 import com.menachi.class3demo.Model.User;
+
+import java.util.List;
 
 public class UserProfileActivity extends Activity implements PersonalInfo.Delegate,BillingInfo.Delegate {
     String currentFragment;
@@ -23,6 +27,19 @@ public class UserProfileActivity extends Activity implements PersonalInfo.Delega
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
         currentUser = Model.instance().getUser();
+        Model.instance().initiatelastPurchasesList(currentUser.getUserId(), new ModelFirebase.LastPurchasesEvents() {
+            @Override
+            public void onResult(List<LastPurchases> lastPurchases) {
+                Model.instance().setLastPurchasesList(lastPurchases);
+                Log.d("TAG", "The last purchases was get successfully");
+            }
+
+            @Override
+            public void onCancel(String error) {
+                Log.d("TAG", "error with get  last purchases");
+                Log.d("TAG", error);
+            }
+        });
         String fragmentToLoad = getIntent().getStringExtra("fragment");
         if(fragmentToLoad.equals("personal_info")){
             currentFragment = "personal_info";
@@ -44,6 +61,8 @@ public class UserProfileActivity extends Activity implements PersonalInfo.Delega
             transaction.addToBackStack("billing_info");
             transaction.show(billingInfoFragment);
             transaction.commit();
+        }else if(fragmentToLoad.equals("last_purch")){
+
         }
 
     }

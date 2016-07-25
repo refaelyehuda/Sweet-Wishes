@@ -48,13 +48,13 @@ public class SignupActivity extends Activity {
                                User user = new User("1234",email.getText().toString()
                                        ,fName.getText().toString(),lName.getText().toString()
                                        ,address.getText().toString(),password.getText().toString(),
-                       "145522",birthDate.getText().toString());
+                       "145522",birthDate.getText().toString(),false);
                 Model.instance().signup(user, new Model.SignupStatus() {
                     @Override
                     public void isSignup(boolean status, User user) {
                         if(status){
                             Log.d("Tag", "The user is created");
-                            Model.instance().setUser(user);
+                            Model.instance().setCurrentUser(user);
                             progressBar.setVisibility(View.GONE);
                             Toast.makeText(getApplicationContext(), "Signup Successfully", Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(getApplicationContext(),ProductsActivity.class);
