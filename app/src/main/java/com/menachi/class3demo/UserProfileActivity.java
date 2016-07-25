@@ -9,18 +9,21 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.menachi.class3demo.Fragments.BillingInfo;
+import com.menachi.class3demo.Fragments.LastPurchases;
 import com.menachi.class3demo.Fragments.PersonalInfo;
-import com.menachi.class3demo.Model.LastPurchases;
+import com.menachi.class3demo.Model.LastPurchase;
 import com.menachi.class3demo.Model.Model;
 import com.menachi.class3demo.Model.ModelFirebase;
+import com.menachi.class3demo.Model.Product;
 import com.menachi.class3demo.Model.User;
 
 import java.util.List;
 
-public class UserProfileActivity extends Activity implements PersonalInfo.Delegate,BillingInfo.Delegate {
+public class UserProfileActivity extends Activity implements PersonalInfo.Delegate,BillingInfo.Delegate,LastPurchases.Delegate {
     String currentFragment;
     PersonalInfo personalInfoFragment;
     BillingInfo billingInfoFragment;
+    LastPurchases lastPurchasesFragment;
     User currentUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +32,7 @@ public class UserProfileActivity extends Activity implements PersonalInfo.Delega
         currentUser = Model.instance().getUser();
         Model.instance().initiatelastPurchasesList(currentUser.getUserId(), new ModelFirebase.LastPurchasesEvents() {
             @Override
-            public void onResult(List<LastPurchases> lastPurchases) {
+            public void onResult(List<LastPurchase> lastPurchases) {
                 Model.instance().setLastPurchasesList(lastPurchases);
                 Log.d("TAG", "The last purchases was get successfully");
             }
@@ -61,8 +64,15 @@ public class UserProfileActivity extends Activity implements PersonalInfo.Delega
             transaction.addToBackStack("billing_info");
             transaction.show(billingInfoFragment);
             transaction.commit();
-        }else if(fragmentToLoad.equals("last_purch")){
-
+        }else if(fragmentToLoad.equals("last_purchase")){
+            currentFragment = "last_purchase";
+            lastPurchasesFragment = new LastPurchases();
+            lastPurchasesFragment.setDelegate(this);
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            transaction.add(R.id.user_profile_main_frag,lastPurchasesFragment, "y");
+            transaction.addToBackStack("last_purchase");
+            transaction.show(lastPurchasesFragment);
+            transaction.commit();
         }
 
     }
@@ -160,5 +170,15 @@ public class UserProfileActivity extends Activity implements PersonalInfo.Delega
         Intent back = new Intent(this, ProductsActivity.class);
         startActivity(back);
         this.finish();
+    }
+
+    @Override
+    public void onProductSelected(Product st) {
+
+    }
+
+    @Override
+    public void onNewProduct() {
+
     }
 }

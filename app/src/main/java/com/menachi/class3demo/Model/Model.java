@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.view.View;
 
 import com.firebase.client.AuthData;
 import com.menachi.class3demo.Model.SQL.ModelSQL;
@@ -34,7 +33,7 @@ public class Model {
     ModelSQL modelSql;
     User user;
     List<Product> productData = new LinkedList<Product>();
-    List<LastPurchases> lastPurchasesList;
+    List<LastPurchase> lastPurchasesList;
     private static Model instance = new Model();
 
     public interface LoginStatus{
@@ -72,7 +71,7 @@ public class Model {
     public void initiatelastPurchasesList(String userID,ModelFirebase.LastPurchasesEvents lastPurchasesEvents){
         modelFirebase.getLastPurchases(user.getUserId(), new ModelFirebase.LastPurchasesEvents() {
             @Override
-            public void onResult(List<LastPurchases> lastPurchases) {
+            public void onResult(List<LastPurchase> lastPurchases) {
                 lastPurchasesList = lastPurchases;
                 Log.d("TAG", "The last purchases was get successfully");
             }
@@ -268,18 +267,18 @@ public class Model {
 
     public List<Product> getLastPurchasesProductsList() {
         List<Product> products = new LinkedList<Product>();
-        for (LastPurchases lastPurchase:lastPurchasesList) {
+        for (LastPurchase lastPurchase:lastPurchasesList) {
             products.add(lastPurchase.getProduct());
         }
         return products;
     }
 
 
-    public void setLastPurchasesList(List<LastPurchases> lastPurchasesList) {
+    public void setLastPurchasesList(List<LastPurchase> lastPurchasesList) {
         this.lastPurchasesList = lastPurchasesList;
     }
 
-    public void addPurchaseToUser(LastPurchases lastPurchases){
+    public void addPurchaseToUser(LastPurchase lastPurchases){
         lastPurchasesList.add(lastPurchases);
         modelFirebase.addLastPurchases(lastPurchases);
         modelFirebase.setLastUpdateDate(FirebaseTabels.lastUpdateTable,Tools.getCurrentDate());
@@ -291,7 +290,7 @@ public class Model {
         public static final String CommentsTable = "Comments";
         public static final String UsersTable = "Users";
         public static final String lastUpdateTable = "lastUpdates";
-        public static final String LastPurchasesTable = "LastPurchases";
+        public static final String LastPurchasesTable = "LastPurchase";
     }
     public static class Tools{
         // Create an instance of SimpleDateFormat used for formatting

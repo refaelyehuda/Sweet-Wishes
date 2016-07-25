@@ -1,8 +1,5 @@
 package com.menachi.class3demo.Fragments;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -22,14 +18,12 @@ import android.widget.TextView;
 
 import com.menachi.class3demo.Alerts.BasicAlertDialog;
 import com.menachi.class3demo.Model.Comment;
-import com.menachi.class3demo.Model.LastPurchases;
+import com.menachi.class3demo.Model.LastPurchase;
 import com.menachi.class3demo.Model.Model;
 import com.menachi.class3demo.Model.ModelFirebase;
 import com.menachi.class3demo.Model.Product;
 import com.menachi.class3demo.R;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -97,8 +91,8 @@ public class ProductDetails extends Fragment{
                 @Override
                 public void onClick(View v) {
                     progressBar.setVisibility(View.VISIBLE);
-                    LastPurchases lastPurchases = new LastPurchases(Model.instance().getUser().getUserId(),product);
-                    Model.instance().addPurchaseToUser(lastPurchases);
+                    LastPurchase lastPurchase = new LastPurchase(Model.instance().getUser().getUserId(),product);
+                    Model.instance().addPurchaseToUser(lastPurchase);
                     progressBar.setVisibility(View.GONE);
                     BasicAlertDialog addProductAlert = new BasicAlertDialog("OK", "" + product.getName().toString() + " Was Added Successfully For transfer type OK",buyProductDelegate);
                     addProductAlert.show(getFragmentManager(), "Tag");

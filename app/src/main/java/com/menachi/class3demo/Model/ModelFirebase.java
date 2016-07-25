@@ -1,9 +1,7 @@
 package com.menachi.class3demo.Model;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.util.Log;
-import android.view.View;
 
 import com.firebase.client.AuthData;
 import com.firebase.client.DataSnapshot;
@@ -12,7 +10,6 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -208,11 +205,11 @@ public class ModelFirebase {
 
 
     /**
-     * LastPurchases function
+     * LastPurchase function
      */
 
     public interface LastPurchasesEvents{
-        void onResult(List<LastPurchases> lastPurchases);
+        void onResult(List<LastPurchase> lastPurchases);
         void onCancel(String error);
     }
 
@@ -221,10 +218,10 @@ public class ModelFirebase {
         qr.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                List<LastPurchases> lastPurchases = new LinkedList<LastPurchases>();
+                List<LastPurchase> lastPurchases = new LinkedList<LastPurchase>();
                 Log.d("TAG","There are " + snapshot.getChildrenCount() + " obj");
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                    LastPurchases lastPurchas = postSnapshot.getValue(LastPurchases.class);
+                    LastPurchase lastPurchas = postSnapshot.getValue(LastPurchase.class);
                     lastPurchases.add(lastPurchas);
                 }
                 lastPurchasesEvents.onResult(lastPurchases);
@@ -238,8 +235,8 @@ public class ModelFirebase {
         });
     }
 
-    public void addLastPurchases(LastPurchases lastPurchases){
-        Firebase userRef = myFirebaseRef.child("LastPurchases");
+    public void addLastPurchases(LastPurchase lastPurchases){
+        Firebase userRef = myFirebaseRef.child("LastPurchase");
         userRef.setValue(lastPurchases);
     }
 

@@ -16,7 +16,6 @@ import com.menachi.class3demo.Fragments.NewComment;
 import com.menachi.class3demo.Fragments.NewProduct;
 import com.menachi.class3demo.Fragments.ProductDetails;
 import com.menachi.class3demo.Model.Comment;
-import com.menachi.class3demo.Model.LastPurchases;
 import com.menachi.class3demo.Model.Model;
 import com.menachi.class3demo.Model.ModelFirebase;
 import com.menachi.class3demo.Model.Product;
