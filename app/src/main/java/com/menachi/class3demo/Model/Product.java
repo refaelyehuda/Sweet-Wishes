@@ -35,7 +35,18 @@ public class Product {
         this.type = type;
         this.imageName = imageName;
         this.createDate = Model.Tools.getCurrentDate();
-        this.lastUpdate = Model.Tools.getCurrentDate();;
+        this.lastUpdate = Model.Tools.getCurrentDate();
+        this.productId = Ids.toString();
+    }
+
+    public Product(String productId,String name, String price,String type, String imageName,String createDate,String lastUpdate){
+        this.productId = productId;
+        this.name = name;
+        this.price = price;
+        this.type = type;
+        this.imageName = imageName;
+        this.createDate = createDate;
+        this.lastUpdate = lastUpdate;
         this.productId = Ids.toString();
     }
 

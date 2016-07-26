@@ -20,6 +20,17 @@ public class Comment {
     }
 
 
+    public Comment(String commentId, String productId, String userId, String name, String imageName, String text, String lastUpdate, String grade) {
+        this.commentId = commentId;
+        this.productId = productId;
+        this.userId = userId;
+        this.name = name;
+        this.imageName = imageName;
+        this.text = text;
+        this.lastUpdate = lastUpdate;
+        this.grade = grade;
+    }
+
     public Comment(String productId, String userId,String name,String imageName,String text, String grade){
         Ids++;
         this.productId = productId;
@@ -28,15 +39,7 @@ public class Comment {
         this.imageName = imageName;
         this.text = text;
         this.grade = grade;
-        // Create an instance of SimpleDateFormat used for formatting
-        // the string representation of date (month/day/year)
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-        // Get the date today using Calendar object.
-        Date today = Calendar.getInstance().getTime();
-        // Using DateFormat format method we can create a string
-        // representation of a date with the defined format.
-        String currenDate = df.format(today);
-        this.lastUpdate = currenDate;
+        this.lastUpdate = Model.Tools.getCurrentDate();
         this.commentId = Ids.toString();
     }
 

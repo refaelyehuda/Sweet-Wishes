@@ -133,6 +133,13 @@ public class ProductDetails extends Fragment{
         return super.onOptionsItemSelected(item);
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {

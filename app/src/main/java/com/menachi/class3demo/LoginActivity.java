@@ -36,6 +36,11 @@ public class LoginActivity extends Activity {
         progressBar = (ProgressBar) findViewById(R.id.progressBar2);
         progressBar.setVisibility(View.GONE);
         Button login = (Button) findViewById(R.id.loginBtn);
+        if(Model.instance().getUser() != null){
+            Toast.makeText(getApplicationContext(), "Login Successfully", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(getApplicationContext(),ProductsActivity.class);
+            startActivity(intent);
+        }
 
 //        if(!isExpired(Model.instance().getFirebaseAuth())){
 //

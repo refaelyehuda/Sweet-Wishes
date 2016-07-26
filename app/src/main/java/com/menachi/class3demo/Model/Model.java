@@ -31,7 +31,7 @@ public class Model {
     ModelCloudinary modelCloudinary;
     ModelFirebase modelFirebase;
     ModelSQL modelSql;
-    User user;
+    User user = null;
     List<Product> productData = new LinkedList<Product>();
     List<LastPurchase> lastPurchasesList;
     private static Model instance = new Model();
@@ -59,27 +59,115 @@ public class Model {
         modelSql = new ModelSQL();
     }
     public void initiateProducts(final ModelFirebase.ProductsDelegate listener){
-        modelFirebase.getProducts(new ModelFirebase.ProductsDelegate() {
+        final String sqlProductLastUpdateDate = modelSql.getLastUpdate(Tabels.ProductTable);
+        modelFirebase.getLastUpdateDate(Tabels.ProductTable, new ModelFirebase.LastUpdateEvents() {
             @Override
-            public void onProductList(List<Product> productsList) {
-                productData = productsList;
-                listener.onProductList(productsList);
-            }
-        });
-    }
-
-    public void initiatelastPurchasesList(String userID,ModelFirebase.LastPurchasesEvents lastPurchasesEvents){
-        modelFirebase.getLastPurchases(user.getUserId(), new ModelFirebase.LastPurchasesEvents() {
-            @Override
-            public void onResult(List<LastPurchase> lastPurchases) {
-                lastPurchasesList = lastPurchases;
-                Log.d("TAG", "The last purchases was get successfully");
+            public void onResult(final String date) {
+                if (!Tools.dateIsBigger(date, sqlProductLastUpdateDate)) {
+                    Log.d("TAG", "get all products from SQL");
+                    productData = modelSql.getAllProducts();
+                    listener.onProductList(productData);
+                } else {
+                    Log.d("TAG", "get all products from fireBase");
+                    modelFirebase.getProducts(new ModelFirebase.ProductsDelegate() {
+                        @Override
+                        public void onProductList(List<Product> productsList) {
+                            productData = productsList;
+                            for (Product product : productsList) {
+                                if (Tools.dateIsBigger(product.getLastUpdate(), sqlProductLastUpdateDate)) {
+                                    modelSql.addProduct(product);
+                                }
+                            }
+                            modelSql.setLastUpdate(Tabels.ProductTable, date);
+                            listener.onProductList(productsList);
+                        }
+                    });
+                }
             }
 
             @Override
             public void onCancel(String error) {
-                Log.d("TAG", "error with get  last purchases");
-                Log.d("TAG", error);
+                Log.d("Error", "could not read products from firebase." + error);
+
+                modelFirebase.getProducts(new ModelFirebase.ProductsDelegate() {
+                    @Override
+                    public void onProductList(List<Product> productsList) {
+                        productData = productsList;
+                        for (Product product : productsList) {
+                            if (Tools.dateIsBigger(product.getLastUpdate(), sqlProductLastUpdateDate)) {
+                                modelSql.addProduct(product);
+                                modelSql.setLastUpdate(Tabels.ProductTable, product.getLastUpdate());
+                            }
+                        }
+                        listener.onProductList(productsList);
+                    }
+                });
+            }
+        });
+    }
+
+    public void initiateLastPurchasesList(String userID, final ModelFirebase.LastPurchasesEvents lastPurchasesEvents){
+
+        final String sqlLastPurchasesLastUpdateDate = modelSql.getLastUpdate(Tabels.LastPurchasesTable);
+        modelFirebase.getLastUpdateDate(Tabels.LastPurchasesTable, new ModelFirebase.LastUpdateEvents() {
+            @Override
+            public void onResult(final String date) {
+                if (!Tools.dateIsBigger(date, sqlLastPurchasesLastUpdateDate)) {
+                    Log.d("TAG", "get Last Purchases from SQL");
+                    lastPurchasesEvents.onResult(modelSql.getLastPurchasesByUserId());
+
+                } else {
+                    Log.d("TAG", "get Last Purchases  from firebase");
+                    modelFirebase.getLastPurchases(user.getUserId(), new ModelFirebase.LastPurchasesEvents() {
+                        @Override
+                        public void onResult(List<LastPurchase> lastPurchases) {
+                            lastPurchasesList = lastPurchases;
+                            Log.d("TAG", "The last purchases was get successfully");
+                            for (LastPurchase lastPurchase : lastPurchases) {
+                                if (Tools.dateIsBigger(lastPurchase.getLastUpdate(), sqlLastPurchasesLastUpdateDate)) {
+                                    modelSql.addLastPurchase(lastPurchase);
+                                }
+                            }
+                            modelSql.setLastUpdate(Tabels.LastPurchasesTable, date);
+                            lastPurchasesEvents.onResult(lastPurchases);
+                        }
+
+                        @Override
+                        public void onCancel(String error) {
+                            Log.d("TAG", "error with get  last purchases");
+                            Log.d("TAG", error);
+                            lastPurchasesEvents.onCancel(error.toString());
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancel(String error) {
+                Log.d("Error", "could not read last update date from firebase." + error);
+                modelFirebase.getLastPurchases(user.getUserId(), new ModelFirebase.LastPurchasesEvents() {
+                    @Override
+                    public void onResult(List<LastPurchase> lastPurchases) {
+                        lastPurchasesList = lastPurchases;
+                        Log.d("TAG", "The last purchases was get successfully from firebase");
+                        lastPurchasesEvents.onResult(lastPurchases);
+
+                        for (LastPurchase lastPurchase: lastPurchasesList) {
+                            if (Tools.dateIsBigger(lastPurchase.getLastUpdate(), sqlLastPurchasesLastUpdateDate)) {
+                                modelSql.addLastPurchase(lastPurchase);
+                                modelSql.setLastUpdate(Tabels.LastPurchasesTable, lastPurchase.getLastUpdate());
+                            }
+                        }
+                        lastPurchasesEvents.onResult(lastPurchases);
+                    }
+
+                    @Override
+                    public void onCancel(String error) {
+                        Log.d("TAG", "error with get  last purchases from firebase");
+                        Log.d("TAG", error);
+                        lastPurchasesEvents.onCancel(error.toString());
+                    }
+                });
             }
         });
     }
@@ -87,37 +175,71 @@ public class Model {
     public List<Product> getProductData() {
         return productData;
     }
-
-
     public void getCommentsByProductId(final String productId,final ModelFirebase.CommentDelegate listener){
-        modelFirebase.getComments(new ModelFirebase.CommentDelegate() {
+        final String sqlCommentsLastUpdateDate = modelSql.getLastUpdate(Tabels.CommentsTable);
+
+        modelFirebase.getLastUpdateDate(Tabels.CommentsTable, new ModelFirebase.LastUpdateEvents() {
             @Override
-            public void onCommentList(List<Comment> commentsList) {
-                List<Comment> commentData  = new LinkedList<Comment>();
-                for (Comment comment : commentsList) {
-                    if(comment.getProductId().equals(productId) ){
-                        commentData.add(comment);
-                    }
+            public void onResult(final String date) {
+                //if date in firebase is not bigger then sqlCommentsLastUpdateDate
+                if (!Tools.dateIsBigger(date, sqlCommentsLastUpdateDate)) {
+                    Log.d("TAG", "get Comments from SQL");
+                    listener.onCommentList(modelSql.getCommentsByProductId(productId));
+
+                } else {
+                    Log.d("TAG", "get Comments  from firebase");
+
+                    modelFirebase.getCommentsByProductId(productId, new ModelFirebase.CommentDelegate() {
+                        @Override
+                        public void onCommentList(List<Comment> commentsList) {
+                            List<Comment> commentData = new LinkedList<Comment>();
+                            for (Comment comment : commentsList) {
+                                if (Tools.dateIsBigger(comment.getLastUpdate(), sqlCommentsLastUpdateDate)) {
+                                    modelSql.addComment(comment);
+                                }
+                            }
+                            modelSql.setLastUpdate(Tabels.CommentsTable, date);
+                            listener.onCommentList(commentData);
+                        }
+                    });
                 }
-                listener.onCommentList(commentData);
+            }
+
+            @Override
+            public void onCancel(String error) {
+                Log.d("Error", "could not read last update date from firebase." + error);
+
+
+                modelFirebase.getCommentsByProductId(productId, new ModelFirebase.CommentDelegate() {
+                    @Override
+                    public void onCommentList(List<Comment> commentsList) {
+                        Log.d("TAG", "The comments was get successfully from firebase");
+                        List<Comment> commentData = new LinkedList<Comment>();
+                        for (Comment comment : commentsList) {
+                            if (Tools.dateIsBigger(comment.getLastUpdate(), sqlCommentsLastUpdateDate)) {
+                                modelSql.addComment(comment);
+                                modelSql.setLastUpdate(Tabels.CommentsTable, comment.getLastUpdate());
+                            }
+                        }
+                        listener.onCommentList(commentData);
+                    }
+                });
             }
         });
 
     }
-
-
-
     public void setProductData(List<Product> productData) {
         this.productData = productData;
     }
     public void addProduct(Product product){
         Product updateProduct =  modelFirebase.addProduct(product);
         productData.add(updateProduct);
+        modelFirebase.setLastUpdateDate(Tabels.ProductTable,Tools.getCurrentDate());
     }
 
     public void addComment(Comment comment){
         Comment updateComment = modelFirebase.addComment(comment);
-        modelFirebase.setLastUpdateDate(FirebaseTabels.lastUpdateTable,Tools.getCurrentDate());
+        modelFirebase.setLastUpdateDate(Tabels.CommentsTable,Tools.getCurrentDate());
 
     }
 
@@ -135,6 +257,7 @@ public class Model {
     }
 
     public void signup(User user,SignupStatus listener){
+        this.user = user;
         modelFirebase.createUser(user, listener);
         modelSql.addUser(user);
 
@@ -154,7 +277,7 @@ public class Model {
 
     public void updateUser(User user){
         modelFirebase.updateUser(user.getUserId(), user);
-        modelFirebase.setLastUpdateDate(FirebaseTabels.UsersTable, user.getLastUpdate());
+        modelFirebase.setLastUpdateDate(Tabels.UsersTable, user.getLastUpdate());
         modelSql.updateUserByID(user);
     }
 
@@ -279,17 +402,17 @@ public class Model {
     }
 
     public void addPurchaseToUser(LastPurchase lastPurchases){
-        lastPurchasesList.add(lastPurchases);
-        modelFirebase.addLastPurchases(lastPurchases);
-        modelFirebase.setLastUpdateDate(FirebaseTabels.lastUpdateTable,Tools.getCurrentDate());
+        LastPurchase updaetLastPurchase = modelFirebase.addLastPurchases(lastPurchases);
+        lastPurchasesList.add(updaetLastPurchase);
+        modelFirebase.setLastUpdateDate(Tabels.LastPurchasesTable,Tools.getCurrentDate());
     }
 
 
-    public static class FirebaseTabels{
+    public static class Tabels {
         public static final String ProductTable = "Products";
         public static final String CommentsTable = "Comments";
         public static final String UsersTable = "Users";
-        public static final String lastUpdateTable = "lastUpdates";
+        public static final String lastUpdateTable = "LastUpdates";
         public static final String LastPurchasesTable = "LastPurchase";
     }
     public static class Tools{
@@ -303,7 +426,7 @@ public class Model {
             // representation of a date with the defined format.
             return df.format(today);
         }
-
+        //check if date1 >  date2
         public static boolean dateIsBigger(String date1, String date2){
             if(date1==null&&date2==null) return true;
             if(date1==null ) return false;

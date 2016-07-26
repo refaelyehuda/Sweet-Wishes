@@ -133,12 +133,12 @@ public class ModelFirebase {
 
 
     public void updateUser(String userId,User user){
-        Firebase userRef = myFirebaseRef.child(Model.FirebaseTabels.UsersTable).child(userId);
+        Firebase userRef = myFirebaseRef.child(Model.Tabels.UsersTable).child(userId);
         userRef.setValue(user);
     }
 
     public Product addProduct(Product product){
-        Firebase productsRef = myFirebaseRef.child(Model.FirebaseTabels.ProductTable);
+        Firebase productsRef = myFirebaseRef.child(Model.Tabels.ProductTable);
         Firebase newProductRef = productsRef.push();
         newProductRef.setValue(product);
         String productID = newProductRef.getKey();
@@ -147,7 +147,7 @@ public class ModelFirebase {
     }
 
     public void getProducts(final ProductsDelegate listener){
-        Firebase productsRef = myFirebaseRef.child(Model.FirebaseTabels.ProductTable);
+        Firebase productsRef = myFirebaseRef.child(Model.Tabels.ProductTable);
         final List<Product> data = new LinkedList<Product>();
 
 
@@ -172,7 +172,7 @@ public class ModelFirebase {
     }
 
     public Comment addComment(Comment comment){
-        Firebase commentsRef = myFirebaseRef.child(Model.FirebaseTabels.CommentsTable);
+        Firebase commentsRef = myFirebaseRef.child(Model.Tabels.CommentsTable);
         Firebase newCommentsRef = commentsRef.push();
         newCommentsRef.setValue(comment);
         String commentID = newCommentsRef.getKey();
@@ -180,10 +180,10 @@ public class ModelFirebase {
         return comment;
     }
 
-    public void getComments(final CommentDelegate listener){
-        Firebase commentsRef = myFirebaseRef.child(Model.FirebaseTabels.CommentsTable);
+    public void getCommentsByProductId(String productId,final CommentDelegate listener){
         final List<Comment> data = new LinkedList<Comment>();
-        commentsRef.addValueEventListener(new ValueEventListener() {
+        Query qr  = myFirebaseRef.child(Model.Tabels.CommentsTable).orderByChild("productId").equalTo(productId);
+        qr.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 Log.e("Count of products ", "" + snapshot.getChildrenCount());
@@ -214,7 +214,7 @@ public class ModelFirebase {
     }
 
     public void getLastPurchases(String usersID , final LastPurchasesEvents lastPurchasesEvents ){
-        Query qr  = myFirebaseRef.child(Model.FirebaseTabels.LastPurchasesTable).orderByChild("userID").equalTo(usersID);
+        Query qr  = myFirebaseRef.child(Model.Tabels.LastPurchasesTable).orderByChild("userID").equalTo(usersID);
         qr.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -229,15 +229,19 @@ public class ModelFirebase {
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
-                System.out.println("The read failed: " + firebaseError.getMessage());
+                Log.d("ERROR","The read comment was  failed: "+ firebaseError.getMessage());
                 lastPurchasesEvents.onCancel(firebaseError.toString());
             }
         });
     }
 
-    public void addLastPurchases(LastPurchase lastPurchases){
-        Firebase userRef = myFirebaseRef.child("LastPurchase");
-        userRef.setValue(lastPurchases);
+    public LastPurchase addLastPurchases(LastPurchase lastPurchases){
+        Firebase lastPurchaseRef = myFirebaseRef.child(Model.Tabels.LastPurchasesTable);
+        Firebase newlastPurchaseRef = lastPurchaseRef.push();
+        newlastPurchaseRef.setValue(lastPurchases);
+        String lastPurchaseID = newlastPurchaseRef.getKey();
+        lastPurchases.setLastPurchaseID(lastPurchaseID);
+        return lastPurchases;
     }
 
 
@@ -247,7 +251,7 @@ public class ModelFirebase {
     }
 
     public void getLastUpdateDate(String tableName, final LastUpdateEvents lastUpdateEvents){
-        Firebase lastUpdateRef = myFirebaseRef.child(Model.FirebaseTabels.lastUpdateTable).child(tableName);
+        Firebase lastUpdateRef = myFirebaseRef.child(Model.Tabels.lastUpdateTable).child(tableName);
         lastUpdateRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -267,7 +271,7 @@ public class ModelFirebase {
 
     public void setLastUpdateDate(String tableName,String updatedDate)
     {
-        myFirebaseRef.child(Model.FirebaseTabels.lastUpdateTable).child(tableName).setValue(updatedDate);
+        myFirebaseRef.child(Model.Tabels.lastUpdateTable).child(tableName).setValue(updatedDate);
 
     }
 

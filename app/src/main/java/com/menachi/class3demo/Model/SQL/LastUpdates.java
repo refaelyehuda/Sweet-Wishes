@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
  * Created by refael yehuda on 7/24/2016.
  */
 public class LastUpdates {
-    final static String LAST_UPDATE_TABLE = "last_update";
+    final static String LAST_UPDATE_TABLE = "LastUpdates";
     final static String LAST_UPDATE_TABLE_NAME = "table_name";
     final static String LAST_UPDATE_TABLE_DATE = "last_update_date";
 

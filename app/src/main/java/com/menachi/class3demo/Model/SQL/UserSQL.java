@@ -19,7 +19,7 @@ import java.util.Map;
  */
 public class UserSQL {
 
-    private static final String USERS_TABLE = "users";
+    private static final String USERS_TABLE = "Users";
     private static final String USERS_ID = "userId";
     private static final String USERS_EMAIL = "email";
     private static final String USERS_FNAME = "fName";
