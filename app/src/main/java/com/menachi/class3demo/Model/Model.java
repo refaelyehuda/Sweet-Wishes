@@ -33,7 +33,7 @@ public class Model {
     ModelSQL modelSql;
     User user = null;
     List<Product> productData = new LinkedList<Product>();
-    List<LastPurchase> lastPurchasesList;
+    List<LastPurchase> lastPurchasesList = new LinkedList<LastPurchase>();
     private static Model instance = new Model();
 
     public interface LoginStatus{

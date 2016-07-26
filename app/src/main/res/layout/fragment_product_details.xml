@@ -15,35 +15,23 @@
         android:indeterminate="true"
         android:visibility="gone" />
 
-    <!--<LinearLayout-->
-        <!--android:orientation="horizontal"-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="wrap_content">-->
-        <!--<ImageView-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:id="@+id/imageDetails"-->
-            <!--android:src="@drawable/image" />-->
-
-        <!--</LinearLayout>-->
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/rowImageFrame">
-
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
         <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="300px"
+            android:layout_height="300px"
+            android:layout_marginRight="20px"
             android:id="@+id/imageDetails"
-            android:src="@drawable/image"/>
-
-
+            android:src="@drawable/image" />
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/product_details_image_progressBar"
             android:visibility="gone"/>
-    </FrameLayout>
+
+        </LinearLayout>
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
