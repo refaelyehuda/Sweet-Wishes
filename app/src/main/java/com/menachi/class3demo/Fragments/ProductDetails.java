@@ -84,6 +84,16 @@ public class ProductDetails extends Fragment{
             TextView price = (TextView) view.findViewById(R.id.ProducrPriceDetails);
             TextView imageName = (TextView) view.findViewById(R.id.ProductImageNameDetails);
             TextView type = (TextView) view.findViewById(R.id.ProducrTypeDetails);
+            final ImageView productImage = (ImageView) view.findViewById(R.id.imageDetails);
+            final ProgressBar imageProgressBar = (ProgressBar) view.findViewById(R.id.product_details_image_progressBar);
+            imageProgressBar.setVisibility(View.VISIBLE);
+            Model.instance().getImage(this.product.getImageName(), new Model.GetImageListener() {
+                @Override
+                public void OnDone(Bitmap image, String imageName) {
+                    imageProgressBar.setVisibility(View.GONE);
+                    productImage.setImageBitmap(image);
+                }
+            });
             Button buyProduct = (Button) view.findViewById(R.id.userBuyProductBth);
             final ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.product_details_progressBar);
 
