@@ -36,15 +36,32 @@ public class LoginActivity extends Activity {
         progressBar = (ProgressBar) findViewById(R.id.progressBar2);
         progressBar.setVisibility(View.GONE);
         Button login = (Button) findViewById(R.id.loginBtn);
-        if(Model.instance().getUser() != null){
-            Toast.makeText(getApplicationContext(), "Login Successfully", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(getApplicationContext(),ProductsActivity.class);
-            startActivity(intent);
-        }
-
-//        if(!isExpired(Model.instance().getFirebaseAuth())){
-//
+//        if(Model.instance().getUser() != null){
+//            Toast.makeText(getApplicationContext(), "Login Successfully", Toast.LENGTH_LONG).show();
+//            Intent intent = new Intent(getApplicationContext(),ProductsActivity.class);
+//            startActivity(intent);
 //        }
+
+        String testusername = "refael@gmail.com";
+        String testpassword = "123456";
+        Model.instance().loginUser(testusername.toString(), testpassword.toString(), new Model.LoginStatus() {
+            @Override
+            public void isLoggedIn(boolean status, User user) {
+                if(status){
+                    Log.d("Tag", "The user is authenticated");
+                    progressBar.setVisibility(View.GONE);
+                    Model.instance().setCurrentUser(user);
+                    Toast.makeText(getApplicationContext(), "Login Successfully", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(getApplicationContext(),ProductsActivity.class);
+                    startActivity(intent);
+                }else{
+                    Log.d("TAG","Error with auth");
+                    progressBar.setVisibility(View.GONE);
+                    Toast.makeText(getApplicationContext(), "Login Error", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override

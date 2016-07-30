@@ -25,17 +25,30 @@ import java.util.List;
 
 public class ProductsActivity extends Activity implements ListProducts.Delegate,NewProduct.Delegate,ProductDetails.Delegate,NewComment.Delegate {
 
-    String currentFragment = "listProducts";
+    String currentFragment;
     ListProducts listProductsFragment;
     NewProduct newProductFragment;
     ProductDetails productDetailsFragment;
     NewComment newCommentFragment;
     ProgressBar progressBar;
+
+    /**
+     * Define all fragment that exist in this activity
+     */
+    public static class Fragments{
+        public static final String LIST_PRODUCT = "list_product";
+        public static final String ADD_PRODUCT = "add_product";
+        public static final String PRODUCT_DETAILS = "product_detais";
+        public static final String NEW_COMMENT = "new_comment";
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_products);
+        currentFragment = Fragments.LIST_PRODUCT;
         progressBar = (ProgressBar) findViewById(R.id.progressBar_products_list);
+        progressBar.setVisibility(View.VISIBLE);
         //The first fragment that need to be displayed is listStudentFragment
         listProductsFragment = new ListProducts();
         listProductsFragment.setDelegate(this);
@@ -49,8 +62,9 @@ public class ProductsActivity extends Activity implements ListProducts.Delegate,
                 progressBar.setVisibility(View.GONE);
                 //User currentUser = (User) getIntent().getSerializableExtra("User");
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.addToBackStack(Fragments.LIST_PRODUCT);
                 transaction.add(R.id.main_frag_container, listProductsFragment, "y");
-                transaction.addToBackStack("listProducts");
+                transaction.addToBackStack(Fragments.LIST_PRODUCT);
                 transaction.show(listProductsFragment);
                 transaction.commit();
             }
@@ -63,9 +77,9 @@ public class ProductsActivity extends Activity implements ListProducts.Delegate,
         getMenuInflater().inflate(R.menu.menu_main, menu);
         MenuItem item = menu.findItem(R.id.addProductBtn);
         //check which object need to display in menu
-        if (currentFragment.equals("details")) {
+        if (currentFragment.equals(Fragments.PRODUCT_DETAILS)) {
             item.setTitle("Add Comment");
-        }else if(currentFragment.equals("listProducts")){
+        }else if(currentFragment.equals(Fragments.LIST_PRODUCT)){
             setTitle("Products");
             item.setIcon(android.R.drawable.ic_input_add);
         }else{
@@ -77,21 +91,16 @@ public class ProductsActivity extends Activity implements ListProducts.Delegate,
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        int count = getFragmentManager().getBackStackEntryCount();
-        if (count > 0) {
-            String name = getFragmentManager().getBackStackEntryAt(count - 1).getName();
-            if (name.equals("details")) {
-                currentFragment = "details";
-            }else if(name.equals("New Comment")){
-                currentFragment = "New Comment";
-            }
-            else {
-                currentFragment = "listProducts";
-            }
-            invalidateOptionsMenu();
-        }
-        else{
+        if (currentFragment.equals(Fragments.LIST_PRODUCT)) {
             finish();
+
+        } else if (currentFragment.equals(Fragments.ADD_PRODUCT)) {
+            currentFragment = Fragments.LIST_PRODUCT;
+        } else if (currentFragment.equals(Fragments.NEW_COMMENT)) {
+            currentFragment = Fragments.PRODUCT_DETAILS;
+
+        } else if (currentFragment.equals(Fragments.PRODUCT_DETAILS)) {
+            currentFragment = Fragments.LIST_PRODUCT;
         }
     }
 
@@ -139,17 +148,19 @@ public class ProductsActivity extends Activity implements ListProducts.Delegate,
 
     @Override
     public void onProductSelected(Product product) {
-        if (currentFragment.equals("listProducts")) {
+        if (currentFragment.equals(Fragments.LIST_PRODUCT)) {
             setTitle("Product Details");
             Log.d("TAG", "Student selected " + product.getProductId());
             productDetailsFragment = new ProductDetails();
             productDetailsFragment.setProduct(product);
             productDetailsFragment.setDelegate(this);
-            currentFragment = "details";
+            currentFragment = Fragments.PRODUCT_DETAILS;
             FragmentManager fm = getFragmentManager();
+//            fm.popBackStack (Fragments.LIST_PRODUCT, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             FragmentTransaction ft = fm.beginTransaction();
-            ft.replace(R.id.main_frag_container, productDetailsFragment);
-            ft.addToBackStack("listProducts");
+            ft.addToBackStack(Fragments.PRODUCT_DETAILS);
+            ft.add(R.id.main_frag_container, productDetailsFragment);
+            ft.hide(listProductsFragment);
             ft.show(productDetailsFragment);
             ft.commit();
         }
@@ -157,30 +168,55 @@ public class ProductsActivity extends Activity implements ListProducts.Delegate,
 
     @Override
     public void onNewProduct() {
-        if (currentFragment.equals("listProducts")) {
+        if (currentFragment.equals(Fragments.LIST_PRODUCT)) {
             setTitle("New Product");
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             newProductFragment = new NewProduct();
             newProductFragment.setDelegate(this);
+            ft.addToBackStack(Fragments.ADD_PRODUCT);
             ft.add(R.id.main_frag_container, newProductFragment);
             ft.hide(listProductsFragment);
-            ft.addToBackStack("listProducts");
             ft.show(newProductFragment);
             ft.commit();
-            currentFragment = "add";
+            currentFragment = Fragments.ADD_PRODUCT;
             invalidateOptionsMenu();
         }
     }
 
     @Override
     public void cancel() {
-        int count = getFragmentManager().getBackStackEntryCount();
-        if(getFragmentManager().getBackStackEntryAt(count - 1).getName().equals("details"))
-            currentFragment = "details";
-        else
-            currentFragment = "listProducts";
-        invalidateOptionsMenu();
-        getFragmentManager().popBackStack();
+//        if(currentFragment.equals(Fragments.NEW_COMMENT)){
+//            currentFragment = Fragments.PRODUCT_DETAILS;
+//            FragmentManager fm = getFragmentManager();
+//            fm.popBackStack(Fragments.NEW_COMMENT, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+//            productDetailsFragment = new ProductDetails();
+//            productDetailsFragment.setDelegate(this);
+//            //User currentUser = (User) getIntent().getSerializableExtra("User");
+//            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+//            transaction.addToBackStack(Fragments.PRODUCT_DETAILS);
+//            transaction.add(R.id.main_frag_container, productDetailsFragment, "y");
+//            transaction.addToBackStack(Fragments.PRODUCT_DETAILS);
+//            transaction.show(productDetailsFragment);
+//            transaction.commit();
+//        }
+//        else if (currentFragment.equals(Fragments.ADD_PRODUCT)){
+//            currentFragment = Fragments.LIST_PRODUCT;
+//            FragmentManager fm = getFragmentManager();
+//            fm.popBackStack (Fragments.ADD_PRODUCT, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+//            progressBar.setVisibility(View.VISIBLE);
+//            listProductsFragment = new ListProducts();
+//            listProductsFragment.setDelegate(this);
+//            progressBar.setVisibility(View.GONE);
+//            //User currentUser = (User) getIntent().getSerializableExtra("User");
+//            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+//            transaction.addToBackStack(Fragments.LIST_PRODUCT);
+//            transaction.add(R.id.main_frag_container, listProductsFragment, "y");
+//            transaction.addToBackStack(Fragments.LIST_PRODUCT);
+//            transaction.show(listProductsFragment);
+//            transaction.commit();
+//        }
+//        invalidateOptionsMenu();
+        onBackPressed();
     }
 
     @Override
@@ -194,46 +230,45 @@ public class ProductsActivity extends Activity implements ListProducts.Delegate,
 
     @Override
     public void onNewComment(Product product) {
-        if (currentFragment.equals("details")) {
+        if (currentFragment.equals(Fragments.PRODUCT_DETAILS)) {
             Log.d("TAG", "Add a new comment to : " + product.getProductId());
             FragmentManager fm = getFragmentManager();
+//            fm.popBackStack (Fragments.PRODUCT_DETAILS, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             FragmentTransaction ft = fm.beginTransaction();
             newCommentFragment = new NewComment();
             newCommentFragment.setProduct(product);
             newCommentFragment.setDelegate(this);
-            ft.replace(R.id.main_frag_container, newCommentFragment);
-            ft.addToBackStack("details");
+            ft.add(R.id.main_frag_container, newCommentFragment);
+            ft.addToBackStack(Fragments.NEW_COMMENT);
+            ft.hide(productDetailsFragment);
             ft.show(newCommentFragment);
             ft.commit();
-            currentFragment = "New Comment";
+            currentFragment = Fragments.NEW_COMMENT;
             invalidateOptionsMenu();
         }
     }
 
     @Override
     public void onReturnToDetails(Product product) {
-        invalidateOptionsMenu();
-        getFragmentManager().popBackStack();
-        if (currentFragment.equals("New Comment")) {
-            Log.d("TAG", "Returning to product details");
-            productDetailsFragment = new ProductDetails();
-            productDetailsFragment.setProduct(product);
-            productDetailsFragment.setDelegate(this);
-        Model.instance().getCommentsByProductId(product.getProductId(),new ModelFirebase.CommentDelegate() {
-            @Override
-            public void onCommentList(List<Comment> commentsList) {
-                FragmentManager fm = getFragmentManager();
-                FragmentTransaction ft = fm.beginTransaction();
-//                getFragmentManager().popBackStack();
-                ft.addToBackStack("New Comment");
-                ft.replace(R.id.main_frag_container, productDetailsFragment);
-                ft.show(productDetailsFragment);
-                ft.commit();
-                currentFragment = "details";
-                invalidateOptionsMenu();
-            }
-        });
-    }
-
+//        if (currentFragment.equals(Fragments.NEW_COMMENT)) {
+//            Log.d("TAG", "Returning to product details");
+//            productDetailsFragment = new ProductDetails();
+//            productDetailsFragment.setProduct(product);
+//            productDetailsFragment.setDelegate(this);
+//            Model.instance().getCommentsByProductId(product.getProductId(),new ModelFirebase.CommentDelegate() {
+//                @Override
+//                public void onCommentList(List<Comment> commentsList) {
+//                    FragmentManager fm = getFragmentManager();
+//                    fm.popBackStack (Fragments.NEW_COMMENT, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+//                    FragmentTransaction ft = fm.beginTransaction();
+//                    ft.add(R.id.main_frag_container, productDetailsFragment);
+//                    ft.show(productDetailsFragment);
+//                    ft.commit();
+//                    currentFragment = Fragments.PRODUCT_DETAILS;
+//                    invalidateOptionsMenu();
+//                }
+//            });
+//        }
+        onBackPressed();
     }
 }
