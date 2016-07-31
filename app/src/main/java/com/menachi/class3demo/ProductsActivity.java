@@ -115,23 +115,22 @@ public class ProductsActivity extends Activity implements ListProducts.Delegate,
                 Intent intent = new Intent(getApplicationContext(),UserProfileActivity.class);
                 //send to  UserProfileActivity the fragment to load
                 intent.putExtra("fragment","personal_info");
-                startActivity(intent);
+                startActivityForResult(intent, 0);
                 break;
             }
             case R.id.last_purchase : {
                 Log.d("TAG","last_purchase selected");
                 Intent intent = new Intent(getApplicationContext(),UserProfileActivity.class);
                 //send to  UserProfileActivity the fragment to load
-                intent.putExtra("fragment","last_purchase");
-                startActivity(intent);
+                intent.putExtra("fragment", "last_purchase");
+                startActivityForResult(intent, 0);
                 break;
             }
-            case R.id.reset_password : {
-                Log.d("TAG","reset_password selected");
-                Intent intent = new Intent(getApplicationContext(),UserProfileActivity.class);
-                //send to  UserProfileActivity the fragment to load
-                intent.putExtra("fragment","reset_password");
-                startActivity(intent);
+            case R.id.log_out : {
+                Log.d("TAG", "log_out selected");
+                Model.instance().logOut();
+                setResult(Model.Tools.LOG_OUT);
+                finish();
                 break;
             }
             case R.id.billing_info : {
@@ -139,11 +138,20 @@ public class ProductsActivity extends Activity implements ListProducts.Delegate,
                 Intent intent = new Intent(getApplicationContext(),UserProfileActivity.class);
                 //send to  UserProfileActivity the fragment to load
                 intent.putExtra("fragment","billing_info");
-                startActivity(intent);
+                startActivityForResult(intent, 0);
                 break;
             }
         }
         Log.d("TAG", "onUserDetails");
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode== Model.Tools.LOG_OUT) {
+            setResult(Model.Tools.LOG_OUT);
+            finish();
+        }
     }
 
     @Override
@@ -250,25 +258,22 @@ public class ProductsActivity extends Activity implements ListProducts.Delegate,
 
     @Override
     public void onReturnToDetails(Product product) {
-//        if (currentFragment.equals(Fragments.NEW_COMMENT)) {
-//            Log.d("TAG", "Returning to product details");
-//            productDetailsFragment = new ProductDetails();
-//            productDetailsFragment.setProduct(product);
-//            productDetailsFragment.setDelegate(this);
-//            Model.instance().getCommentsByProductId(product.getProductId(),new ModelFirebase.CommentDelegate() {
-//                @Override
-//                public void onCommentList(List<Comment> commentsList) {
-//                    FragmentManager fm = getFragmentManager();
-//                    fm.popBackStack (Fragments.NEW_COMMENT, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-//                    FragmentTransaction ft = fm.beginTransaction();
-//                    ft.add(R.id.main_frag_container, productDetailsFragment);
-//                    ft.show(productDetailsFragment);
-//                    ft.commit();
-//                    currentFragment = Fragments.PRODUCT_DETAILS;
-//                    invalidateOptionsMenu();
-//                }
-//            });
-//        }
-        onBackPressed();
+        if (currentFragment.equals(Fragments.NEW_COMMENT)) {
+            Log.d("TAG", "Returning to product details");
+            productDetailsFragment.setProduct(product);
+            Model.instance().getCommentsByProductId(product.getProductId(),new ModelFirebase.CommentDelegate() {
+                @Override
+                public void onCommentList(List<Comment> commentsList) {
+                    productDetailsFragment.setComments(commentsList);
+                    FragmentManager fm = getFragmentManager();
+                    fm.popBackStack (Fragments.NEW_COMMENT, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    FragmentTransaction ft = fm.beginTransaction();
+                    ft.show(productDetailsFragment);
+                    ft.commit();
+                    currentFragment = Fragments.PRODUCT_DETAILS;
+                    invalidateOptionsMenu();
+                }
+            });
+        }
     }
 }

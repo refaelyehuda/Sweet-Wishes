@@ -109,7 +109,7 @@ public class MainActivity extends Activity {
             case R.id.last_purchase : {
                 Log.d("TAG","last_purchase selected");
             }
-            case R.id.reset_password : {
+            case R.id.log_out : {
                 Log.d("TAG","reset_password selected");
             }
             case R.id.billing_info : {

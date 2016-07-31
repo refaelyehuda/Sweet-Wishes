@@ -1,13 +1,9 @@
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="@color/colorGray"
+    android:background="#CC99FF"
     android:orientation="vertical"
     tools:context="com.menachi.class3demo.Fragments.PersonalInfo">
 
@@ -29,7 +25,8 @@
                 android:id="@+id/userImage"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:layout_margin="5dp" />
+                android:layout_marginTop="5dp" />
+
 
             <ProgressBar
                 android:id="@+id/userImageProgressBar"
@@ -43,12 +40,27 @@
                 android:layout_width="200dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
-                android:text="@string/action_user_select_image" />
+                android:text="@string/action_user_select_image"
+                android:textAlignment="center"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="200dp"
+                android:textColor="#CC0066"
+                android:textStyle="bold"
+                android:layout_centerInParent="false"
+                android:textSize="22sp"
+                android:background="@drawable/buttonshape"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="5"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="10dp"
+                android:layout_centerHorizontal="true"/>
         </LinearLayout>
         <LinearLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:orientation="vertical"
             android:layout_width="match_parent"
+            android:layout_marginTop="150dp"
             android:layout_height="match_parent">
             <!--<LinearLayout-->
                 <!--android:orientation="horizontal"-->
@@ -72,7 +84,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="First Name: "
-                        android:textColor="@color/colorWhite"
+                        android:textStyle="bold"
+                        android:textSize="23dp"
+                        android:textColor="#CC0066"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textAlignment="textStart"/>
                     <EditText
@@ -80,7 +94,9 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/userFname"
                         android:inputType="text"
-                        android:textColor="@color/colorWhite"
+                        android:textStyle="bold"
+                        android:textSize="23dp"
+                        android:textColor="#CC0066"
                         android:singleLine="true"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textAlignment="textEnd"/>
@@ -93,14 +109,18 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Last Name: "
-                        android:textColor="@color/colorWhite"
+                        android:textStyle="bold"
+                        android:textSize="23dp"
+                        android:textColor="#CC0066"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textAlignment="textStart"/>
                     <EditText
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/userLname"
-                        android:textColor="@color/colorWhite"
+                        android:textStyle="bold"
+                        android:textSize="23dp"
+                        android:textColor="#CC0066"
                         android:inputType="text"
                         android:singleLine="true"
                         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -114,7 +134,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Address: "
-                        android:textColor="@color/colorWhite"
+                        android:textStyle="bold"
+                        android:textSize="23dp"
+                        android:textColor="#CC0066"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textAlignment="textStart"/>
                     <EditText
@@ -122,7 +144,9 @@
                         android:layout_height="wrap_content"
                         android:inputType="text"
                         android:singleLine="true"
-                        android:textColor="@color/colorWhite"
+                        android:textStyle="bold"
+                        android:textSize="23dp"
+                        android:textColor="#CC0066"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:id="@+id/usertAddress"
                         android:textAlignment="textEnd"/>
@@ -135,13 +159,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Birth Date: "
-                        android:textColor="@color/colorWhite"
+                        android:textStyle="bold"
+                        android:textSize="23dp"
+                        android:textColor="#CC0066"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textAlignment="textStart"/>
                     <com.menachi.class3demo.DateAndPickers.Date.DateEditText
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/colorWhite"
+                        android:textStyle="bold"
+                        android:textSize="23dp"
+                        android:textColor="#CC0066"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:id="@+id/userBirthDate"
                         android:textAlignment="textEnd"/>
@@ -152,22 +180,42 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorWhite"
                     android:id="@+id/cancelUserPersonalInfo"
-                    android:textAlignment="center"
                     android:layout_alignParentLeft="true"
-                    android:text="Cancel" />
+                    android:textAlignment="center"
+                    android:text="Cancel"
+                    android:layout_marginTop="40dp"
+                    android:textStyle="bold"
+                    android:textSize="22sp"
+                    android:textColor="#CC0066"
+                    android:layout_width="140dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/buttonshape"
+                    android:shadowDx="0"
+                    android:shadowDy="0"
+                    android:shadowRadius="5"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_centerHorizontal="true"/>
                 <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:id="@+id/saveUserPersonalInfo"
-                    android:textColor="@color/colorWhite"
                     android:textAlignment="center"
                     android:layout_alignParentRight="true"
-                    android:text="Save" />
+                    android:text="Save"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"
+                    android:textSize="22sp"
+                    android:textColor="#CC0066"
+                    android:layout_width="140dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/buttonshape"
+                    android:shadowDx="0"
+                    android:shadowDy="0"
+                    android:shadowRadius="5"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_centerHorizontal="true"/>
             </RelativeLayout>
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

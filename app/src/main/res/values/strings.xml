@@ -3,7 +3,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="Personal_Info">Personal Info</string>
-    <string name="reset_password">Reset Password</string>
+    <string name="log_out">Log Out</string>
     <string name="last_purchases">Last Purchases</string>
     <string name="billing_info">Billing</string>
     <string name="add_new_product">Add</string>

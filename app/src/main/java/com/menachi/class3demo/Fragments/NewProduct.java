@@ -6,6 +6,7 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -29,6 +30,7 @@ import com.menachi.class3demo.Model.Model;
 import com.menachi.class3demo.Model.Product;
 import com.menachi.class3demo.R;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -136,9 +138,11 @@ public class NewProduct extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {// if take a new picture
             Bundle extras = data.getExtras();
-            final Bitmap imageBitmap = (Bitmap) extras.get("data");
+            thumbnail = (Bitmap) extras.get("data");
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
             imageName = "JPEG_" + timeStamp + ".jpeg";
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
             productProgressBar.setVisibility(View.GONE);
 
         }
@@ -156,11 +160,6 @@ public class NewProduct extends Fragment {
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
             imageName = "JPEG_" + timeStamp + ".jpeg";
             productProgressBar.setVisibility(View.GONE);
-//            Model.instance().saveImage(rotatebitmap, imageName, new Model.SaveImageListener() {
-//                @Override
-//                public void onResult(String pathImage) {
-//                }
-//            });
         }
     }
 
@@ -188,7 +187,17 @@ public class NewProduct extends Fragment {
 
 
     public void selectImage() {
-        final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
+        final CharSequence[] options;
+        if(getActivity().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
+            options =new CharSequence[3];
+            options[0] = "Take Photo";
+            options[1] = "Choose from Gallery";
+            options[2] = "Cancel";
+        }else{
+            options= new CharSequence[2];
+            options[0] = "Choose from Library";
+            options[1] = "Cancel";
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Add Photo!");
         builder.setItems(options, new DialogInterface.OnClickListener() {
@@ -198,6 +207,7 @@ public class NewProduct extends Fragment {
                     takingPicture();
                 } else if (options[item].equals("Choose from Gallery")) {
                     Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    intent.setType("image/*");
                     startActivityForResult(intent, IMAGE_GALLERY);
 
                 } else if (options[item].equals("Cancel")) {

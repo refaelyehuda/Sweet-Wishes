@@ -1,11 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="1dp"
+    android:paddingRight="1dp"
+    android:paddingTop="1dp"
+    android:paddingBottom="1dp"
+    tools:context="com.menachi.class3demo.MainActivity">
+    <ImageView android:layout_width="wrap_content" android:id="@+id/imageWellcome"
+        android:src="@drawable/cake" android:layout_height="wrap_content"
+        android:scaleType="centerCrop"></ImageView>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/wellcome"
     android:orientation="horizontal"
     android:padding="5dip"
-    tools:context=".main">
+    tools:context=".MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,7 +34,7 @@
             android:layout_gravity="center"
             android:layout_margin="10dp"
             android:text="Welcome"
-            android:textColor="#FF060708"
+            android:textColor="#CC0066"
             android:textSize="40sp"
             android:textStyle="bold" />
 
@@ -31,28 +45,46 @@
             android:layout_gravity="center"
             android:layout_margin="10dp"
             android:text="Dessert Pool"
-            android:textColor="#060708"
+            android:textColor="#CC0066"
             android:textSize="40sp"
             android:textStyle="bold" />
 
 
         <Button
-            android:id="@+id/login"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_marginTop="40dp"
             android:text="Login"
-            android:textSize="22sp" />
+            android:textStyle="bold"
+            android:textSize="22sp"
+            android:textColor="#CC0066"
+            android:id="@+id/login"
+            android:layout_width="140dp"
+            android:layout_height="40dp"
+            android:background="@drawable/buttonshape"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="5"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
+            android:layout_centerHorizontal="true"/>
+        />
 
         <Button
-            android:id="@+id/signup"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
             android:text="Signup"
-            android:textSize="22sp" />
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"
+            android:textSize="22sp"
+            android:textColor="#CC0066"
+            android:id="@+id/signup"
+            android:layout_width="140dp"
+            android:layout_height="40dp"
+            android:background="@drawable/buttonshape"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="5"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
+            android:layout_centerHorizontal="true"/>
     </LinearLayout>
 
 </LinearLayout>
+</RelativeLayout>

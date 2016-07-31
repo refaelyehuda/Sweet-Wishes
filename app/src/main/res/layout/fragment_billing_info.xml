@@ -1,9 +1,15 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorGray"
+    android:paddingLeft="1dp"
+    android:paddingRight="1dp"
+    android:paddingTop="1dp"
+    android:paddingBottom="1dp"
     tools:context="com.menachi.class3demo.Fragments.BillingInfo">
+    <ImageView android:layout_width="wrap_content" android:id="@+id/imageWellcome"
+        android:src="@drawable/cake" android:layout_height="wrap_content"
+        android:scaleType="centerCrop"></ImageView>
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -24,7 +30,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Name : "
-                        android:textColor="@color/colorWhite"
+                        android:textStyle="bold"
+                        android:textSize="23dp"
+                        android:textColor="#CC0066"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textAlignment="textStart"/>
                     <EditText
@@ -32,7 +40,8 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/billingName"
                         android:inputType="text"
-                        android:textColor="@color/colorWhite"
+                        android:textSize="23dp"
+                        android:textColor="#CC0066"
                         android:singleLine="true"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textAlignment="textEnd"/>
@@ -45,7 +54,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Credit Card : "
-                        android:textColor="@color/colorWhite"
+                        android:textSize="23dp"
+                        android:textStyle="bold"
+                        android:textColor="#CC0066"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textAlignment="textStart"/>
                     <EditText
@@ -53,7 +64,8 @@
                         android:layout_height="wrap_content"
                         android:inputType="text"
                         android:singleLine="true"
-                        android:textColor="@color/colorWhite"
+                        android:textSize="23dp"
+                        android:textColor="#CC0066"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:id="@+id/userCreditCard"
                         android:textAlignment="textEnd"/>
@@ -65,14 +77,17 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Expiry Date: "
-                        android:textColor="@color/colorWhite"
+                        android:text="Expire Date: "
+                        android:textStyle="bold"
+                        android:textSize="23dp"
+                        android:textColor="#CC0066"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textAlignment="textStart"/>
                     <com.menachi.class3demo.DateAndPickers.Date.DateEditText
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/colorWhite"
+                        android:textSize="23dp"
+                        android:textColor="#CC0066"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:id="@+id/userCardExpiryDate"
                         android:textAlignment="textEnd"/>
@@ -83,23 +98,43 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorWhite"
                     android:id="@+id/cancelUserBillingInfo"
                     android:textAlignment="center"
                     android:layout_alignParentLeft="true"
-                    android:text="Cancel" />
+                    android:text="Cancel"
+                    android:layout_marginTop="40dp"
+                    android:textStyle="bold"
+                    android:textSize="22sp"
+                    android:textColor="#CC0066"
+                    android:layout_width="140dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/buttonshape"
+                    android:shadowDx="0"
+                    android:shadowDy="0"
+                    android:shadowRadius="5"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_centerHorizontal="true"/>
                 <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:id="@+id/saveUserBillingInfo"
-                    android:textColor="@color/colorWhite"
                     android:textAlignment="center"
                     android:layout_alignParentRight="true"
-                    android:text="Save" />
+                    android:text="Save"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"
+                    android:textSize="22sp"
+                    android:textColor="#CC0066"
+                    android:layout_width="140dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/buttonshape"
+                    android:shadowDx="0"
+                    android:shadowDy="0"
+                    android:shadowRadius="5"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_centerHorizontal="true"/>
             </RelativeLayout>
         </LinearLayout>
     </RelativeLayout>
 
-</LinearLayout>
+</RelativeLayout>

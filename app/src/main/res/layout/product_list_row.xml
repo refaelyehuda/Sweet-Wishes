@@ -3,18 +3,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@color/colorGray"
+    android:background="#330066"
     android:padding="5dp"
     android:orientation="horizontal">
 
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rowImageFrame">
 
-    <ImageView
-        android:id="@+id/product_list_row_image"
-        android:layout_width="100px"
-        android:layout_height="100px"
-        android:layout_marginRight="20px"
-        android:src="@drawable/image" >
-    </ImageView>
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="20dp"
+            android:id="@+id/product_list_row_image"
+            android:src="@drawable/image"/>
+
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/profuct_row_progressBar"
+            android:visibility="gone"/>
+    </FrameLayout>
 
 
 

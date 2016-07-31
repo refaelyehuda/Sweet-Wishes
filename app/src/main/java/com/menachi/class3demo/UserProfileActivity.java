@@ -1,11 +1,13 @@
 package com.menachi.class3demo;
 
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.menachi.class3demo.Fragments.BillingInfo;
@@ -25,35 +27,57 @@ public class UserProfileActivity extends Activity implements PersonalInfo.Delega
     BillingInfo billingInfoFragment;
     LastPurchases lastPurchasesFragment;
     User currentUser;
+    /**
+     * Define all fragment that exist in this activity
+     */
+    public static class Fragments{
+        public static final String PERSONAL_INFO = "personal_info";
+        public static final String BILLING_INFO = "billing_info";
+        public static final String LAST_PURCHASES = "last_purchase";
+        public static final String LOG_OUT = "log_out";
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
         final String fragmentToLoad = getIntent().getStringExtra("fragment");
         currentUser = Model.instance().getUser();
+        if (fragmentToLoad.equals(Fragments.PERSONAL_INFO)) {
+            currentFragment = Fragments.PERSONAL_INFO;
+            personalInfoFragment = new PersonalInfo();
+            personalInfoFragment.setDelegate(this);
+        } else if (fragmentToLoad.equals(Fragments.BILLING_INFO)) {
+            currentFragment = Fragments.BILLING_INFO;
+            billingInfoFragment = new BillingInfo();
+            billingInfoFragment.setDelegate(this);
+        } else if (fragmentToLoad.equals(Fragments.LAST_PURCHASES)) {
+            currentFragment = Fragments.LAST_PURCHASES;
+            lastPurchasesFragment = new LastPurchases();
+            lastPurchasesFragment.setDelegate(this);
+        }
         Model.instance().initiateLastPurchasesList(currentUser.getUserId(), new ModelFirebase.LastPurchasesEvents() {
             @Override
             public void onResult(List<LastPurchase> lastPurchases) {
                 Model.instance().setLastPurchasesList(lastPurchases);
                 Log.d("TAG", "The last purchases was get successfully");
-                if (fragmentToLoad.equals("personal_info")) {
+                if (fragmentToLoad.equals(Fragments.PERSONAL_INFO)) {
                     personalInfoFragment.setCurrentUser(currentUser);
                     FragmentTransaction transaction = getFragmentManager().beginTransaction();
                     transaction.add(R.id.user_profile_main_frag, personalInfoFragment, "y");
-                    transaction.addToBackStack("personal_info");
+                    transaction.addToBackStack(Fragments.PERSONAL_INFO);
                     transaction.show(personalInfoFragment);
                     transaction.commit();
-                } else if (fragmentToLoad.equals("billing_info")) {
-                    currentFragment = "billing_info";
+                } else if (fragmentToLoad.equals(Fragments.BILLING_INFO)) {
+                    billingInfoFragment.setCurrentUser(currentUser);
                     FragmentTransaction transaction = getFragmentManager().beginTransaction();
                     transaction.add(R.id.user_profile_main_frag, billingInfoFragment, "y");
-                    transaction.addToBackStack("billing_info");
+                    transaction.addToBackStack(Fragments.BILLING_INFO);
                     transaction.show(billingInfoFragment);
                     transaction.commit();
-                } else if (fragmentToLoad.equals("last_purchase")) {
+                } else if (fragmentToLoad.equals(Fragments.LAST_PURCHASES)) {
                     FragmentTransaction transaction = getFragmentManager().beginTransaction();
                     transaction.add(R.id.user_profile_main_frag, lastPurchasesFragment, "y");
-                    transaction.addToBackStack("last_purchase");
+                    transaction.addToBackStack(Fragments.LAST_PURCHASES);
                     transaction.show(lastPurchasesFragment);
                     transaction.commit();
                 }
@@ -65,22 +89,6 @@ public class UserProfileActivity extends Activity implements PersonalInfo.Delega
                 Log.d("TAG", error);
             }
         });
-        if(fragmentToLoad.equals("personal_info")){
-            currentFragment = "personal_info";
-            personalInfoFragment = new PersonalInfo();
-            personalInfoFragment.setDelegate(this);
-            personalInfoFragment.setCurrentUser(currentUser);
-        }else if(fragmentToLoad.equals("billing_info")){
-            currentFragment = "billing_info";
-            billingInfoFragment = new BillingInfo();
-            billingInfoFragment.setDelegate(this);
-            billingInfoFragment.setCurrentUser(currentUser);
-        }else if(fragmentToLoad.equals("last_purchase")){
-            currentFragment = "last_purchase";
-            lastPurchasesFragment = new LastPurchases();
-            lastPurchasesFragment.setDelegate(this);
-        }
-
     }
 
     public void onUserDetails(MenuItem item){
@@ -91,19 +99,33 @@ public class UserProfileActivity extends Activity implements PersonalInfo.Delega
                 personalInfoFragment = new PersonalInfo();
                 personalInfoFragment.setCurrentUser(currentUser);
                 personalInfoFragment.setDelegate(this);
-                ft.add(R.id.main_frag_container, personalInfoFragment);
+                ft.add(R.id.user_profile_main_frag, personalInfoFragment);
                 ft = hideCurrentFragment(ft);
                 ft.show(personalInfoFragment);
                 ft.commit();
-                currentFragment = "personal_info";
                 invalidateOptionsMenu();
-                Log.d("TAG", "billing_info selected");
+                Log.d("TAG", "personal_info selected");
+                break;
             }
             case R.id.last_purchase : {
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                lastPurchasesFragment = new LastPurchases();
+                lastPurchasesFragment.setDelegate(this);
+                ft.add(R.id.user_profile_main_frag, lastPurchasesFragment);
+                ft = hideCurrentFragment(ft);
+                ft.show(lastPurchasesFragment);
+                ft.commit();
+                invalidateOptionsMenu();
                 Log.d("TAG","last_purchase selected");
+                break;
             }
-            case R.id.reset_password : {
-                Log.d("TAG","reset_password selected");
+            case R.id.log_out : {
+                Log.d("TAG", "Log Out selected");
+                Model.instance().logOut();
+                setResult(Model.Tools.LOG_OUT);
+                finish();
+                break;
             }
             case R.id.billing_info : {
                 FragmentManager fm = getFragmentManager();
@@ -111,16 +133,26 @@ public class UserProfileActivity extends Activity implements PersonalInfo.Delega
                 billingInfoFragment = new BillingInfo();
                 billingInfoFragment.setCurrentUser(currentUser);
                 billingInfoFragment.setDelegate(this);
-                ft.add(R.id.main_frag_container, billingInfoFragment);
+                ft.add(R.id.user_profile_main_frag, billingInfoFragment);
                 ft = hideCurrentFragment(ft);
                 ft.show(billingInfoFragment);
                 ft.commit();
-                currentFragment = "billing_info";
                 invalidateOptionsMenu();
                 Log.d("TAG","billing_info selected");
+                break;
             }
         }
         Log.d("TAG", "onUserDetails");
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuItem item = menu.findItem(R.id.addProductBtn);
+        item.setTitle("");
+        item.setEnabled(false);
+        setTitle("User Profile");
+        return true;
     }
 
     /**
@@ -129,16 +161,12 @@ public class UserProfileActivity extends Activity implements PersonalInfo.Delega
      * @return
      */
     public FragmentTransaction hideCurrentFragment(FragmentTransaction ft){
-        if(currentFragment.equals("personal_info")) {
+        if(currentFragment.equals(Fragments.PERSONAL_INFO)) {
             ft.hide(personalInfoFragment);
-            ft.addToBackStack("personal_info");
-        }else if(currentFragment.equals("last_purchase")) {
-
-        }else if(currentFragment.equals("reset_password")) {
-
-        }else if(currentFragment.equals("billing_info")) {
+        }else if(currentFragment.equals(Fragments.LAST_PURCHASES)) {
+            ft.hide(lastPurchasesFragment);
+        }else if(currentFragment.equals(Fragments.BILLING_INFO)) {
             ft.hide(billingInfoFragment);
-            ft.addToBackStack("billing_info");
         }
 
         return ft;
@@ -147,20 +175,7 @@ public class UserProfileActivity extends Activity implements PersonalInfo.Delega
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        int count = getFragmentManager().getBackStackEntryCount();
-        if (count > 0) {
-            String name = getFragmentManager().getBackStackEntryAt(count - 1).getName();
-            if (name.equals("personal_info")) {
-                currentFragment = "personal_info";
-            } else {
-                currentFragment = "billing_info";
-            }
-            invalidateOptionsMenu();
-            //this.getFragmentManager().popBackStack();
-        }
-        else{
-            finish();
-        }
+        finish();
     }
     @Override
     public void cancel() {
@@ -173,9 +188,7 @@ public class UserProfileActivity extends Activity implements PersonalInfo.Delega
     @Override
     public void onReturnToList() {
         Log.d("TAG", "Returning to List");
-        Intent back = new Intent(this, ProductsActivity.class);
-        startActivity(back);
-        this.finish();
+        finish();
     }
 
     @Override

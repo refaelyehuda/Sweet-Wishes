@@ -24,7 +24,7 @@ public class Product {
     static Integer Ids = 0;
 
     Product(){
-
+        Ids++;
     }
 
     public Product(String name, String price,String type, String imageName){
@@ -40,6 +40,7 @@ public class Product {
     }
 
     public Product(String productId,String name, String price,String type, String imageName,String createDate,String lastUpdate){
+        Ids++;
         this.productId = productId;
         this.name = name;
         this.price = price;
@@ -47,7 +48,6 @@ public class Product {
         this.imageName = imageName;
         this.createDate = createDate;
         this.lastUpdate = lastUpdate;
-        this.productId = Ids.toString();
     }
 
     public String getCreateDate() {

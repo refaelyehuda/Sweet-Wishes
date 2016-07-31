@@ -46,9 +46,9 @@ public class CommentSQL {
         values.put(COMMENT_ID, comment.getName());
         values.put(USER_ID, comment.getUserId());
         values.put(COMMENT_NAME, comment.getName());
-        values.put(COMMENT_TEXT, comment.getImageName());
+        values.put(COMMENT_TEXT, comment.getText());
         values.put(COMMENT_GRADE, comment.getGrade());
-        values.put(COMMENT_IMAGE_NAME, comment.getLastUpdate());
+        values.put(COMMENT_IMAGE_NAME, comment.getImageName());
         values.put(COMMENT_LAST_UPDATE, comment.getLastUpdate());
         db.insert(COMMENTS_TABLE, null, values);
     }

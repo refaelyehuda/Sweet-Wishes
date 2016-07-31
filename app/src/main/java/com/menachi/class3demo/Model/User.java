@@ -37,15 +37,7 @@ public class User {
         this.profPicture = profPicture;
         this.birthDate = birthDate;
         this.isAdmin = isAdmin;
-        // Create an instance of SimpleDateFormat used for formatting
-        // the string representation of date (month/day/year)
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-        // Get the date today using Calendar object.
-        Date today = Calendar.getInstance().getTime();
-        // Using DateFormat format method we can create a string
-        // representation of a date with the defined format.
-        String currenDate = df.format(today);
-        this.lastUpdate = currenDate;
+        this.lastUpdate = Model.Tools.getCurrentDate();
         this.billingInfo = new HashMap<String, String>();
     }
 
@@ -64,15 +56,7 @@ public class User {
     public void setAddress(String address) {
 
         this.address = address;
-        // Create an instance of SimpleDateFormat used for formatting
-        // the string representation of date (month/day/year)
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-        // Get the date today using Calendar object.
-        Date today = Calendar.getInstance().getTime();
-        // Using DateFormat format method we can create a string
-        // representation of a date with the defined format.
-        String currenDate = df.format(today);
-        this.lastUpdate = currenDate;
+        this.lastUpdate = Model.Tools.getCurrentDate();
     }
     public String getUserId() {
         return userId;
@@ -89,15 +73,7 @@ public class User {
     public void setEmail(String email) {
 
         this.email = email;
-        // Create an instance of SimpleDateFormat used for formatting
-        // the string representation of date (month/day/year)
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-        // Get the date today using Calendar object.
-        Date today = Calendar.getInstance().getTime();
-        // Using DateFormat format method we can create a string
-        // representation of a date with the defined format.
-        String currenDate = df.format(today);
-        this.lastUpdate = currenDate;
+        this.lastUpdate = Model.Tools.getCurrentDate();
     }
 
     public String getfName() {
@@ -123,15 +99,7 @@ public class User {
 
     public void setlName(String lName) {
         this.lName = lName;
-        // Create an instance of SimpleDateFormat used for formatting
-        // the string representation of date (month/day/year)
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-        // Get the date today using Calendar object.
-        Date today = Calendar.getInstance().getTime();
-        // Using DateFormat format method we can create a string
-        // representation of a date with the defined format.
-        String currenDate = df.format(today);
-        this.lastUpdate = currenDate;
+        this.lastUpdate = Model.Tools.getCurrentDate();
     }
 
     public String getProfPicture() {
@@ -174,15 +142,7 @@ public class User {
 
     public void setBillingInfo(Map<String, String> billingInfo) {
         this.billingInfo = billingInfo;
-        // Create an instance of SimpleDateFormat used for formatting
-        // the string representation of date (month/day/year)
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-        // Get the date today using Calendar object.
-        Date today = Calendar.getInstance().getTime();
-        // Using DateFormat format method we can create a string
-        // representation of a date with the defined format.
-        String currenDate = df.format(today);
-        this.lastUpdate = currenDate;
+        this.lastUpdate = Model.Tools.getCurrentDate();
     }
 
     public String getLastUpdate() {

@@ -1,9 +1,16 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingLeft="1dp"
+    android:paddingRight="1dp"
+    android:paddingTop="1dp"
+    android:paddingBottom="1dp"
     tools:context="com.menachi.class3demo.Fragments.NewComment">
+    <ImageView android:layout_width="wrap_content" android:id="@+id/imageWellcome"
+        android:src="@drawable/cake" android:layout_height="wrap_content"
+        android:scaleType="centerCrop"></ImageView>
 
     <ProgressBar
         android:id="@+id/newCommentProgressBar"
@@ -31,6 +38,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Grade : "
+                    android:textStyle="bold"
+                    android:textSize="23dp"
+                    android:textColor="#CC0066"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textAlignment="textStart"/>
                 <EditText
@@ -38,6 +48,9 @@
                     android:layout_width="fill_parent"
                     android:singleLine="true"
                     android:inputType="number"
+                    android:textStyle="bold"
+                    android:textSize="23dp"
+                    android:textColor="#CC0066"
                     android:layout_height="wrap_content"
                     android:textAlignment="textEnd"/>
             </LinearLayout>
@@ -49,11 +62,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Text : "
+                    android:textStyle="bold"
+                    android:textSize="23dp"
+                    android:textColor="#CC0066"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textAlignment="textStart"/>
                 <EditText
                     android:id="@+id/comment_text"
                     android:layout_width="fill_parent"
+                    android:textStyle="bold"
+                    android:textSize="23dp"
+                    android:textColor="#CC0066"
                     android:singleLine="true"
                     android:layout_height="wrap_content"
                     android:textAlignment="textEnd"/>
@@ -65,20 +84,42 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true">
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/cancelNewCommentBtn"
                 android:textAlignment="center"
                 android:text="Cancel"
-                android:layout_alignParentLeft="true" />
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="40dp"
+                android:textStyle="bold"
+                android:textSize="22sp"
+                android:textColor="#CC0066"
+                android:layout_width="140dp"
+                android:layout_height="40dp"
+                android:background="@drawable/buttonshape"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="5"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="10dp"
+                android:layout_centerHorizontal="true"/>
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/saveNewCommentBtn"
                 android:textAlignment="center"
                 android:layout_alignParentRight="true"
-                android:text="Save" />
+                android:text="Save"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:textSize="22sp"
+                android:textColor="#CC0066"
+                android:layout_width="140dp"
+                android:layout_height="40dp"
+                android:background="@drawable/buttonshape"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="5"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="10dp"
+                android:layout_centerHorizontal="true"/>/>
         </RelativeLayout>
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

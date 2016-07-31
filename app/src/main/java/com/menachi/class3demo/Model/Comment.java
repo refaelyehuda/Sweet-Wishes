@@ -16,11 +16,12 @@ public class Comment {
     String grade;
     static Integer Ids = 0;
     public Comment(){
-
+        Ids++;
     }
 
 
     public Comment(String commentId, String productId, String userId, String name, String imageName, String text, String lastUpdate, String grade) {
+        Ids++;
         this.commentId = commentId;
         this.productId = productId;
         this.userId = userId;

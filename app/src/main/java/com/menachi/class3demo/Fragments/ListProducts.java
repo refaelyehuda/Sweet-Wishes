@@ -1,6 +1,7 @@
 package com.menachi.class3demo.Fragments;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -15,6 +16,7 @@ import android.widget.CheckBox;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.menachi.class3demo.Model.Model;
@@ -151,7 +153,7 @@ public class ListProducts extends Fragment {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             if(convertView == null){
                 LayoutInflater inflater = getActivity().getLayoutInflater();
                 convertView = inflater.inflate(R.layout.product_list_row, null);
@@ -160,12 +162,29 @@ public class ListProducts extends Fragment {
                 Log.d("TAG", "use convert view:" + position);
             }
 
-            TextView productName = (TextView) convertView.findViewById(R.id.product_list_row_name);
+            final TextView productName = (TextView) convertView.findViewById(R.id.product_list_row_name);
+            productName.setTag(new Integer(position));
             TextView productPrice = (TextView) convertView.findViewById(R.id.product_list_row_price);
-            ImageView image = (ImageView) convertView.findViewById(R.id.product_list_row_image);
+            final ImageView productImage = (ImageView) convertView.findViewById(R.id.product_list_row_image);
+            final ProgressBar productProgressBar = (ProgressBar) convertView.findViewById(R.id.profuct_row_progressBar);
             Product pr = data.get(position);
-            //checkBox.setTag(new Integer(position));
-//            checkBox.setTag(pr);
+            productProgressBar.setVisibility(View.VISIBLE);
+            Model.instance().getImage(pr.getImageName(), new Model.GetImageListener() {
+                @Override
+                public void OnDone(Bitmap image, String imageName) {
+                    if (image != null) {
+                        Log.d("TAG", "SUCCESS GET COMMENT IMAGE");
+                        //check when the image is download if the current row is show in the screen
+                        if (image != null && ((Integer) productName.getTag() == position)) {
+                            productImage.setImageBitmap(image);
+                            productProgressBar.setVisibility(View.GONE);
+                        }
+                    } else {
+                        productProgressBar.setVisibility(View.GONE);
+                        Log.d("TAG", "ERROR GET COMMENT IMAGE");
+                    }
+                }
+            });
             productName.setText(pr.getName());
             productPrice.setText(pr.getPrice() + "$");
 

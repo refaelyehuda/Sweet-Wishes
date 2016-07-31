@@ -58,17 +58,23 @@ public class Model {
         modelFirebase = new ModelFirebase(MyApplication.getContext());
         modelSql = new ModelSQL();
     }
+    public void logOut(){
+        user=null;
+        productData=null;
+        lastPurchasesList = null;
+    }
+
     public void initiateProducts(final ModelFirebase.ProductsDelegate listener){
         final String sqlProductLastUpdateDate = modelSql.getLastUpdate(Tabels.ProductTable);
         modelFirebase.getLastUpdateDate(Tabels.ProductTable, new ModelFirebase.LastUpdateEvents() {
             @Override
             public void onResult(final String date) {
                 if (!Tools.dateIsBigger(date, sqlProductLastUpdateDate)) {
-                    Log.d("TAG", "get all products from SQL");
+                    Log.e("TAG", "get all products from SQL");
                     productData = modelSql.getAllProducts();
                     listener.onProductList(productData);
                 } else {
-                    Log.d("TAG", "get all products from fireBase");
+                    Log.e("TAG", "get all products from fireBase");
                     modelFirebase.getProducts(new ModelFirebase.ProductsDelegate() {
                         @Override
                         public void onProductList(List<Product> productsList) {
@@ -197,6 +203,7 @@ public class Model {
                                 if (Tools.dateIsBigger(comment.getLastUpdate(), sqlCommentsLastUpdateDate)) {
                                     modelSql.addComment(comment);
                                 }
+                                commentData.add(comment);
                             }
                             modelSql.setLastUpdate(Tabels.CommentsTable, date);
                             listener.onCommentList(commentData);
@@ -240,7 +247,6 @@ public class Model {
     public void addComment(Comment comment){
         Comment updateComment = modelFirebase.addComment(comment);
         modelFirebase.setLastUpdateDate(Tabels.CommentsTable,Tools.getCurrentDate());
-
     }
 
     /**
@@ -416,6 +422,7 @@ public class Model {
         public static final String LastPurchasesTable = "LastPurchase";
     }
     public static class Tools{
+        public static int LOG_OUT = 401;
         // Create an instance of SimpleDateFormat used for formatting
         // the string representation of date (month/day/year)
         private static final DateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");

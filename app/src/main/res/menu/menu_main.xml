@@ -26,8 +26,8 @@
         android:orderInCategory="100"
         android:showAsAction="never" />
     <item
-        android:id="@+id/reset_password"
-        android:title="@string/reset_password"
+        android:id="@+id/log_out"
+        android:title="@string/log_out"
         android:onClick="onUserDetails"
         android:orderInCategory="100"
         android:showAsAction="never" />

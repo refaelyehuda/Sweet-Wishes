@@ -65,7 +65,7 @@ public class LoginActivity extends Activity {
                                 Model.instance().setCurrentUser(user);
                                 Toast.makeText(getApplicationContext(), "Login Successfully", Toast.LENGTH_LONG).show();
                                 Intent intent = new Intent(getApplicationContext(),ProductsActivity.class);
-                                startActivity(intent);
+                                startActivityForResult(intent, 0);
                             }else{
                                 Log.d("TAG","Error with auth");
                                 progressBar.setVisibility(View.GONE);
@@ -76,6 +76,16 @@ public class LoginActivity extends Activity {
                 }
             }
         });
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode== Model.Tools.LOG_OUT) {
+            setResult(Model.Tools.LOG_OUT);
+            finish();
+        }
     }
 
     //TODO need to imlement extra feature session timout

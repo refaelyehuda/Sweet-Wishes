@@ -46,7 +46,18 @@ public class ProductDetails extends Fragment{
     Delegate delegate;
     Product product;
     ListView list;
+    commentAddapter adapter;
     List<Comment> comments = new LinkedList<Comment>();
+
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+        adapter.notifyDataSetChanged();
+    }
 
     public void setDelegate(Delegate delegate){
         this.delegate = delegate;
@@ -82,7 +93,6 @@ public class ProductDetails extends Fragment{
             TextView id = (TextView) view.findViewById(R.id.ProductIDDetails);
             TextView name = (TextView) view.findViewById(R.id.ProductNameDetails);
             TextView price = (TextView) view.findViewById(R.id.ProducrPriceDetails);
-            TextView imageName = (TextView) view.findViewById(R.id.ProductImageNameDetails);
             TextView type = (TextView) view.findViewById(R.id.ProducrTypeDetails);
             final ImageView productImage = (ImageView) view.findViewById(R.id.imageDetails);
             final ProgressBar imageProgressBar = (ProgressBar) view.findViewById(R.id.product_details_image_progressBar);
@@ -101,10 +111,10 @@ public class ProductDetails extends Fragment{
                 @Override
                 public void onClick(View v) {
                     progressBar.setVisibility(View.VISIBLE);
-                    LastPurchase lastPurchase = new LastPurchase(Model.instance().getUser().getUserId(),product);
+                    LastPurchase lastPurchase = new LastPurchase(Model.instance().getUser().getUserId(), product);
                     Model.instance().addPurchaseToUser(lastPurchase);
                     progressBar.setVisibility(View.GONE);
-                    BasicAlertDialog addProductAlert = new BasicAlertDialog("OK", "" + product.getName().toString() + " Was Added Successfully For transfer type OK",buyProductDelegate);
+                    BasicAlertDialog addProductAlert = new BasicAlertDialog("OK", "" + product.getName().toString() + " Was Added Successfully For transfer type OK", buyProductDelegate);
                     addProductAlert.show(getFragmentManager(), "Tag");
 
                 }
@@ -113,7 +123,6 @@ public class ProductDetails extends Fragment{
             id.setText(this.product.getProductId());
             name.setText(this.product.getName());
             price.setText(this.product.getPrice());
-            imageName.setText(this.product.getImageName());
             type.setText(this.product.getType());
 
             list = (ListView) view.findViewById(R.id.comments_list);
@@ -121,7 +130,7 @@ public class ProductDetails extends Fragment{
                 @Override
                 public void onCommentList(List<Comment> commentsList) {
                     comments = commentsList;
-                    commentAddapter adapter = new commentAddapter();
+                    adapter = new commentAddapter();
                     list.setAdapter(adapter);
                 }
             });
