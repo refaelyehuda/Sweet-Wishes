@@ -185,6 +185,8 @@ public class ListProducts extends Fragment {
                     }
                 }
             });
+            //checkBox.setTag(new Integer(position));
+//            checkBox.setTag(pr);
             productName.setText(pr.getName());
             productPrice.setText(pr.getPrice() + "$");
 

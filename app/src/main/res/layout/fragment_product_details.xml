@@ -130,6 +130,30 @@
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textAlignment="textEnd"/>
             </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/StudentId"
+                    android:text="Image Name : "
+                    android:textStyle="bold"
+                    android:textSize="23dp"
+                    android:textColor="#CC0066"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textAlignment="textStart"/>
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:id="@+id/ProductImageNameDetails"
+                    android:textStyle="bold"
+                    android:textSize="23dp"
+                    android:textColor="#CC0066"
+                    android:textAlignment="textEnd"/>
+            </LinearLayout>
             <Button
                 android:id="@+id/userBuyProductBth"
                 android:layout_width="150dp"

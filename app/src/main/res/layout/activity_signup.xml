@@ -41,7 +41,6 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="textStart"
-                android:textColor="#CC0066"
                 android:inputType="text"
                 android:singleLine="true"
                 android:id="@+id/fName" />
@@ -65,7 +64,6 @@
                 android:layout_height="wrap_content"
                 android:textAlignment="textStart"
                 android:inputType="text"
-                android:textColor="#CC0066"
                 android:singleLine="true"
                 android:id="@+id/lName" />
         </LinearLayout>
@@ -87,7 +85,6 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="textStart"
-                android:textColor="#CC0066"
                 android:inputType="text"
                 android:singleLine="true"
                 android:id="@+id/address" />
@@ -109,7 +106,6 @@
             <com.menachi.class3demo.DateAndPickers.Date.DateEditText
                 android:id="@+id/birthDate"
                 android:layout_width="fill_parent"
-                android:textColor="#CC0066"
                 android:layout_height="wrap_content"
                 android:textAlignment="textEnd"/>
         </LinearLayout>
@@ -131,7 +127,6 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="textStart"
-                android:textColor="#CC0066"
                 android:inputType="textEmailAddress"
                 android:singleLine="true"
                 android:id="@+id/email" />
@@ -154,7 +149,6 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="textStart"
-                android:textColor="#CC0066"
                 android:inputType="textPassword"
                 android:singleLine="true"
                 android:id="@+id/password" />
