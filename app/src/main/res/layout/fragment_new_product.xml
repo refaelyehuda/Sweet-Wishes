@@ -98,6 +98,7 @@
                 <EditText
                     android:id="@+id/addNewProductName"
                     android:layout_width="fill_parent"
+                    android:textColor="@color/colorWhite"
                     android:singleLine="true"
                     android:layout_height="wrap_content"
                     android:textAlignment="textEnd"/>
@@ -117,6 +118,7 @@
                 <EditText
                     android:id="@+id/addNewProductPrice"
                     android:layout_width="fill_parent"
+                    android:textColor="@color/colorWhite"
                     android:inputType="numberDecimal"
                     android:singleLine="true"
                     android:layout_height="wrap_content"
@@ -137,6 +139,7 @@
                 <EditText
                     android:id="@+id/addNewProductTypeName"
                     android:layout_width="fill_parent"
+                    android:textColor="@color/colorWhite"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
                     android:textAlignment="textEnd"/>

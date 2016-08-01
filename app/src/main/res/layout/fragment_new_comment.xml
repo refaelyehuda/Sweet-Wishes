@@ -3,15 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#CC99FF"
     android:paddingLeft="1dp"
     android:paddingRight="1dp"
     android:paddingTop="1dp"
     android:paddingBottom="1dp"
     tools:context="com.menachi.class3demo.Fragments.NewComment">
-    <ImageView android:layout_width="wrap_content" android:id="@+id/imageWellcome"
-        android:src="@drawable/cake" android:layout_height="wrap_content"
-        android:scaleType="centerCrop"></ImageView>
-
     <ProgressBar
         android:id="@+id/newCommentProgressBar"
         style="@android:style/Widget.Holo.ProgressBar.Horizontal"
