@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="10dp"
-            android:text="Dessert Pool"
+            android:text="Sweet Wishes"
             android:textColor="#CC0066"
             android:textSize="40sp"
             android:textStyle="bold" />

@@ -148,6 +148,7 @@ public class ProductsActivity extends Activity implements ListProducts.Delegate,
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.e("TAG","On activity result " + resultCode);
         if(resultCode== Model.Tools.LOG_OUT) {
             setResult(Model.Tools.LOG_OUT);
             finish();

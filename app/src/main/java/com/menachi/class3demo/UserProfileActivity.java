@@ -94,30 +94,36 @@ public class UserProfileActivity extends Activity implements PersonalInfo.Delega
     public void onUserDetails(MenuItem item){
         switch (item.getItemId()) {
             case R.id.personal_info : {
-                FragmentManager fm = getFragmentManager();
-                FragmentTransaction ft = fm.beginTransaction();
-                personalInfoFragment = new PersonalInfo();
-                personalInfoFragment.setCurrentUser(currentUser);
-                personalInfoFragment.setDelegate(this);
-                ft.add(R.id.user_profile_main_frag, personalInfoFragment);
-                ft = hideCurrentFragment(ft);
-                ft.show(personalInfoFragment);
-                ft.commit();
-                invalidateOptionsMenu();
-                Log.d("TAG", "personal_info selected");
+                if(!currentFragment.equals(Fragments.PERSONAL_INFO)){
+                    FragmentManager fm = getFragmentManager();
+                    FragmentTransaction ft = fm.beginTransaction();
+                    personalInfoFragment = new PersonalInfo();
+                    personalInfoFragment.setCurrentUser(currentUser);
+                    personalInfoFragment.setDelegate(this);
+                    ft.add(R.id.user_profile_main_frag, personalInfoFragment);
+                    ft = hideCurrentFragment(ft);
+                    ft.show(personalInfoFragment);
+                    ft.commit();
+                    currentFragment = Fragments.PERSONAL_INFO;
+                    invalidateOptionsMenu();
+                    Log.d("TAG", "personal_info selected");
+                }
                 break;
             }
             case R.id.last_purchase : {
-                FragmentManager fm = getFragmentManager();
-                FragmentTransaction ft = fm.beginTransaction();
-                lastPurchasesFragment = new LastPurchases();
-                lastPurchasesFragment.setDelegate(this);
-                ft.add(R.id.user_profile_main_frag, lastPurchasesFragment);
-                ft = hideCurrentFragment(ft);
-                ft.show(lastPurchasesFragment);
-                ft.commit();
-                invalidateOptionsMenu();
-                Log.d("TAG","last_purchase selected");
+                if(!currentFragment.equals(Fragments.LAST_PURCHASES)){
+                    FragmentManager fm = getFragmentManager();
+                    FragmentTransaction ft = fm.beginTransaction();
+                    lastPurchasesFragment = new LastPurchases();
+                    lastPurchasesFragment.setDelegate(this);
+                    ft.add(R.id.user_profile_main_frag, lastPurchasesFragment);
+                    ft = hideCurrentFragment(ft);
+                    ft.show(lastPurchasesFragment);
+                    ft.commit();
+                    currentFragment = Fragments.LAST_PURCHASES;
+                    invalidateOptionsMenu();
+                    Log.d("TAG","last_purchase selected");
+                }
                 break;
             }
             case R.id.log_out : {
@@ -128,17 +134,20 @@ public class UserProfileActivity extends Activity implements PersonalInfo.Delega
                 break;
             }
             case R.id.billing_info : {
-                FragmentManager fm = getFragmentManager();
-                FragmentTransaction ft = fm.beginTransaction();
-                billingInfoFragment = new BillingInfo();
-                billingInfoFragment.setCurrentUser(currentUser);
-                billingInfoFragment.setDelegate(this);
-                ft.add(R.id.user_profile_main_frag, billingInfoFragment);
-                ft = hideCurrentFragment(ft);
-                ft.show(billingInfoFragment);
-                ft.commit();
-                invalidateOptionsMenu();
-                Log.d("TAG","billing_info selected");
+                if(!currentFragment.equals(Fragments.BILLING_INFO)){
+                    FragmentManager fm = getFragmentManager();
+                    FragmentTransaction ft = fm.beginTransaction();
+                    billingInfoFragment = new BillingInfo();
+                    billingInfoFragment.setCurrentUser(currentUser);
+                    billingInfoFragment.setDelegate(this);
+                    ft.add(R.id.user_profile_main_frag, billingInfoFragment);
+                    ft = hideCurrentFragment(ft);
+                    ft.show(billingInfoFragment);
+                    ft.commit();
+                    currentFragment = Fragments.BILLING_INFO;
+                    invalidateOptionsMenu();
+                    Log.d("TAG","billing_info selected");
+                }
                 break;
             }
         }
@@ -190,6 +199,7 @@ public class UserProfileActivity extends Activity implements PersonalInfo.Delega
         Log.d("TAG", "Returning to List");
         finish();
     }
+
 
     @Override
     public void onProductSelected(Product st) {

@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
@@ -24,10 +25,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.menachi.class3demo.Alerts.BasicAlertDialog;
 import com.menachi.class3demo.Model.Model;
 import com.menachi.class3demo.Model.Product;
+import com.menachi.class3demo.MyApplication;
 import com.menachi.class3demo.R;
 
 import java.io.ByteArrayOutputStream;
@@ -99,23 +103,32 @@ public class NewProduct extends Fragment {
             @Override
             public void onClick(View v) {
                 mainProgressBar.setVisibility(View.VISIBLE);
-                final Product pr = new Product(productName.getText().toString(),productPrice.getText().toString(), productType.getText().toString(),imageName);
-                if(imageName != null){
-                    Model.instance().saveImage(thumbnail, imageName, new Model.SaveImageListener() {
-                        @Override
-                        public void OnDone(Exception e) {
-                            if (e == null) {
-                                Model.instance().addProduct(pr);
-                                mainProgressBar.setVisibility(View.GONE);
-                                //FIXME need to check why we go exception on this line
-                                BasicAlertDialog addProductAlert = new BasicAlertDialog("OK", "" + productName.getText().toString() + " Was Added Successfully For transfer type OK",delegate);
-                                addProductAlert.show(getFragmentManager(), "Tag");
-                            } else {
-                                Log.d("TAG", "save image finished with error");
-                            }
+                if(productName.getText().toString().equals("") && productPrice.getText().toString().equals("") && productType.getText().toString().equals("") && imageName.equals("")){
+                    final Product pr = new Product(productName.getText().toString(),productPrice.getText().toString(), productType.getText().toString(),imageName);
+                    if(imageName != null){
+                        Model.instance().saveImage(thumbnail, imageName, new Model.SaveImageListener() {
+                            @Override
+                            public void OnDone(Exception e) {
+                                if (e == null) {
+                                    Model.instance().addProduct(pr);
+                                    mainProgressBar.setVisibility(View.GONE);
+                                    //FIXME need to check why we go exception on this line
+                                    BasicAlertDialog addProductAlert = new BasicAlertDialog("OK", "" + productName.getText().toString() + " Was Added Successfully For transfer type OK",delegate);
+                                    addProductAlert.show(getFragmentManager(), "Tag");
+                                } else {
+                                    Log.d("TAG", "save image finished with error");
+                                }
 
-                        }
-                    });
+                            }
+                        });
+                    }
+                }else{
+                    Toast toast;
+                    TextView textView;
+                    toast = Toast.makeText(MyApplication.getContext(), "Please fill all fields (include image)", Toast.LENGTH_LONG);
+                    textView = (TextView) toast.getView().findViewById(android.R.id.message);
+                    textView.setTextColor(Color.RED);
+                    toast.show();
                 }
             }
         });
@@ -219,7 +232,6 @@ public class NewProduct extends Fragment {
     }
 
     private void takingPicture() {
-
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
             startActivityForResult(takePictureIntent,IMAGE_CAPTURE);

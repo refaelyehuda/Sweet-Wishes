@@ -69,8 +69,8 @@ public class LastPurchasesSQL {
         db.execSQL("drop table " + LAST_PURCHASES_TABLE);
     }
 
-    public static List<LastPurchase> getAllLastPurchases(SQLiteDatabase db) {
-        Cursor cursor = db.query(LAST_PURCHASES_TABLE, null, null, null, null, null, null);
+    public static List<LastPurchase> getAllLastPurchases(SQLiteDatabase db,String uesrId) {
+        Cursor cursor = db.query(LAST_PURCHASES_TABLE, null, USER_ID + " = ?", new String[]{uesrId}, null, null, null);
         List<LastPurchase> list = new LinkedList<LastPurchase>();
         if (cursor.moveToFirst()) {
             int lastPurchaseIdIndex = cursor.getColumnIndex(LAST_PURCHASE_ID);
@@ -102,6 +102,7 @@ public class LastPurchasesSQL {
         }
         return list;
     }
+
 
     @Nullable
     public static LastPurchase getLastPurchase(SQLiteDatabase db, String lastPurchaseId) {

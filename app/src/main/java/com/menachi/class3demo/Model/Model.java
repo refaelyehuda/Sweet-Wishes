@@ -120,7 +120,7 @@ public class Model {
             public void onResult(final String date) {
                 if (!Tools.dateIsBigger(date, sqlLastPurchasesLastUpdateDate)) {
                     Log.d("TAG", "get Last Purchases from SQL");
-                    lastPurchasesEvents.onResult(modelSql.getLastPurchasesByUserId());
+                    lastPurchasesEvents.onResult(modelSql.getLastPurchasesByUserId(user.getUserId()));
 
                 } else {
                     Log.d("TAG", "get Last Purchases  from firebase");

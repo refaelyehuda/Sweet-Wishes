@@ -19,7 +19,7 @@ import java.util.List;
 public class ModelSQL {
 
     MyDBHelper dbHelper;
-    private final static int VERSION =9;
+    private final static int VERSION =10;
 
     public ModelSQL() {dbHelper = new MyDBHelper(MyApplication.getContext());}
     public String getLastUpdate(String table) {return LastUpdates.getLastUpdate(dbHelper.getWritableDatabase(),table);}
@@ -32,7 +32,7 @@ public class ModelSQL {
         UserSQL.addUser(dbHelper.getWritableDatabase(), user);
     }
     public void setLastUpdate(String tableName, String lastUpdateDate) {LastUpdates.setLastUpdate(dbHelper.getWritableDatabase(), tableName, lastUpdateDate);}
-    public List<LastPurchase>  getLastPurchasesByUserId(){return LastPurchasesSQL.getAllLastPurchases(dbHelper.getWritableDatabase());}
+    public List<LastPurchase>  getLastPurchasesByUserId(String uesrId){return LastPurchasesSQL.getAllLastPurchases(dbHelper.getWritableDatabase(),uesrId);}
     public void addLastPurchase(LastPurchase lastPurchase){LastPurchasesSQL.addLastPurchase(dbHelper.getWritableDatabase(),lastPurchase);}
     public List<Comment> getCommentsByProductId(String productId){return CommentSQL.getCommentByProductId(dbHelper.getWritableDatabase(),productId);}
     public void addComment(Comment comment){CommentSQL.addComment(dbHelper.getWritableDatabase(),comment);}
