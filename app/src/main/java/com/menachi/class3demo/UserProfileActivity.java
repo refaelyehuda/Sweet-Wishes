@@ -19,6 +19,7 @@ import com.menachi.class3demo.Model.ModelFirebase;
 import com.menachi.class3demo.Model.Product;
 import com.menachi.class3demo.Model.User;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 public class UserProfileActivity extends Activity implements PersonalInfo.Delegate,BillingInfo.Delegate,LastPurchases.Delegate {
@@ -90,6 +91,8 @@ public class UserProfileActivity extends Activity implements PersonalInfo.Delega
             }
         });
     }
+
+
 
     public void onUserDetails(MenuItem item){
         switch (item.getItemId()) {

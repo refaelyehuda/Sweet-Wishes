@@ -34,13 +34,14 @@
                 android:text="First Name:"
                 android:textAlignment="textStart"
                 android:singleLine="true"
-                android:textColor="#CC0066"
+                android:textColor="@color/editTextColor"
                 android:textStyle="bold"
                 android:textSize="20dp"/>
             <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="textStart"
+                android:textColor="@color/editTextColor"
                 android:inputType="text"
                 android:singleLine="true"
                 android:id="@+id/fName" />
@@ -57,12 +58,13 @@
                 android:textAlignment="textStart"
                 android:singleLine="true"
                 android:textStyle="bold"
-                android:textColor="#CC0066"
+                android:textColor="@color/editTextColor"
                 android:textSize="20dp"/>
             <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="textStart"
+                android:textColor="@color/editTextColor"
                 android:inputType="text"
                 android:singleLine="true"
                 android:id="@+id/lName" />
@@ -84,6 +86,7 @@
             <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/editTextColor"
                 android:textAlignment="textStart"
                 android:inputType="text"
                 android:singleLine="true"
@@ -101,10 +104,11 @@
                 android:textAlignment="textStart"
                 android:singleLine="true"
                 android:textStyle="bold"
-                android:textColor="#CC0066"
+                android:textColor="@color/editTextColor"
                 android:textSize="20dp"/>
             <com.menachi.class3demo.DateAndPickers.Date.DateEditText
                 android:id="@+id/birthDate"
+                android:textColor="@color/editTextColor"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="textEnd"/>
@@ -121,12 +125,13 @@
                 android:textAlignment="textStart"
                 android:singleLine="true"
                 android:textStyle="bold"
-                android:textColor="#CC0066"
+                android:textColor="@color/editTextColor"
                 android:textSize="20dp"/>
             <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="textStart"
+                android:textColor="@color/editTextColor"
                 android:inputType="textEmailAddress"
                 android:singleLine="true"
                 android:id="@+id/email" />
@@ -142,13 +147,14 @@
                 android:text="Password:"
                 android:singleLine="true"
                 android:textStyle="bold"
-                android:textColor="#CC0066"
+                android:textColor="@color/editTextColor"
                 android:textAlignment="textStart"
                 android:textSize="20dp"/>
             <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="textStart"
+                android:textColor="@color/editTextColor"
                 android:inputType="textPassword"
                 android:singleLine="true"
                 android:id="@+id/password" />
@@ -162,7 +168,7 @@
                 android:layout_marginTop="50dp"
                 android:text="Signup"
                 android:id="@+id/signupBth"
-                android:textColor="#CC0066"
+                android:textColor="@color/editTextColor"
                 android:textStyle="bold"
                 android:layout_centerInParent="true"
                 android:textSize="22sp"

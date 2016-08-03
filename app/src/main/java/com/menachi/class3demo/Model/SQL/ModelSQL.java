@@ -6,11 +6,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.menachi.class3demo.Model.Comment;
 import com.menachi.class3demo.Model.LastPurchase;
+import com.menachi.class3demo.Model.LastUpdates;
 import com.menachi.class3demo.Model.Product;
 import com.menachi.class3demo.Model.User;
 import com.menachi.class3demo.MyApplication;
 
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -19,10 +19,10 @@ import java.util.List;
 public class ModelSQL {
 
     MyDBHelper dbHelper;
-    private final static int VERSION =10;
+    private final static int VERSION =19;
 
     public ModelSQL() {dbHelper = new MyDBHelper(MyApplication.getContext());}
-    public String getLastUpdate(String table) {return LastUpdates.getLastUpdate(dbHelper.getWritableDatabase(),table);}
+    public LastUpdates getLastUpdate(String table) {return LastUpdatesSQL.getLastUpdate(dbHelper.getWritableDatabase(), table);}
     public void addProduct(Product product) {ProductsSQL.addProduct(dbHelper.getWritableDatabase(),product);}
     public List<Product> getAllProducts() {return ProductsSQL.getAllProducts(dbHelper.getWritableDatabase());}
     public void updateUserByID(User updatedUser){
@@ -31,7 +31,8 @@ public class ModelSQL {
     public void addUser(User user) {
         UserSQL.addUser(dbHelper.getWritableDatabase(), user);
     }
-    public void setLastUpdate(String tableName, String lastUpdateDate) {LastUpdates.setLastUpdate(dbHelper.getWritableDatabase(), tableName, lastUpdateDate);}
+    public void setLastUpdate(LastUpdates lastUpdate) {LastUpdatesSQL.setLastUpdate(dbHelper.getWritableDatabase(), lastUpdate);}
+    public void setLastUpdateForSpecificRecord(String  tabelName,String date){LastUpdatesSQL.setLastUpdateForSpecificRecord(dbHelper.getWritableDatabase(),tabelName,date);}
     public List<LastPurchase>  getLastPurchasesByUserId(String uesrId){return LastPurchasesSQL.getAllLastPurchases(dbHelper.getWritableDatabase(),uesrId);}
     public void addLastPurchase(LastPurchase lastPurchase){LastPurchasesSQL.addLastPurchase(dbHelper.getWritableDatabase(),lastPurchase);}
     public List<Comment> getCommentsByProductId(String productId){return CommentSQL.getCommentByProductId(dbHelper.getWritableDatabase(),productId);}
@@ -48,19 +49,21 @@ public class ModelSQL {
             ProductsSQL.create(db);
             CommentSQL.create(db);
             LastPurchasesSQL.create(db);
-            LastUpdates.create(db);
+            LastUpdatesSQL.create(db);
 
         }
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             try{UserSQL.drop(db);}catch (Exception e){e.printStackTrace();}
-            try{LastUpdates.drop(db);}catch (Exception e){e.printStackTrace();}
+            try{LastUpdatesSQL.drop(db);}catch (Exception e){e.printStackTrace();}
             try{ProductsSQL.drop(db);}catch (Exception e){e.printStackTrace();}
             try{CommentSQL.drop(db);}catch (Exception e){e.printStackTrace();}
             try{LastPurchasesSQL.drop(db);}catch (Exception e){e.printStackTrace();}
             onCreate(db);
         }
+
+
 
     }
 }

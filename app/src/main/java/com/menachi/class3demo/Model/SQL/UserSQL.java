@@ -73,7 +73,7 @@ public class UserSQL {
     }
 
     public static void delete(SQLiteDatabase db, User u) {
-        db.delete(USERS_TABLE,USERS_EMAIL+" = ?" , new String[]{u.getUserId()});
+        db.delete(USERS_TABLE, USERS_EMAIL + " = ?", new String[]{u.getUserId()});
     }
 
     public static void drop(SQLiteDatabase db)  {
@@ -184,9 +184,11 @@ public class UserSQL {
         values.put(USERS_EMAIL, updatedUser.getEmail());
         values.put(USERS_IS_ADMIN, updatedUser.getIsAdmin().toString());
         values.put(USERS_ADDRESS, updatedUser.getAddress());
-        values.put(USERS_BILLING_NAME, updatedUser.getBillingInfo().get("billingName"));
-        values.put(USERS_CARD_EXPIRY_DATE, updatedUser.getBillingInfo().get("userCardExpiryDate"));
-        values.put(USERS_CREDIT_CARD, updatedUser.getBillingInfo().get("userCreditCard"));
+        if(updatedUser.getBillingInfo() != null){
+            values.put(USERS_BILLING_NAME, updatedUser.getBillingInfo().get("billingName"));
+            values.put(USERS_CARD_EXPIRY_DATE, updatedUser.getBillingInfo().get("userCardExpiryDate"));
+            values.put(USERS_CREDIT_CARD, updatedUser.getBillingInfo().get("userCreditCard"));
+        }
         values.put(USERS_FNAME, updatedUser.getfName());
         values.put(USERS_LNAME, updatedUser.getlName());
         values.put(USERS_BDATE, updatedUser.getBirthDate());

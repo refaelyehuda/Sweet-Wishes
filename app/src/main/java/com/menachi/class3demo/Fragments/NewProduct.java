@@ -103,7 +103,7 @@ public class NewProduct extends Fragment {
             @Override
             public void onClick(View v) {
                 mainProgressBar.setVisibility(View.VISIBLE);
-                if(productName.getText().toString().equals("") && productPrice.getText().toString().equals("") && productType.getText().toString().equals("") && imageName.equals("")){
+                if(!productName.getText().toString().equals("") && !productPrice.getText().toString().equals("") && !productType.getText().toString().equals("") && !imageName.equals("")){
                     final Product pr = new Product(productName.getText().toString(),productPrice.getText().toString(), productType.getText().toString(),imageName);
                     if(imageName != null){
                         Model.instance().saveImage(thumbnail, imageName, new Model.SaveImageListener() {

@@ -246,7 +246,7 @@ public class ModelFirebase {
 
 
     public interface LastUpdateEvents{
-        void onResult(String date);
+        void onResult(LastUpdates lastUpdates);
         void onCancel(String error);
     }
 
@@ -255,9 +255,16 @@ public class ModelFirebase {
         lastUpdateRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                String date = dataSnapshot.getValue(String.class);
-                if(date==null|| date.equals("")) date="1";
-                lastUpdateEvents.onResult(date);
+                LastUpdates lastUpdates = null;
+                if (dataSnapshot.getValue() != null) {
+                    lastUpdates = dataSnapshot.getValue(LastUpdates.class);
+                    if (lastUpdates.getLastUpdate() == null || lastUpdates.getLastUpdate().equals(""))
+                        lastUpdates.setLastUpdate("1");
+                    lastUpdateEvents.onResult(lastUpdates);
+                } else {
+                    lastUpdateEvents.onResult(lastUpdates);
+                }
+
             }
 
             @Override
@@ -269,9 +276,34 @@ public class ModelFirebase {
 
     }
 
-    public void setLastUpdateDate(String tableName,String updatedDate)
+    public interface LastUpdateEvent{
+        void onResult(LastUpdates lastUpdates);
+        void onError(String err);
+    }
+
+    public void setLastUpdateDate(final String tableName, final String updatedDate , final LastUpdateEvent lastUpdateEvent)
     {
-        myFirebaseRef.child(Model.Tabels.lastUpdateTable).child(tableName).setValue(updatedDate);
+        myFirebaseRef.child(Model.Tabels.lastUpdateTable).child(tableName).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                LastUpdates lastUpdates;
+                if(dataSnapshot.getValue() != null){
+                    lastUpdates = dataSnapshot.getValue(LastUpdates.class);
+                    lastUpdates.setCountOfRecords(lastUpdates.getCountOfRecords() + 1);
+                    lastUpdates.setTabelName(tableName);
+                    lastUpdates.setLastUpdate(updatedDate);
+                }else{
+                    lastUpdates = new LastUpdates(tableName,1,updatedDate);
+                }
+                myFirebaseRef.child(Model.Tabels.lastUpdateTable).child(tableName).setValue(lastUpdates);
+                lastUpdateEvent.onResult(lastUpdates);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                lastUpdateEvent.onError(firebaseError.toString());
+            }
+        });
 
     }
 

@@ -7,5 +7,6 @@
     <color name="colorWhite">#ffffff</color>
     <color name="colorGray">#5c5a5a</color>
     <color name="colorRed">#8e5252</color>
+    <color name="editTextColor">#CC0066</color>
 
 </resources>
