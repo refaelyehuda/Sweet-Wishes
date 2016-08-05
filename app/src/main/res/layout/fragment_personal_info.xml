@@ -8,7 +8,7 @@
     tools:context="com.menachi.class3demo.Fragments.PersonalInfo">
 
     <ProgressBar
-        android:id="@+id/newProgressBar"
+        android:id="@+id/personal_info_progressBar"
         style="@android:style/Widget.Holo.ProgressBar.Horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

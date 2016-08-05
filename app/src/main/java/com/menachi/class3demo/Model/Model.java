@@ -61,8 +61,8 @@ public class Model {
     }
     public void logOut(){
         user=null;
-        productData=null;
-        lastPurchasesList = null;
+        productData=new LinkedList<Product>();
+        lastPurchasesList = new LinkedList<LastPurchase>();
     }
 
     public void initiateProducts(final ModelFirebase.ProductsDelegate listener){

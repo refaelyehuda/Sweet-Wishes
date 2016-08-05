@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import com.menachi.class3demo.Alerts.BasicAlertDialog;
 import com.menachi.class3demo.Model.Comment;
@@ -28,6 +29,7 @@ public class NewComment extends Fragment {
     Comment comment;
     EditText commentText;
     EditText commentGrade;
+    ProgressBar progressBar;
 
     public void setDelegate(Delegate delegate){
         this.delegate = delegate;
@@ -67,17 +69,22 @@ public class NewComment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_new_comment, container, false);
         commentText = (EditText) view.findViewById(R.id.comment_text);
         commentGrade = (EditText) view.findViewById(R.id.comment_grade);
-        Button saveBtn = (Button) view.findViewById(R.id.saveNewCommentBtn);
+        progressBar = (ProgressBar) view.findViewById(R.id.newCommentProgressBar);
+        final Button saveBtn = (Button) view.findViewById(R.id.saveNewCommentBtn);
         Button cancelBtn = (Button) view.findViewById(R.id.cancelNewCommentBtn);
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressBar.setVisibility(View.VISIBLE);
+                //validate that the user dont touch twice or more on the button
+                saveBtn.setEnabled(false);
                 String name = Model.instance().getUser().getfName();
                 String userID = Model.instance().getUser().getUserId();
                 String userImageName = Model.instance().getUser().getProfPicture();
                 comment = new Comment(product.getProductId(),userID,name,userImageName,commentText.getText().toString(),commentGrade.getText().toString());
                 Model.instance().addComment(comment);
+                progressBar.setVisibility(View.VISIBLE);
                 Log.d("TAG", "Comment was added successfully");
                 BasicAlertDialog Alert = new BasicAlertDialog("OK", "The comment for " + product.getName() + " Was Added Successfully For transfer type OK",delegate,Model.FunctionsToUse.PRODUCT_DETAILS);
                 Alert.setProduct(product);

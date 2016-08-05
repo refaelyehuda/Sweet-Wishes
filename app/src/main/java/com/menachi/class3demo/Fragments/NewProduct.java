@@ -86,7 +86,7 @@ public class NewProduct extends Fragment {
         productImage = (ImageView) view.findViewById(R.id.productImage);
         productProgressBar = (ProgressBar) view.findViewById(R.id.productImageProgressBar);
         mainProgressBar = (ProgressBar) view.findViewById(R.id.newProductProgressBar);
-        Button saveBtn = (Button) view.findViewById(R.id.saveNewProductBtn);
+        final Button saveBtn = (Button) view.findViewById(R.id.saveNewProductBtn);
         Button cancelBtn = (Button) view.findViewById(R.id.cancelNewProductBtn);
         Button productImagePicbtn = (Button) view.findViewById(R.id.productImagePicbtn);
 
@@ -102,8 +102,10 @@ public class NewProduct extends Fragment {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mainProgressBar.setVisibility(View.VISIBLE);
-                if(!productName.getText().toString().equals("") && !productPrice.getText().toString().equals("") && !productType.getText().toString().equals("") && !imageName.equals("")){
+                //validate that the user dont touch twice or more on the button
+                saveBtn.setEnabled(false);
+                if(!productName.getText().toString().equals("") && !productPrice.getText().toString().equals("") && !productType.getText().toString().equals("") && (imageName != null)){
+                    mainProgressBar.setVisibility(View.VISIBLE);
                     final Product pr = new Product(productName.getText().toString(),productPrice.getText().toString(), productType.getText().toString(),imageName);
                     if(imageName != null){
                         Model.instance().saveImage(thumbnail, imageName, new Model.SaveImageListener() {
@@ -112,7 +114,8 @@ public class NewProduct extends Fragment {
                                 if (e == null) {
                                     Model.instance().addProduct(pr);
                                     mainProgressBar.setVisibility(View.GONE);
-                                    //FIXME need to check why we go exception on this line
+                                    //release the lock on the save button after save details
+                                    saveBtn.setEnabled(true);
                                     BasicAlertDialog addProductAlert = new BasicAlertDialog("OK", "" + productName.getText().toString() + " Was Added Successfully For transfer type OK",delegate,Model.FunctionsToUse.RETURN_TO_LIST);
                                     addProductAlert.show(getFragmentManager(), "Tag");
                                 } else {

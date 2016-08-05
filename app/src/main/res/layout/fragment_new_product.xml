@@ -20,11 +20,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.menachi.class3demo.Fragments.NewProduct">
-    <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="130dp"
-        android:id="@+id/imageView"
-        android:src="@drawable/new_product" />
     <ProgressBar
         android:id="@+id/newProductProgressBar"
         style="@android:style/Widget.Holo.ProgressBar.Horizontal"
@@ -32,6 +27,11 @@
         android:layout_height="wrap_content"
         android:indeterminate="true"
         android:visibility="gone" />
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="130dp"
+        android:id="@+id/imageView"
+        android:src="@drawable/new_product" />
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"

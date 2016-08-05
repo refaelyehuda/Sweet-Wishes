@@ -49,6 +49,7 @@ public class PersonalInfo extends Fragment {
     ImageView userImage;
     String imageName = null;
     ProgressBar imageProgressBar;
+    ProgressBar mainProgressBar;
     Bitmap thumbnail;
     User user;
     Delegate delegate;
@@ -91,7 +92,8 @@ public class PersonalInfo extends Fragment {
             birthDate = (DateEditText) view.findViewById(R.id.userBirthDate);
             userImage = (ImageView) view.findViewById(R.id.userImage);
             imageProgressBar = (ProgressBar) view.findViewById(R.id.userImageProgressBar);
-            Button saveBtn = (Button) view.findViewById(R.id.saveUserPersonalInfo);
+            mainProgressBar = (ProgressBar) view.findViewById(R.id.personal_info_progressBar);
+            final Button saveBtn = (Button) view.findViewById(R.id.saveUserPersonalInfo);
             Button cancelBtn = (Button) view.findViewById(R.id.cancelUserPersonalInfo);
             Button userImagePicbtn = (Button) view.findViewById(R.id.userImagePicbtn);
 
@@ -135,10 +137,13 @@ public class PersonalInfo extends Fragment {
             saveBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    //validate that the user dont touch twice or more on the button
+                    saveBtn.setEnabled(false);
                     user.setfName(fName.getText().toString());
                     user.setlName(lName.getText().toString());
                     user.setAddress(address.getText().toString());
                     user.setBirthDate(birthDate.getText().toString());
+                    mainProgressBar.setVisibility(View.VISIBLE);
                     if(imageName != null){
                         user.setProfPicture(imageName);
                         Model.instance().saveImage(thumbnail, imageName, new Model.SaveImageListener() {
@@ -150,6 +155,9 @@ public class PersonalInfo extends Fragment {
                                     Model.instance().setCurrentUser(user);
                                     Model.instance().updateUser(user);
                                     alert = new BasicAlertDialog("OK", " The user updated successfully", delegate,Model.FunctionsToUse.RETURN_TO_LIST);
+                                    mainProgressBar.setVisibility(View.GONE);
+                                    //release the lock on the save button after save details
+                                    saveBtn.setEnabled(true);
                                     alert.show(getFragmentManager(), "TAG");
                                     Log.d("TAG", "user created");
                                 } else {
@@ -161,7 +169,10 @@ public class PersonalInfo extends Fragment {
                     }else{
                         BasicAlertDialog alert;
                         Model.instance().setCurrentUser(user);
+                        Model.instance().updateUser(user);
                         alert = new BasicAlertDialog("OK", " The user updated successfully", delegate,Model.FunctionsToUse.RETURN_TO_LIST);
+                        mainProgressBar.setVisibility(View.GONE);
+                        saveBtn.setEnabled(true);
                         alert.show(getFragmentManager(), "TAG");
                         Log.d("TAG", "user saved without image change");
                     }
