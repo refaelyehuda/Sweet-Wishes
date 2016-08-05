@@ -85,6 +85,8 @@ public class LoginActivity extends Activity {
         if(resultCode== Model.Tools.LOG_OUT) {
             setResult(Model.Tools.LOG_OUT);
             finish();
+        }else if(resultCode == Model.Tools.onBackPressed){
+            finish();
         }
     }
 

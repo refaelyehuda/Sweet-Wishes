@@ -612,6 +612,7 @@ public class Model {
     }
     public static class Tools{
         public static int LOG_OUT = 401;
+        public static int onBackPressed = 200;
         // Create an instance of SimpleDateFormat used for formatting
         // the string representation of date (month/day/year)
         private static final DateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");

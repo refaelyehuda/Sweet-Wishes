@@ -93,6 +93,7 @@ public class ProductsActivity extends Activity implements ListProducts.Delegate,
     public void onBackPressed() {
         super.onBackPressed();
         if (currentFragment.equals(Fragments.LIST_PRODUCT)) {
+            setResult(Model.Tools.onBackPressed);
             finish();
 
         } else if (currentFragment.equals(Fragments.ADD_PRODUCT)) {
