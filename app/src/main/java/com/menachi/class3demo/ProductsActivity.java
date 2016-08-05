@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.menachi.class3demo.Alerts.BasicAlertDialog;
 import com.menachi.class3demo.Fragments.ListProducts;
 import com.menachi.class3demo.Fragments.NewComment;
 import com.menachi.class3demo.Fragments.NewProduct;
@@ -23,7 +24,7 @@ import com.menachi.class3demo.Model.User;
 
 import java.util.List;
 
-public class ProductsActivity extends Activity implements ListProducts.Delegate,NewProduct.Delegate,ProductDetails.Delegate,NewComment.Delegate {
+public class ProductsActivity extends Activity implements ListProducts.Delegate, BasicAlertDialog.Delegate,NewProduct.Delegate,ProductDetails.Delegate,NewComment.Delegate {
 
     String currentFragment;
     ListProducts listProductsFragment;
@@ -194,37 +195,6 @@ public class ProductsActivity extends Activity implements ListProducts.Delegate,
 
     @Override
     public void cancel() {
-//        if(currentFragment.equals(Fragments.NEW_COMMENT)){
-//            currentFragment = Fragments.PRODUCT_DETAILS;
-//            FragmentManager fm = getFragmentManager();
-//            fm.popBackStack(Fragments.NEW_COMMENT, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-//            productDetailsFragment = new ProductDetails();
-//            productDetailsFragment.setDelegate(this);
-//            //User currentUser = (User) getIntent().getSerializableExtra("User");
-//            FragmentTransaction transaction = getFragmentManager().beginTransaction();
-//            transaction.addToBackStack(Fragments.PRODUCT_DETAILS);
-//            transaction.add(R.id.main_frag_container, productDetailsFragment, "y");
-//            transaction.addToBackStack(Fragments.PRODUCT_DETAILS);
-//            transaction.show(productDetailsFragment);
-//            transaction.commit();
-//        }
-//        else if (currentFragment.equals(Fragments.ADD_PRODUCT)){
-//            currentFragment = Fragments.LIST_PRODUCT;
-//            FragmentManager fm = getFragmentManager();
-//            fm.popBackStack (Fragments.ADD_PRODUCT, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-//            progressBar.setVisibility(View.VISIBLE);
-//            listProductsFragment = new ListProducts();
-//            listProductsFragment.setDelegate(this);
-//            progressBar.setVisibility(View.GONE);
-//            //User currentUser = (User) getIntent().getSerializableExtra("User");
-//            FragmentTransaction transaction = getFragmentManager().beginTransaction();
-//            transaction.addToBackStack(Fragments.LIST_PRODUCT);
-//            transaction.add(R.id.main_frag_container, listProductsFragment, "y");
-//            transaction.addToBackStack(Fragments.LIST_PRODUCT);
-//            transaction.show(listProductsFragment);
-//            transaction.commit();
-//        }
-//        invalidateOptionsMenu();
         onBackPressed();
     }
 

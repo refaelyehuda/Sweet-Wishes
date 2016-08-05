@@ -16,8 +16,11 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.menachi.class3demo.Model.LastPurchase;
 import com.menachi.class3demo.Model.Model;
+import com.menachi.class3demo.Model.ModelFirebase;
 import com.menachi.class3demo.Model.Product;
+import com.menachi.class3demo.Model.User;
 import com.menachi.class3demo.R;
 
 import java.util.List;
@@ -27,6 +30,12 @@ public class LastPurchases extends Fragment {
     public interface Delegate extends ListProducts.Delegate{}
 
     Delegate delegate;
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    User user;
     ListView list;
     List<Product> data;
 
@@ -69,10 +78,22 @@ public class LastPurchases extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_last_purchases, container, false);
-        list = (ListView) view.findViewById(R.id.last_purchases_list);
-        data =   Model.instance().getLastPurchasesProductsList();
-        myAddapter adapter = new myAddapter();
-        list.setAdapter(adapter);
+        list = (ListView) view.findViewById(R.id.last_purchases_list);  data =   Model.instance().getLastPurchasesProductsList();
+        Model.instance().initiateLastPurchasesList(user.getUserId(), new ModelFirebase.LastPurchasesEvents() {
+            @Override
+            public void onResult(List<LastPurchase> lastPurchases) {
+                data = Model.instance().getLastPurchasesProductsList();
+                myAddapter adapter = new myAddapter();
+                list.setAdapter(adapter);
+                Log.d("TAG", "The last purchases was get successfully");
+            }
+
+            @Override
+            public void onCancel(String error) {
+                Log.d("TAG", "error with get  last purchases");
+                Log.d("TAG",error);
+            }
+        });
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

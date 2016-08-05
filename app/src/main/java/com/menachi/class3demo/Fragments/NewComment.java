@@ -19,8 +19,9 @@ import com.menachi.class3demo.R;
 
 public class NewComment extends Fragment {
 
-    public interface Delegate extends NewProduct.Delegate{
+    public interface Delegate extends BasicAlertDialog.Delegate{
         void onReturnToDetails(Product product);
+        void cancel();
     }
     Delegate delegate;
     Product product;
@@ -78,8 +79,9 @@ public class NewComment extends Fragment {
                 comment = new Comment(product.getProductId(),userID,name,userImageName,commentText.getText().toString(),commentGrade.getText().toString());
                 Model.instance().addComment(comment);
                 Log.d("TAG", "Comment was added successfully");
-                delegate.onReturnToDetails(product);
-
+                BasicAlertDialog Alert = new BasicAlertDialog("OK", "The comment for " + product.getName() + " Was Added Successfully For transfer type OK",delegate,Model.FunctionsToUse.PRODUCT_DETAILS);
+                Alert.setProduct(product);
+                Alert.show(getFragmentManager(), "Tag");
             }
         });
 

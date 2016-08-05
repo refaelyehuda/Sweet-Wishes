@@ -162,7 +162,8 @@ public class Model {
                         if (!Tools.dateIsBigger(lastUpdates.getLastUpdate(), sqlLastPurchasesLastUpdate.getLastUpdate())
                                 &&(sqlLastPurchasesLastUpdate.getCountOfRecords() >= lastUpdates.getCountOfRecords() )) {
                             Log.d("TAG", "get Last Purchases from SQL");
-                            lastPurchasesEvents.onResult(modelSql.getLastPurchasesByUserId(user.getUserId()));
+                            lastPurchasesList = modelSql.getLastPurchasesByUserId(user.getUserId());
+                            lastPurchasesEvents.onResult(lastPurchasesList);
 
                         } else {
                             Log.d("TAG", "get Last Purchases  from firebase");
@@ -504,29 +505,35 @@ public class Model {
         public void OnDone(Bitmap image,String imageName);
     }
     public void getImage(final String imageName, final GetImageListener listener){
-        //open new thread for upload image to cloudinary
-        AsyncTask<String,String,Bitmap> task = new AsyncTask<String, String, Bitmap>() {
-            @Override
-            protected Bitmap doInBackground(String... params) {
-                //first try to find the image on the device
-                Bitmap image = loadImageFromFile(imageName);
-                //if image not found - try downloading it from parse
-                if (image == null) {
-                    image =  modelCloudinary.getImage(imageName);
-                    if (image != null)
-                        //save the image locally for next time
-                        saveImageToFile(image, imageName);
+        //check if to user hava a photo
+        if(imageName.equals("None")){
+            Bitmap image = null;
+            listener.OnDone(image ,imageName);
+        }else{
+            //open new thread for upload image to cloudinary
+            AsyncTask<String,String,Bitmap> task = new AsyncTask<String, String, Bitmap>() {
+                @Override
+                protected Bitmap doInBackground(String... params) {
+                    //first try to find the image on the device
+                    Bitmap image = loadImageFromFile(imageName);
+                    //if image not found - try downloading it from parse
+                    if (image == null) {
+                        image =  modelCloudinary.getImage(imageName);
+                        if (image != null)
+                            //save the image locally for next time
+                            saveImageToFile(image, imageName);
+                    }
+                    return image;
                 }
-                return image;
-            }
 
-            @Override
-            protected void onPostExecute(Bitmap image) {
-                super.onPostExecute(image);
-                listener.OnDone(image ,imageName);
-            }
-        };
-        task.execute();
+                @Override
+                protected void onPostExecute(Bitmap image) {
+                    super.onPostExecute(image);
+                    listener.OnDone(image ,imageName);
+                }
+            };
+            task.execute();
+        }
 
     }
 
@@ -582,7 +589,6 @@ public class Model {
 
     public void addPurchaseToUser(LastPurchase lastPurchases){
         LastPurchase updaetLastPurchase = modelFirebase.addLastPurchases(lastPurchases);
-        lastPurchasesList.add(updaetLastPurchase);
         modelFirebase.setLastUpdateDate(Tabels.LastPurchasesTable, Tools.getCurrentDate(), new ModelFirebase.LastUpdateEvent() {
             @Override
             public void onResult(LastUpdates lastUpdates) {
@@ -626,5 +632,9 @@ public class Model {
             long lastDate = new Long(date2);
             return (firstDate>lastDate);
         }
+    }
+    public static class FunctionsToUse{
+        public static final String PRODUCT_DETAILS = "product_details";
+        public static final String RETURN_TO_LIST = "return_to_list";
     }
 }

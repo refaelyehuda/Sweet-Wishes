@@ -43,53 +43,39 @@ public class UserProfileActivity extends Activity implements PersonalInfo.Delega
         setContentView(R.layout.activity_user_profile);
         final String fragmentToLoad = getIntent().getStringExtra("fragment");
         currentUser = Model.instance().getUser();
-        if (fragmentToLoad.equals(Fragments.PERSONAL_INFO)) {
-            currentFragment = Fragments.PERSONAL_INFO;
-            personalInfoFragment = new PersonalInfo();
-            personalInfoFragment.setDelegate(this);
-        } else if (fragmentToLoad.equals(Fragments.BILLING_INFO)) {
-            currentFragment = Fragments.BILLING_INFO;
-            billingInfoFragment = new BillingInfo();
-            billingInfoFragment.setDelegate(this);
-        } else if (fragmentToLoad.equals(Fragments.LAST_PURCHASES)) {
-            currentFragment = Fragments.LAST_PURCHASES;
-            lastPurchasesFragment = new LastPurchases();
-            lastPurchasesFragment.setDelegate(this);
+        if(!isFinishing ()){
+            if (fragmentToLoad.equals(Fragments.PERSONAL_INFO)) {
+                currentFragment = Fragments.PERSONAL_INFO;
+                personalInfoFragment = new PersonalInfo();
+                personalInfoFragment.setDelegate(this);
+                personalInfoFragment.setCurrentUser(currentUser);
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.add(R.id.user_profile_main_frag, personalInfoFragment, "y");
+                transaction.addToBackStack(Fragments.PERSONAL_INFO);
+                transaction.show(personalInfoFragment);
+                transaction.commit();
+            } else if (fragmentToLoad.equals(Fragments.BILLING_INFO)) {
+                currentFragment = Fragments.BILLING_INFO;
+                billingInfoFragment = new BillingInfo();
+                billingInfoFragment.setDelegate(this);
+                billingInfoFragment.setCurrentUser(currentUser);
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.add(R.id.user_profile_main_frag, billingInfoFragment, "y");
+                transaction.addToBackStack(Fragments.BILLING_INFO);
+                transaction.show(billingInfoFragment);
+                transaction.commit();
+            } else if (fragmentToLoad.equals(Fragments.LAST_PURCHASES)) {
+                currentFragment = Fragments.LAST_PURCHASES;
+                lastPurchasesFragment = new LastPurchases();
+                lastPurchasesFragment.setDelegate(this);
+                lastPurchasesFragment.setUser(currentUser);
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.add(R.id.user_profile_main_frag, lastPurchasesFragment, "y");
+                transaction.addToBackStack(Fragments.LAST_PURCHASES);
+                transaction.show(lastPurchasesFragment);
+                transaction.commit();
+            }
         }
-        Model.instance().initiateLastPurchasesList(currentUser.getUserId(), new ModelFirebase.LastPurchasesEvents() {
-            @Override
-            public void onResult(List<LastPurchase> lastPurchases) {
-                Model.instance().setLastPurchasesList(lastPurchases);
-                Log.d("TAG", "The last purchases was get successfully");
-                if (fragmentToLoad.equals(Fragments.PERSONAL_INFO)) {
-                    personalInfoFragment.setCurrentUser(currentUser);
-                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                    transaction.add(R.id.user_profile_main_frag, personalInfoFragment, "y");
-                    transaction.addToBackStack(Fragments.PERSONAL_INFO);
-                    transaction.show(personalInfoFragment);
-                    transaction.commit();
-                } else if (fragmentToLoad.equals(Fragments.BILLING_INFO)) {
-                    billingInfoFragment.setCurrentUser(currentUser);
-                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                    transaction.add(R.id.user_profile_main_frag, billingInfoFragment, "y");
-                    transaction.addToBackStack(Fragments.BILLING_INFO);
-                    transaction.show(billingInfoFragment);
-                    transaction.commit();
-                } else if (fragmentToLoad.equals(Fragments.LAST_PURCHASES)) {
-                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                    transaction.add(R.id.user_profile_main_frag, lastPurchasesFragment, "y");
-                    transaction.addToBackStack(Fragments.LAST_PURCHASES);
-                    transaction.show(lastPurchasesFragment);
-                    transaction.commit();
-                }
-            }
-
-            @Override
-            public void onCancel(String error) {
-                Log.d("TAG", "error with get  last purchases");
-                Log.d("TAG", error);
-            }
-        });
     }
 
 
@@ -119,6 +105,7 @@ public class UserProfileActivity extends Activity implements PersonalInfo.Delega
                     FragmentTransaction ft = fm.beginTransaction();
                     lastPurchasesFragment = new LastPurchases();
                     lastPurchasesFragment.setDelegate(this);
+                    lastPurchasesFragment.setUser(currentUser);
                     ft.add(R.id.user_profile_main_frag, lastPurchasesFragment);
                     ft = hideCurrentFragment(ft);
                     ft.show(lastPurchasesFragment);
@@ -163,7 +150,13 @@ public class UserProfileActivity extends Activity implements PersonalInfo.Delega
         MenuItem item = menu.findItem(R.id.addProductBtn);
         item.setTitle("");
         item.setEnabled(false);
-        setTitle("User Profile");
+        if(currentFragment.equals(Fragments.BILLING_INFO)){
+            setTitle("Billing  Info");
+        }else if (currentFragment.equals(Fragments.LAST_PURCHASES)){
+            setTitle("Last Purchases");
+        }else if (currentFragment.equals(Fragments.PERSONAL_INFO)){
+            setTitle("Personal Info");
+        }
         return true;
     }
 
@@ -195,6 +188,11 @@ public class UserProfileActivity extends Activity implements PersonalInfo.Delega
         Intent back = new Intent(this, ProductsActivity.class);
         startActivity(back);
         this.finish();
+    }
+
+    @Override
+    public void onReturnToDetails(Product product) {
+
     }
 
     @Override

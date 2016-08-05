@@ -23,7 +23,8 @@ import java.util.Map;
 public class BillingInfo extends Fragment {
     private OnFragmentInteractionListener mListener;
 
-    public interface Delegate extends NewProduct.Delegate{
+    public interface Delegate extends BasicAlertDialog.Delegate{
+        void cancel();
     }
     Delegate delegate;
     User user;
@@ -99,7 +100,7 @@ public class BillingInfo extends Fragment {
                     Model.instance().updateUser(user);
                     Log.d("TAG", "student created");
                     BasicAlertDialog alert;
-                    alert = new BasicAlertDialog("OK"," The user update with billing info  successfully", delegate);
+                    alert = new BasicAlertDialog("OK"," The user update with billing info  successfully", delegate,Model.FunctionsToUse.RETURN_TO_LIST);
                     alert.show(getFragmentManager(), "TAG");
                 }
             });

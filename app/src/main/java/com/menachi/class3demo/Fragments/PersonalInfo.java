@@ -36,7 +36,8 @@ import java.util.Date;
 
 public class PersonalInfo extends Fragment {
 
-    public interface Delegate extends NewProduct.Delegate{
+    public interface Delegate extends BasicAlertDialog.Delegate{
+        void cancel();
     }
 
     static final int IMAGE_CAPTURE = 1;
@@ -148,7 +149,7 @@ public class PersonalInfo extends Fragment {
                                     BasicAlertDialog alert;
                                     Model.instance().setCurrentUser(user);
                                     Model.instance().updateUser(user);
-                                    alert = new BasicAlertDialog("OK", " The user updated successfully", delegate);
+                                    alert = new BasicAlertDialog("OK", " The user updated successfully", delegate,Model.FunctionsToUse.RETURN_TO_LIST);
                                     alert.show(getFragmentManager(), "TAG");
                                     Log.d("TAG", "user created");
                                 } else {
@@ -160,7 +161,7 @@ public class PersonalInfo extends Fragment {
                     }else{
                         BasicAlertDialog alert;
                         Model.instance().setCurrentUser(user);
-                        alert = new BasicAlertDialog("OK", " The user updated successfully", delegate);
+                        alert = new BasicAlertDialog("OK", " The user updated successfully", delegate,Model.FunctionsToUse.RETURN_TO_LIST);
                         alert.show(getFragmentManager(), "TAG");
                         Log.d("TAG", "user saved without image change");
                     }

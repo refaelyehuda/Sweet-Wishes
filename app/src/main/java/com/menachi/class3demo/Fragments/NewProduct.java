@@ -42,7 +42,7 @@ import java.util.Date;
 public class NewProduct extends Fragment {
 
     private OnFragmentInteractionListener mListener;
-    public interface Delegate{
+    public interface Delegate extends BasicAlertDialog.Delegate{
         void cancel();
         void onReturnToList();
     }
@@ -113,7 +113,7 @@ public class NewProduct extends Fragment {
                                     Model.instance().addProduct(pr);
                                     mainProgressBar.setVisibility(View.GONE);
                                     //FIXME need to check why we go exception on this line
-                                    BasicAlertDialog addProductAlert = new BasicAlertDialog("OK", "" + productName.getText().toString() + " Was Added Successfully For transfer type OK",delegate);
+                                    BasicAlertDialog addProductAlert = new BasicAlertDialog("OK", "" + productName.getText().toString() + " Was Added Successfully For transfer type OK",delegate,Model.FunctionsToUse.RETURN_TO_LIST);
                                     addProductAlert.show(getFragmentManager(), "Tag");
                                 } else {
                                     Log.d("TAG", "save image finished with error");

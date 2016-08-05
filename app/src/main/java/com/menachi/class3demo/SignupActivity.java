@@ -48,7 +48,7 @@ public class SignupActivity extends Activity {
                                User user = new User("1234",email.getText().toString()
                                        ,fName.getText().toString(),lName.getText().toString()
                                        ,address.getText().toString(),password.getText().toString(),
-                       "145522",birthDate.getText().toString(),false);
+                       "None",birthDate.getText().toString(),false);
                 Model.instance().signup(user, new Model.SignupStatus() {
                     @Override
                     public void isSignup(boolean status, User user) {

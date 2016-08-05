@@ -6,20 +6,29 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import com.menachi.class3demo.Fragments.NewProduct;
+import com.menachi.class3demo.Model.Model;
+import com.menachi.class3demo.Model.Product;
 
 /**
  * Created by refael yehuda on 4/14/2016.
  */
 public class BasicAlertDialog extends DialogFragment {
 
-    NewProduct.Delegate delegate;
+    Delegate delegate;
+    public interface Delegate{
+        void onReturnToDetails(Product product);
+        void onReturnToList();
+    }
     String title;
     String message;
+    String functionToUse;
+    Product product;
 
-    public BasicAlertDialog(String title, String message, NewProduct.Delegate delegate){
+    public BasicAlertDialog(String title, String message, Delegate delegate , String functionToUse){
         this.title = title;
         this.message = message;
         this.delegate = delegate;
+        this.functionToUse = functionToUse;
     }
 
     @Override
@@ -32,9 +41,21 @@ public class BasicAlertDialog extends DialogFragment {
         builder.setNeutralButton(this.title, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 if (delegate != null)
-                    delegate.onReturnToList();
+                    if (functionToUse.equals(Model.FunctionsToUse.RETURN_TO_LIST)) {
+                        delegate.onReturnToList();
+                    } else if(functionToUse.equals(Model.FunctionsToUse.PRODUCT_DETAILS)){
+                        delegate.onReturnToDetails(product);
+                    }
             }
         });
         return builder.create();
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 }
