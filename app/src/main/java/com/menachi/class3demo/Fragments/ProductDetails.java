@@ -88,7 +88,6 @@ public class ProductDetails extends Fragment{
         final View view = inflater.inflate(R.layout.fragment_product_details, container, false);
         setHasOptionsMenu(true);
         if(product!=null){
-            TextView id = (TextView) view.findViewById(R.id.ProductIDDetails);
             TextView name = (TextView) view.findViewById(R.id.ProductNameDetails);
             TextView price = (TextView) view.findViewById(R.id.ProducrPriceDetails);
             TextView type = (TextView) view.findViewById(R.id.ProducrTypeDetails);
@@ -118,7 +117,6 @@ public class ProductDetails extends Fragment{
                 }
             });
 
-            id.setText(this.product.getProductId());
             name.setText(this.product.getName());
             price.setText(this.product.getPrice());
             type.setText(this.product.getType());

@@ -73,7 +73,7 @@ public class Model {
                 if(lastUpdates != null){
                     if(sqlProductLastUpdate != null){
                         if (!Tools.dateIsBigger(lastUpdates.getLastUpdate(), sqlProductLastUpdate.getLastUpdate())
-                                &&(sqlProductLastUpdate.getCountOfRecords() >= lastUpdates.getCountOfRecords() )) {
+                                || (sqlProductLastUpdate.getCountOfRecords() >= lastUpdates.getCountOfRecords() )) {
                             Log.e("TAG", "get all products from SQL");
                             productData = modelSql.getAllProducts();
                             listener.onProductList(productData);
@@ -160,7 +160,7 @@ public class Model {
                 if(lastUpdates != null){
                     if(sqlLastPurchasesLastUpdate != null){
                         if (!Tools.dateIsBigger(lastUpdates.getLastUpdate(), sqlLastPurchasesLastUpdate.getLastUpdate())
-                                &&(sqlLastPurchasesLastUpdate.getCountOfRecords() >= lastUpdates.getCountOfRecords() )) {
+                                || (sqlLastPurchasesLastUpdate.getCountOfRecords() >= lastUpdates.getCountOfRecords() )) {
                             Log.d("TAG", "get Last Purchases from SQL");
                             lastPurchasesList = modelSql.getLastPurchasesByUserId(user.getUserId());
                             lastPurchasesEvents.onResult(lastPurchasesList);
@@ -278,7 +278,7 @@ public class Model {
                     if(sqlCommentsLastUpdate != null){
                         //if date in firebase is not bigger then sqlCommentsLastUpdateDate
                         if (!Tools.dateIsBigger(lastUpdates.getLastUpdate(), sqlCommentsLastUpdate.getLastUpdate())
-                                &&(sqlCommentsLastUpdate.getCountOfRecords() >= lastUpdates.getCountOfRecords() ) ) {
+                               || (sqlCommentsLastUpdate.getCountOfRecords() >= lastUpdates.getCountOfRecords() ) ) {
                             Log.d("TAG", "get Comments from SQL");
                             listener.onCommentList(modelSql.getCommentsByProductId(productId));
 

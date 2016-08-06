@@ -202,9 +202,7 @@ public class ProductsActivity extends Activity implements ListProducts.Delegate,
     @Override
     public void onReturnToList() {
         Log.d("TAG", "Returning to List Products");
-        Intent back = new Intent(this, ProductsActivity.class);
-        startActivity(back);
-        this.finish();
+        onBackPressed();
 
     }
 
@@ -233,19 +231,13 @@ public class ProductsActivity extends Activity implements ListProducts.Delegate,
         if (currentFragment.equals(Fragments.NEW_COMMENT)) {
             Log.d("TAG", "Returning to product details");
             productDetailsFragment.setProduct(product);
-            Model.instance().getCommentsByProductId(product.getProductId(),new ModelFirebase.CommentDelegate() {
-                @Override
-                public void onCommentList(List<Comment> commentsList) {
-                    productDetailsFragment.setComments(commentsList);
-                    FragmentManager fm = getFragmentManager();
-                    fm.popBackStack (Fragments.NEW_COMMENT, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                    FragmentTransaction ft = fm.beginTransaction();
-                    ft.show(productDetailsFragment);
-                    ft.commit();
-                    currentFragment = Fragments.PRODUCT_DETAILS;
-                    invalidateOptionsMenu();
-                }
-            });
+            FragmentManager fm = getFragmentManager();
+            fm.popBackStack (Fragments.NEW_COMMENT, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.show(productDetailsFragment);
+            ft.commit();
+            currentFragment = Fragments.PRODUCT_DETAILS;
+            invalidateOptionsMenu();
         }
     }
 }

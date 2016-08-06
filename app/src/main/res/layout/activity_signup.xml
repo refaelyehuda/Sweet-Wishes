@@ -42,6 +42,7 @@
                 android:layout_height="wrap_content"
                 android:textAlignment="textStart"
                 android:textColor="@color/editTextColor"
+                android:textStyle="bold"
                 android:inputType="text"
                 android:singleLine="true"
                 android:id="@+id/fName" />
@@ -65,6 +66,7 @@
                 android:layout_height="wrap_content"
                 android:textAlignment="textStart"
                 android:textColor="@color/editTextColor"
+                android:textStyle="bold"
                 android:inputType="text"
                 android:singleLine="true"
                 android:id="@+id/lName" />
@@ -87,6 +89,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/editTextColor"
+                android:textStyle="bold"
                 android:textAlignment="textStart"
                 android:inputType="text"
                 android:singleLine="true"
@@ -109,6 +112,7 @@
             <com.menachi.class3demo.DateAndPickers.Date.DateEditText
                 android:id="@+id/birthDate"
                 android:textColor="@color/editTextColor"
+                android:textStyle="bold"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="textEnd"/>
@@ -131,6 +135,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="textStart"
+                android:textStyle="bold"
                 android:textColor="@color/editTextColor"
                 android:inputType="textEmailAddress"
                 android:singleLine="true"
@@ -154,6 +159,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="textStart"
+                android:textStyle="bold"
                 android:textColor="@color/editTextColor"
                 android:inputType="textPassword"
                 android:singleLine="true"

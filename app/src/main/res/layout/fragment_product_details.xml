@@ -21,8 +21,8 @@
         android:layout_height="wrap_content"
         android:gravity="center">
         <ImageView
-            android:layout_width="250px"
-            android:layout_height="250px"
+            android:layout_width="350px"
+            android:layout_height="350px"
             android:layout_marginRight="20px"
             android:id="@+id/imageDetails"
             android:src="@drawable/image" />
@@ -45,29 +45,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="ID : "
-                    android:textStyle="bold"
-                    android:textSize="23dp"
-                    android:textColor="#CC0066"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textAlignment="textStart"/>
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:textSize="23dp"
-                    android:textColor="#CC0066"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:id="@+id/ProductIDDetails"
-                    android:textAlignment="textEnd"/>
-            </LinearLayout>
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:text="Product Name : "
                     android:textStyle="bold"
                     android:textSize="23dp"
@@ -80,7 +57,7 @@
                     android:id="@+id/ProductNameDetails"
                     android:textStyle="bold"
                     android:textSize="23dp"
-                    android:textColor="#CC0066"
+                    android:textColor="@color/editTextColor"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textAlignment="textEnd"/>
             </LinearLayout>
@@ -129,30 +106,6 @@
                         android:textColor="#CC0066"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textAlignment="textEnd"/>
-            </LinearLayout>
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/StudentId"
-                    android:text="Image Name : "
-                    android:textStyle="bold"
-                    android:textSize="23dp"
-                    android:textColor="#CC0066"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textAlignment="textStart"/>
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:id="@+id/ProductImageNameDetails"
-                    android:textStyle="bold"
-                    android:textSize="23dp"
-                    android:textColor="#CC0066"
-                    android:textAlignment="textEnd"/>
             </LinearLayout>
             <Button
                 android:id="@+id/userBuyProductBth"

@@ -3,15 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#CC99FF"
     android:paddingLeft="1dp"
     android:paddingRight="1dp"
     android:paddingTop="1dp"
     android:paddingBottom="1dp"
-    tools:context="com.menachi.class3demo.LoginActivity">
-    <ImageView android:layout_width="wrap_content" android:id="@+id/imageWellcome"
-        android:src="@drawable/cake" android:layout_height="wrap_content"
-        android:scaleType="centerCrop"></ImageView>
-
+    tools:context="com.menachi.class3demo.ProductsActivity">
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -99,6 +96,7 @@
                     android:id="@+id/addNewProductName"
                     android:layout_width="fill_parent"
                     android:textColor="#CC0066"
+                    android:textStyle="bold"
                     android:singleLine="true"
                     android:layout_height="wrap_content"
                     android:textAlignment="textEnd"/>
@@ -110,7 +108,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#CC0066"
+                    android:textColor="@color/editTextColor"
                     android:text="Price : "
                     android:textStyle="bold"
                     android:textAppearance="?android:attr/textAppearanceMedium"
@@ -118,7 +116,8 @@
                 <EditText
                     android:id="@+id/addNewProductPrice"
                     android:layout_width="fill_parent"
-                    android:textColor="#CC0066"
+                    android:textColor="@color/editTextColor"
+                    android:textStyle="bold"
                     android:inputType="numberDecimal"
                     android:singleLine="true"
                     android:layout_height="wrap_content"
@@ -131,7 +130,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#CC0066"
+                    android:textColor="@color/editTextColor"
                     android:text="Type : "
                     android:textStyle="bold"
                     android:textAppearance="?android:attr/textAppearanceMedium"
@@ -140,6 +139,7 @@
                     android:id="@+id/addNewProductTypeName"
                     android:layout_width="fill_parent"
                     android:textColor="#CC0066"
+                    android:textStyle="bold"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
                     android:textAlignment="textEnd"/>
@@ -156,7 +156,7 @@
                 android:layout_alignParentLeft="true"
                 android:textAlignment="center"
                 android:layout_marginTop="50dp"
-                android:textColor="#CC0066"
+                android:textColor="@color/editTextColor"
                 android:textStyle="bold"
                 android:layout_centerInParent="false"
                 android:textSize="22sp"
@@ -175,7 +175,7 @@
                 android:layout_alignParentRight="true"
                 android:text="Save"
                 android:layout_marginTop="50dp"
-                android:textColor="#CC0066"
+                android:textColor="@color/editTextColor"
                 android:textStyle="bold"
                 android:layout_centerInParent="false"
                 android:textSize="22sp"
