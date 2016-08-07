@@ -93,7 +93,6 @@ public class ProductsActivity extends Activity implements ListProducts.Delegate,
     public void onBackPressed() {
         super.onBackPressed();
         if (currentFragment.equals(Fragments.LIST_PRODUCT)) {
-            setResult(Model.Tools.onBackPressed);
             finish();
 
         } else if (currentFragment.equals(Fragments.ADD_PRODUCT)) {
@@ -202,7 +201,9 @@ public class ProductsActivity extends Activity implements ListProducts.Delegate,
     @Override
     public void onReturnToList() {
         Log.d("TAG", "Returning to List Products");
-        onBackPressed();
+        Intent back = new Intent(this, ProductsActivity.class);
+        startActivity(back);
+        this.finish();
 
     }
 
@@ -231,13 +232,19 @@ public class ProductsActivity extends Activity implements ListProducts.Delegate,
         if (currentFragment.equals(Fragments.NEW_COMMENT)) {
             Log.d("TAG", "Returning to product details");
             productDetailsFragment.setProduct(product);
-            FragmentManager fm = getFragmentManager();
-            fm.popBackStack (Fragments.NEW_COMMENT, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-            FragmentTransaction ft = fm.beginTransaction();
-            ft.show(productDetailsFragment);
-            ft.commit();
-            currentFragment = Fragments.PRODUCT_DETAILS;
-            invalidateOptionsMenu();
+            Model.instance().getCommentsByProductId(product.getProductId(),new ModelFirebase.CommentDelegate() {
+                @Override
+                public void onCommentList(List<Comment> commentsList) {
+                    productDetailsFragment.setComments(commentsList);
+                    FragmentManager fm = getFragmentManager();
+                    fm.popBackStack (Fragments.NEW_COMMENT, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    FragmentTransaction ft = fm.beginTransaction();
+                    ft.show(productDetailsFragment);
+                    ft.commit();
+                    currentFragment = Fragments.PRODUCT_DETAILS;
+                    invalidateOptionsMenu();
+                }
+            });
         }
     }
 }

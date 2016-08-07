@@ -111,7 +111,7 @@ public class ProductDetails extends Fragment{
                     LastPurchase lastPurchase = new LastPurchase(Model.instance().getUser().getUserId(), product);
                     Model.instance().addPurchaseToUser(lastPurchase);
                     progressBar.setVisibility(View.GONE);
-                    BasicAlertDialog addProductAlert = new BasicAlertDialog("OK", "" + product.getName().toString() + " Was Added Successfully For transfer type OK", delegate,Model.FunctionsToUse.RETURN_TO_LIST);
+                    BasicAlertDialog addProductAlert = new BasicAlertDialog("OK", "" + product.getName().toString() + " Was Added Successfully For transfer type OK", delegate, Model.FunctionsToUse.RETURN_TO_LIST);
                     addProductAlert.show(getFragmentManager(), "Tag");
 
                 }
@@ -128,6 +128,7 @@ public class ProductDetails extends Fragment{
                     comments = commentsList;
                     adapter = new commentAddapter();
                     list.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
                 }
             });
         }

@@ -278,7 +278,7 @@ public class Model {
                     if(sqlCommentsLastUpdate != null){
                         //if date in firebase is not bigger then sqlCommentsLastUpdateDate
                         if (!Tools.dateIsBigger(lastUpdates.getLastUpdate(), sqlCommentsLastUpdate.getLastUpdate())
-                               || (sqlCommentsLastUpdate.getCountOfRecords() >= lastUpdates.getCountOfRecords() ) ) {
+                               && (sqlCommentsLastUpdate.getCountOfRecords() >= lastUpdates.getCountOfRecords() ) ) {
                             Log.d("TAG", "get Comments from SQL");
                             listener.onCommentList(modelSql.getCommentsByProductId(productId));
 

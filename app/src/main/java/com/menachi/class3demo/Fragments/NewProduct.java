@@ -102,11 +102,9 @@ public class NewProduct extends Fragment {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //validate that the user dont touch twice or more on the button
-                saveBtn.setEnabled(false);
                 if(!productName.getText().toString().equals("") && !productPrice.getText().toString().equals("") && !productType.getText().toString().equals("") && (imageName != null)){
-                    mainProgressBar.setVisibility(View.VISIBLE);
                     final Product pr = new Product(productName.getText().toString(),productPrice.getText().toString(), productType.getText().toString(),imageName);
+                    mainProgressBar.setVisibility(View.VISIBLE);
                     if(imageName != null){
                         Model.instance().saveImage(thumbnail, imageName, new Model.SaveImageListener() {
                             @Override
@@ -115,7 +113,6 @@ public class NewProduct extends Fragment {
                                     Model.instance().addProduct(pr);
                                     mainProgressBar.setVisibility(View.GONE);
                                     //release the lock on the save button after save details
-                                    saveBtn.setEnabled(true);
                                     BasicAlertDialog addProductAlert = new BasicAlertDialog("OK", "" + productName.getText().toString() + " Was Added Successfully For transfer type OK",delegate,Model.FunctionsToUse.RETURN_TO_LIST);
                                     addProductAlert.show(getFragmentManager(), "Tag");
                                 } else {

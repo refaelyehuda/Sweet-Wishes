@@ -44,6 +44,13 @@ public class ListProducts extends Fragment {
     Delegate delegate;
     ListView list;
     List<Product> data;
+    myAddapter adapter;
+
+    public void addProduct(Product product){
+        data.add(product);
+        list.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+    }
 
     public ListProducts() {
         // Required empty public constructor
@@ -85,7 +92,7 @@ public class ListProducts extends Fragment {
         View view = inflater.inflate(R.layout.fragment_list_products, container, false);
         list = (ListView) view.findViewById(R.id.products_list);
         data =   Model.instance().getProductData();
-        myAddapter adapter = new myAddapter();
+        adapter = new myAddapter();
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
