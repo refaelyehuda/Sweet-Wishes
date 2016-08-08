@@ -77,14 +77,12 @@ public class NewComment extends Fragment {
             @Override
             public void onClick(View v) {
                 progressBar.setVisibility(View.VISIBLE);
-                //validate that the user dont touch twice or more on the button
-                saveBtn.setEnabled(false);
                 String name = Model.instance().getUser().getfName();
                 String userID = Model.instance().getUser().getUserId();
                 String userImageName = Model.instance().getUser().getProfPicture();
                 comment = new Comment(product.getProductId(),userID,name,userImageName,commentText.getText().toString(),commentGrade.getText().toString());
                 Model.instance().addComment(comment);
-                progressBar.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
                 Log.d("TAG", "Comment was added successfully");
                 BasicAlertDialog Alert = new BasicAlertDialog("OK", "The comment for " + product.getName() + " Was Added Successfully For transfer type OK",delegate,Model.FunctionsToUse.PRODUCT_DETAILS);
                 Alert.setProduct(product);

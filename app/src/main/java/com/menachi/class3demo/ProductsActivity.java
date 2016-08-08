@@ -204,7 +204,6 @@ public class ProductsActivity extends Activity implements ListProducts.Delegate,
         Intent back = new Intent(this, ProductsActivity.class);
         startActivity(back);
         this.finish();
-
     }
 
     @Override

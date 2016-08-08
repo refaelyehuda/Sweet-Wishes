@@ -24,8 +24,7 @@
             android:layout_width="350px"
             android:layout_height="350px"
             android:layout_marginRight="20px"
-            android:id="@+id/imageDetails"
-            android:src="@drawable/image" />
+            android:id="@+id/imageDetails" />
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -94,6 +94,7 @@ public class ListProducts extends Fragment {
         data =   Model.instance().getProductData();
         adapter = new myAddapter();
         list.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -192,8 +193,6 @@ public class ListProducts extends Fragment {
                     }
                 }
             });
-            //checkBox.setTag(new Integer(position));
-//            checkBox.setTag(pr);
             productName.setText(pr.getName());
             productPrice.setText(pr.getPrice() + "$");
 

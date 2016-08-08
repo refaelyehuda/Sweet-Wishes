@@ -181,11 +181,11 @@ public class ModelFirebase {
     }
 
     public void getCommentsByProductId(String productId,final CommentDelegate listener){
-        final List<Comment> data = new LinkedList<Comment>();
         Query qr  = myFirebaseRef.child(Model.Tabels.CommentsTable).orderByChild("productId").equalTo(productId);
         qr.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
+                List<Comment> data = new LinkedList<Comment>();
                 Log.e("Count of products ", "" + snapshot.getChildrenCount());
                 for (DataSnapshot commentSnapshot : snapshot.getChildren()) {
                     Comment comment = commentSnapshot.getValue(Comment.class);
@@ -276,12 +276,12 @@ public class ModelFirebase {
 
     }
 
-    public interface LastUpdateEvent{
-        void onResult(LastUpdates lastUpdates);
+    public interface SetLastUpdateEvent{
+        void onSuccess();
         void onError(String err);
     }
 
-    public void setLastUpdateDate(final String tableName, final String updatedDate , final LastUpdateEvent lastUpdateEvent)
+    public void setLastUpdateDate(final String tableName, final String updatedDate , final SetLastUpdateEvent lastUpdateEvent)
     {
         myFirebaseRef.child(Model.Tabels.lastUpdateTable).child(tableName).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -296,7 +296,7 @@ public class ModelFirebase {
                     lastUpdates = new LastUpdates(tableName,1,updatedDate);
                 }
                 myFirebaseRef.child(Model.Tabels.lastUpdateTable).child(tableName).setValue(lastUpdates);
-                lastUpdateEvent.onResult(lastUpdates);
+                lastUpdateEvent.onSuccess();
             }
 
             @Override
