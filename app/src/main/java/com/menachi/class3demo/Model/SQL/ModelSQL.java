@@ -19,7 +19,7 @@ import java.util.List;
 public class ModelSQL {
 
     MyDBHelper dbHelper;
-    private final static int VERSION =60;
+    private final static int VERSION =61;
     public ModelSQL() {dbHelper = new MyDBHelper(MyApplication.getContext());}
     public LastUpdates getLastUpdate(String table) {return LastUpdatesSQL.getLastUpdate(dbHelper.getWritableDatabase(), table);}
     public void addProduct(Product product) {ProductsSQL.addProduct(dbHelper.getWritableDatabase(),product);}
