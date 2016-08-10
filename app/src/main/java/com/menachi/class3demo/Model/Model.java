@@ -25,7 +25,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Cloudinary example.
+ * this class handle in all requests from control panel to backend
  */
 public class Model {
 
@@ -53,18 +53,25 @@ public class Model {
         public void isSignup (boolean status,User user);
     }
 
-
+    /**
+     * constructor
+     */
     private Model(){
         modelCloudinary = new ModelCloudinary();
         modelFirebase = new ModelFirebase(MyApplication.getContext());
         modelSql = new ModelSQL();
     }
+
     public void logOut(){
         user=null;
         productData=new LinkedList<Product>();
         lastPurchasesList = new LinkedList<LastPurchase>();
     }
 
+    /**
+     * Get all products and update the productData list on products
+     * @param listener
+     */
     public void initiateProducts(final ModelFirebase.ProductsDelegate listener){
         final Boolean[] isGetProducts = {false};
         final LastUpdates sqlProductLastUpdate = modelSql.getLastUpdate(Tabels.ProductTable);
@@ -162,14 +169,23 @@ public class Model {
         });
     }
 
+    /**
+     * Get all products that purchased by curren user that logged in
+     * @param userID
+     * @param lastPurchasesEvents
+     */
     public void initiateLastPurchasesList(String userID, final ModelFirebase.LastPurchasesEvents lastPurchasesEvents){
         final Boolean[] isGetLastPurchases = {false};
+        //get last update object from SQL of table that we want to get data
         final LastUpdates sqlLastPurchasesLastUpdate = modelSql.getLastUpdate(Tabels.LastPurchasesTable);
+        //get last update object from Firebase of table that we want to get data
         modelFirebase.getLastUpdateDate(Tabels.LastPurchasesTable, new ModelFirebase.LastUpdateEvents() {
             @Override
             public void onResult(final LastUpdates lastUpdates) {
                 if(lastUpdates != null){
+                    //check that this table was update before if not we need to get all data from Firebase
                     if(sqlLastPurchasesLastUpdate != null){
+                        //check if the date that the SQL table is updated  old then Firebase  and the count of records is not less then Firebase
                         if (!Tools.dateIsBigger(lastUpdates.getLastUpdate(), sqlLastPurchasesLastUpdate.getLastUpdate())
                                 && (sqlLastPurchasesLastUpdate.getCountOfRecords() >= lastUpdates.getCountOfRecords() )) {
                             Log.d("TAG", "get Last Purchases from SQL");
@@ -187,6 +203,7 @@ public class Model {
                                         Log.d("TAG", "The last purchases was get successfully");
                                         for (LastPurchase lastPurchase : lastPurchases) {
                                             if (sqlLastPurchasesLastUpdate != null) {
+                                                //check if the date that the SQL table updated is old then Firebase record
                                                 if (Tools.dateIsBigger(lastPurchase.getLastUpdate(), sqlLastPurchasesLastUpdate.getLastUpdate())) {
                                                     modelSql.addLastPurchase(lastPurchase);
                                                 }
@@ -196,6 +213,7 @@ public class Model {
 
                                         }
                                         isGetLastPurchases[0] = true;
+                                        //Update the SQL on the date that we updates this table
                                         modelSql.setLastUpdate(lastUpdates);
                                         lastPurchasesEvents.onResult(lastPurchases);
                                     }
@@ -220,6 +238,7 @@ public class Model {
                                     Log.d("TAG", "The last purchases was get successfully");
                                     for (LastPurchase lastPurchase : lastPurchases) {
                                         if (sqlLastPurchasesLastUpdate != null) {
+                                            //check if the date that the SQL table updated is old then Firebase record
                                             if (Tools.dateIsBigger(lastPurchase.getLastUpdate(), sqlLastPurchasesLastUpdate.getLastUpdate())) {
                                                 modelSql.addLastPurchase(lastPurchase);
                                             }
@@ -229,6 +248,7 @@ public class Model {
 
                                     }
                                     isGetLastPurchases[0] = true;
+                                    //Update the SQL on the date that we updates this table
                                     modelSql.setLastUpdate(lastUpdates);
                                     lastPurchasesEvents.onResult(lastPurchases);
                                 }
@@ -261,6 +281,7 @@ public class Model {
 
                             for (LastPurchase lastPurchase : lastPurchasesList) {
                                 if (sqlLastPurchasesLastUpdate != null) {
+                                    //check if the date that the SQL table updated is old then Firebase record
                                     if (Tools.dateIsBigger(lastPurchase.getLastUpdate(), sqlLastPurchasesLastUpdate.getLastUpdate())) {
                                         modelSql.addLastPurchase(lastPurchase);
                                         modelSql.setLastUpdateForSpecificRecord(Tabels.LastPurchasesTable, lastPurchase.getLastUpdate());
@@ -315,6 +336,7 @@ public class Model {
                                         List<Comment> commentData = new LinkedList<Comment>();
                                         for (Comment comment : commentsList) {
                                             if(sqlCommentsLastUpdate != null){
+                                                //check if the date that the SQL table updated is old then Firebase record
                                                 if (Tools.dateIsBigger(comment.getLastUpdate(), sqlCommentsLastUpdate.getLastUpdate())) {
                                                     modelSql.addComment(comment);
                                                 }
@@ -339,6 +361,7 @@ public class Model {
                                     List<Comment> commentData = new LinkedList<Comment>();
                                     for (Comment comment : commentsList) {
                                         if(sqlCommentsLastUpdate != null){
+                                            //check if the date that the SQL table updated is old then Firebase record
                                             if (Tools.dateIsBigger(comment.getLastUpdate(), sqlCommentsLastUpdate.getLastUpdate())) {
                                                 modelSql.addComment(comment);
                                             }
@@ -370,6 +393,7 @@ public class Model {
                             List<Comment> commentData = new LinkedList<Comment>();
                             for (Comment comment : commentsList) {
                                 if(sqlCommentsLastUpdate != null){
+                                    //check if the date that the SQL table updated is old then Firebase record
                                     if (Tools.dateIsBigger(comment.getLastUpdate(), sqlCommentsLastUpdate.getLastUpdate())) {
                                         modelSql.addComment(comment);
                                         modelSql.setLastUpdateForSpecificRecord(Tabels.CommentsTable, comment.getLastUpdate());
@@ -394,6 +418,7 @@ public class Model {
     public void addProduct(Product product){
         Product updateProduct =  modelFirebase.addProduct(product);
         productData.add(updateProduct);
+        //update the last update date of the specific collection that updated now
         modelFirebase.setLastUpdateDate(Tabels.ProductTable, Tools.getCurrentDate(), new ModelFirebase.SetLastUpdateEvent() {
             @Override
             public void onSuccess() {
@@ -407,17 +432,18 @@ public class Model {
         });
     }
 
-    public void addComment(Comment comment){
+    public void addComment(Comment comment) {
         Comment updateComment = modelFirebase.addComment(comment);
+        //update the last update date of the specific collection that updated now
         modelFirebase.setLastUpdateDate(Tabels.CommentsTable, Tools.getCurrentDate(), new ModelFirebase.SetLastUpdateEvent() {
             @Override
             public void onSuccess() {
-                Log.e("TAG","addComment  - SUCCESS to setLastUpdateDate");
+                Log.e("TAG", "addComment  - SUCCESS to setLastUpdateDate");
             }
 
             @Override
             public void onError(String err) {
-                Log.e("TAG","addComment -  ERROR to setLastUpdateDate");
+                Log.e("TAG", "addComment -  ERROR to setLastUpdateDate");
             }
         });
     }
@@ -508,7 +534,9 @@ public class Model {
             @Override
             protected IOException doInBackground(String... params) {
                 try {
+                    //save image in external storage
                     String imapgPath = saveImageToFile(image, imageName);
+                    //save image in cloudinary
                     modelCloudinary.saveImage(image ,imageName,listener);
                     return null;
                 } catch (IOException e) {
@@ -611,12 +639,9 @@ public class Model {
     }
 
 
-    public void setLastPurchasesList(List<LastPurchase> lastPurchasesList) {
-        this.lastPurchasesList = lastPurchasesList;
-    }
-
     public void addPurchaseToUser(LastPurchase lastPurchases){
         LastPurchase updaetLastPurchase = modelFirebase.addLastPurchases(lastPurchases);
+        //update the last update date of the specific collection that updated now
         modelFirebase.setLastUpdateDate(Tabels.LastPurchasesTable, Tools.getCurrentDate(), new ModelFirebase.SetLastUpdateEvent() {
             @Override
             public void onSuccess() {
@@ -630,7 +655,10 @@ public class Model {
         });
     }
 
-
+    /**
+     * Contains the tables names
+     * all app use in this constant 
+     */
     public static class Tabels {
         public static final String ProductTable = "Products";
         public static final String CommentsTable = "Comments";
@@ -662,6 +690,10 @@ public class Model {
             return (firstDate>lastDate);
         }
     }
+
+    /**
+     * define in alerts which function we need to use
+     */
     public static class FunctionsToUse{
         public static final String PRODUCT_DETAILS = "product_details";
         public static final String RETURN_TO_LIST = "return_to_list";

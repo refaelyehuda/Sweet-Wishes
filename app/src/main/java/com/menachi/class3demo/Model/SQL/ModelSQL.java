@@ -14,15 +14,33 @@ import com.menachi.class3demo.MyApplication;
 import java.util.List;
 
 /**
- * Created by refael yehuda on 7/24/2016.
+ * Hanlde in all access to SQL scheme
  */
 public class ModelSQL {
 
     MyDBHelper dbHelper;
+    //version of dql db
     private final static int VERSION =61;
+    //constructor
     public ModelSQL() {dbHelper = new MyDBHelper(MyApplication.getContext());}
+
+    /**
+     * get last update date of the tabel name that passed
+     * @param table
+     * @return
+     */
     public LastUpdates getLastUpdate(String table) {return LastUpdatesSQL.getLastUpdate(dbHelper.getWritableDatabase(), table);}
+
+    /**
+     * add product to product scheme
+     * @param product
+     */
     public void addProduct(Product product) {ProductsSQL.addProduct(dbHelper.getWritableDatabase(),product);}
+
+    /**
+     * get all products
+     * @return
+     */
     public List<Product> getAllProducts() {return ProductsSQL.getAllProducts(dbHelper.getWritableDatabase());}
     public void updateUserByID(User updatedUser){
         UserSQL.updateUserByID(dbHelper.getReadableDatabase(),updatedUser);

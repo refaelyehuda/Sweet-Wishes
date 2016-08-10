@@ -19,7 +19,6 @@ import java.util.Map;
  */
 public class ModelFirebase {
     Firebase myFirebaseRef;
-
     public interface ProductsDelegate{
         void onProductList(List<Product> productsList);
     }
@@ -27,11 +26,22 @@ public class ModelFirebase {
     public interface CommentDelegate{
         void onCommentList(List<Comment> commentsList);
     }
+
+    /**
+     * constructor
+     * @param context
+     */
     ModelFirebase(Context context){
         Firebase.setAndroidContext(context);
         myFirebaseRef = new Firebase("https://dessers-project.firebaseio.com/");
     }
 
+    /**
+     * login user to app
+     * @param username
+     * @param password
+     * @param listener
+     */
     public void Login(String username , String password, final Model.LoginStatus listener){
         myFirebaseRef.authWithPassword(username, password, new Firebase.AuthResultHandler() {
             boolean status = false;
@@ -89,9 +99,13 @@ public class ModelFirebase {
         });
     }
 
-
+    /**
+     * create a new user in firebase
+     * @param user
+     * @param listener
+     */
     public void createUser(User user , Model.SignupStatus listener) {
-        //create a new user in firebase regitration
+        //create a new user in firebase regitration and wait for response that will handle in HandleUserCreatetion class
         myFirebaseRef.createUser(user.getEmail(), user.getPassword(), new HandleUserCreatetion(user, listener));
 
     }
@@ -245,7 +259,14 @@ public class ModelFirebase {
     }
 
 
+    /**
+     * listener for get last update of collection in firebase
+     */
     public interface LastUpdateEvents{
+        /**
+         * The last LastUpdate object contain all parameter  about the table
+         * @param lastUpdates
+         */
         void onResult(LastUpdates lastUpdates);
         void onCancel(String error);
     }
@@ -258,6 +279,7 @@ public class ModelFirebase {
                 LastUpdates lastUpdates = null;
                 if (dataSnapshot.getValue() != null) {
                     lastUpdates = dataSnapshot.getValue(LastUpdates.class);
+                    //check if there is no date about this table because the table is not exist and set date to 1 for comperison with SQL
                     if (lastUpdates.getLastUpdate() == null || lastUpdates.getLastUpdate().equals(""))
                         lastUpdates.setLastUpdate("1");
                     lastUpdateEvents.onResult(lastUpdates);
