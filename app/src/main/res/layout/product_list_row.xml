@@ -1,25 +1,21 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="#330066"
-    android:padding="5dp"
-    android:orientation="horizontal">
-
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="@drawable/product_box_bg">
 
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/rowImageFrame">
+        android:id="@+id/list_row_product_frame">
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginRight="20dp"
-            android:id="@+id/product_list_row_image"/>
-
-
+            android:id="@+id/product_list_row_image"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="15dp" />
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -27,39 +23,25 @@
             android:visibility="gone"/>
     </FrameLayout>
 
+    <TextView
+        android:id="@+id/product_list_row_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="product1"
+        android:layout_marginLeft="15dp"
+        android:layout_centerVertical="true"
+        android:textColor="@android:color/white"
+        android:layout_toRightOf="@id/list_row_product_frame" />
 
-
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Product Name"
-                android:textColor="@color/colorWhite"
-                android:layout_marginRight="20dp"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginTop="10dp"
-                android:id="@+id/product_list_row_name" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorWhite"
-                android:layout_marginTop="10dp"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Price"
-                android:id="@+id/product_list_row_price" />
-        </LinearLayout>
-        </LinearLayout>
-    </RelativeLayout>
-
-</LinearLayout>
+    <TextView
+        android:id="@+id/product_list_row_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="60$"
+        android:layout_marginLeft="15dp"
+        android:layout_centerVertical="true"
+        android:textColor="@android:color/white"
+        android:layout_toRightOf="@id/product_list_row_name" />
+</RelativeLayout>

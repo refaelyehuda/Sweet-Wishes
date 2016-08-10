@@ -204,8 +204,8 @@ public class ProductDetails extends Fragment{
             //save the current position to check when the image is download if the current row is show in the screen
             UserName.setTag(new Integer(position));
             Comment comment = comments.get(position);
-            UserName.setText(comment.getName());
-            commentText.setText("\n\n " + comment.getText());
+            UserName.setText("User : " + comment.getName());
+            commentText.setText("\n " + comment.getText());
             commentProgressBar.setVisibility(View.VISIBLE);
             Model.instance().getImage(comment.getImageName(), new Model.GetImageListener() {
                 @Override

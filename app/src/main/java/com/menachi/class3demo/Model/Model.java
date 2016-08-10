@@ -657,7 +657,7 @@ public class Model {
 
     /**
      * Contains the tables names
-     * all app use in this constant 
+     * all app use in this constant
      */
     public static class Tabels {
         public static final String ProductTable = "Products";

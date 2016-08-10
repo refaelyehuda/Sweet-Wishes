@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#CC99FF"
+    android:background="#5e5a63"
     tools:context="com.menachi.class3demo.Fragments.ProductDetails">
 
     <ProgressBar
