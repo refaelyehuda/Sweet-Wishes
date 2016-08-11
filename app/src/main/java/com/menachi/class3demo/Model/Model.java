@@ -310,6 +310,19 @@ public class Model {
         });
     }
 
+    public List<Product> getProductByName(String textToSearch){
+        List<Product> productToReturn = new LinkedList<Product>();
+        if(productData != null){
+            for (Product product : productData) {
+                //Search just in lowercase
+                if(product.getName().toLowerCase().contains(textToSearch.toLowerCase())){
+                    productToReturn.add(product);
+                }
+            }
+        }
+        return productToReturn;
+    }
+
     public List<Product> getProductData() {
         return productData;
     }

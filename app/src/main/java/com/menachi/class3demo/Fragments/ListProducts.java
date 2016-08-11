@@ -17,6 +17,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.menachi.class3demo.Model.Model;
@@ -43,6 +44,7 @@ public class ListProducts extends Fragment {
     }
     Delegate delegate;
     ListView list;
+    SearchView searchItem;
     List<Product> data;
     myAddapter adapter;
 
@@ -91,6 +93,7 @@ public class ListProducts extends Fragment {
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.fragment_list_products, container, false);
         list = (ListView) view.findViewById(R.id.products_list);
+        searchItem = (SearchView) view.findViewById(R.id.fragment_list_search_item);
         data =   Model.instance().getProductData();
         adapter = new myAddapter();
         list.setAdapter(adapter);
@@ -103,6 +106,21 @@ public class ListProducts extends Fragment {
                 if (delegate != null) {
                     delegate.onProductSelected(pr);
                 }
+            }
+        });
+        searchItem.setOnQueryTextListener(new SearchView.OnQueryTextListener() { //searchlist
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                data = Model.instance().getProductByName(query);
+                adapter.notifyDataSetChanged();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                data = Model.instance().getProductByName(newText);
+                adapter.notifyDataSetChanged();
+                return false;
             }
         });
         return view;
