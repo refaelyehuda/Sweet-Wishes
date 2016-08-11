@@ -14,9 +14,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by refael yehuda on 7/24/2016.
- */
 public class UserSQL {
 
     private static final String USERS_TABLE = "Users";

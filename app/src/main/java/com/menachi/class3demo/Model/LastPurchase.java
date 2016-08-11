@@ -7,9 +7,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by refael yehuda on 7/24/2016.
- */
 public class LastPurchase {
     String LastPurchaseID;
     String userID;

@@ -10,9 +10,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 
-/**
- * Created by refael yehuda on 6/1/2016.
- */
 public class Product {
     String productId;
     String name;

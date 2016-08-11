@@ -1,8 +1,5 @@
 package com.menachi.class3demo.Model;
 
-/**
- * Created by refael yehuda on 8/3/2016.
- */
 public class LastUpdates {
     String tabelName;
     String lastUpdate;

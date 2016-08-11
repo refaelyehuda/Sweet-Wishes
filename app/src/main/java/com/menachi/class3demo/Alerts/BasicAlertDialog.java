@@ -9,9 +9,6 @@ import com.menachi.class3demo.Fragments.NewProduct;
 import com.menachi.class3demo.Model.Model;
 import com.menachi.class3demo.Model.Product;
 
-/**
- * Created by refael yehuda on 4/14/2016.
- */
 public class BasicAlertDialog extends DialogFragment {
 
     Delegate delegate;

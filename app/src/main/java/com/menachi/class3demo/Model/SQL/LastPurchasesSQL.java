@@ -13,9 +13,6 @@ import com.menachi.class3demo.Model.Product;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * Created by refael yehuda on 7/25/2016.
- */
 public class LastPurchasesSQL {
 
     private static final String LAST_PURCHASES_TABLE = "LastPurchase";

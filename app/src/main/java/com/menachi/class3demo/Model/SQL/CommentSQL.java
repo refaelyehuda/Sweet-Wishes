@@ -12,9 +12,6 @@ import com.menachi.class3demo.Model.Product;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * Created by refael yehuda on 7/25/2016.
- */
 public class CommentSQL {
     private static final String COMMENTS_TABLE = "Comments";
     private static final String PRODUCT_ID = "productId";

@@ -166,7 +166,6 @@ public class ProductsActivity extends Activity implements ListProducts.Delegate,
             productDetailsFragment.setDelegate(this);
             currentFragment = Fragments.PRODUCT_DETAILS;
             FragmentManager fm = getFragmentManager();
-//            fm.popBackStack (Fragments.LIST_PRODUCT, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             FragmentTransaction ft = fm.beginTransaction();
             ft.addToBackStack(Fragments.PRODUCT_DETAILS);
             ft.add(R.id.main_frag_container, productDetailsFragment);

@@ -14,9 +14,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by refael yehuda on 5/29/2016.
- */
 public class ModelFirebase {
     Firebase myFirebaseRef;
     public interface ProductsDelegate{
@@ -163,8 +160,6 @@ public class ModelFirebase {
     public void getProducts(final ProductsDelegate listener){
         Firebase productsRef = myFirebaseRef.child(Model.Tabels.ProductTable);
         final List<Product> data = new LinkedList<Product>();
-
-
         productsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {

@@ -107,12 +107,17 @@ public class ProductDetails extends Fragment{
             buyProduct.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    progressBar.setVisibility(View.VISIBLE);
-                    LastPurchase lastPurchase = new LastPurchase(Model.instance().getUser().getUserId(), product);
-                    Model.instance().addPurchaseToUser(lastPurchase);
-                    progressBar.setVisibility(View.GONE);
-                    BasicAlertDialog addProductAlert = new BasicAlertDialog("OK", "" + product.getName().toString() + " Was Added Successfully For transfer type OK", delegate, Model.FunctionsToUse.RETURN_TO_LIST);
-                    addProductAlert.show(getFragmentManager(), "Tag");
+                    if(Model.instance().getUser().getBillingInfo() != null){
+                        progressBar.setVisibility(View.VISIBLE);
+                        LastPurchase lastPurchase = new LastPurchase(Model.instance().getUser().getUserId(), product);
+                        Model.instance().addPurchaseToUser(lastPurchase);
+                        progressBar.setVisibility(View.GONE);
+                        BasicAlertDialog addProductAlert = new BasicAlertDialog("OK", "" + product.getName().toString() + " was purchased successfully", delegate, Model.FunctionsToUse.RETURN_TO_LIST);
+                        addProductAlert.show(getFragmentManager(), "Tag");
+                    }else{
+                        BasicAlertDialog addProductAlert = new BasicAlertDialog("OK", "To buy this product you need to add your credit card.", delegate, Model.FunctionsToUse.RETURN_TO_LIST);
+                        addProductAlert.show(getFragmentManager(), "Tag");
+                    }
 
                 }
             });

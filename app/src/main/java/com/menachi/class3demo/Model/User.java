@@ -7,9 +7,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by refael yehuda on 5/18/2016.
- */
 public class User {
     String userId;
     String email;

@@ -14,9 +14,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by refael yehuda on 7/25/2016.
- */
 public class ProductsSQL {
 
     private static final String PRODUCTS_TABLE = "Products";

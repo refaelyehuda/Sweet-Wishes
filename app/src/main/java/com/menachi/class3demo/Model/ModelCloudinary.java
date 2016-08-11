@@ -14,9 +14,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
 
-/**
- * Created by refael yehuda on 5/25/2016.
- */
 public class ModelCloudinary {
 
     Cloudinary cloudinary;

@@ -7,9 +7,7 @@ import android.util.Log;
 
 import com.menachi.class3demo.Model.LastUpdates;
 
-/**
- * Created by refael yehuda on 7/24/2016.
- */
+
 public class LastUpdatesSQL {
     final static String LAST_UPDATE_TABLE = "LastUpdates";
     final static String LAST_UPDATE_TABLE_NAME = "table_name";

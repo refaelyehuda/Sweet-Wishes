@@ -104,12 +104,14 @@ public class Model {
 
                                         }
                                         isGetProducts[0] = true;
+                                        //update SQL scheme on data updated
                                         modelSql.setLastUpdate(lastUpdates);
                                         listener.onProductList(productsList);
                                     }
                                 }
                             });
                         }
+                    //if data is not contains in SQL
                     }else{
                         Log.e("TAG", "get all products from fireBase");
                         modelFirebase.getProducts(new ModelFirebase.ProductsDelegate() {
@@ -561,7 +563,7 @@ public class Model {
         public void OnDone(Bitmap image,String imageName);
     }
     public void getImage(final String imageName, final GetImageListener listener){
-        //check if to user hava a photo
+        //check if to user has a photo
         if(imageName.equals("None")){
             Bitmap image = null;
             listener.OnDone(image ,imageName);
